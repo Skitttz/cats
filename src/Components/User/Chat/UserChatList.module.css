@@ -1,0 +1,63 @@
+.containerListUser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  overflow-y: scroll;
+}
+
+.containerListUser::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+.containerListUser::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.containerListUser::-webkit-scrollbar-thumb {
+  background: rgba(0, 123, 255, 0.4);
+}
+
+/* Handle on hover */
+.containerListUser::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 123, 255, 1);
+}
+
+@media (max-width: 40rem) {
+  .containerTitulo {
+    width: 100%;
+  }
+  .containerListUser .containerTitulo {
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+.titleUserList {
+  font-size: 1.7rem;
+  text-align: center;
+  color: #f1f1f1;
+}
+
+.containerTitulo {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 88px;
+  border-radius: 4px 0px 0px 0px;
+  background-color: rgb(42, 48, 71, 0.9);
+}
+
+.listNames li:first-child {
+  margin-top: 2rem;
+}
+
+.userNames {
+  font-weight: 550;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  border-bottom: 0.2px solid rgba(51, 51, 51, 0.1);
+  text-align: center;
+}

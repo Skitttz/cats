@@ -1,0 +1,30 @@
+.button {
+  background-color: #fbeee0;
+  border: 0.5px solid #422800;
+  box-shadow: #422800 3px 3px 0 1px;
+  color: #422800;
+  cursor: pointer;
+  touch-action: manipulation;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  background: #fa7c27;
+  color: #f2f2f2;
+  font-family: var(--type-frist);
+  min-width: 8rem;
+  padding: 0.8rem 1.2rem;
+  box-sizing: border-box;
+  transition: 0.1s all;
+  margin-bottom: 0.4rem;
+}
+
+.button:hover,
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #f89051, 0 0 0 1.5px #f29958;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

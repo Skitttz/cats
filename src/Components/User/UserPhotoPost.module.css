@@ -1,0 +1,103 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.photoPost {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 40rem) {
+  .photoPost {
+    grid-template-columns: 1fr;
+  }
+  .photoPost input {
+    width: 100%;
+  }
+  .photoPost .inputFile {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+  .photoPost button {
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
+  .photoPost .previeContainer {
+    grid-row: 1;
+  }
+}
+
+.inputFile {
+  font-size: 0.875rem;
+  border-radius: 4px;
+  cursor: pointer;
+  padding-right: 20px;
+  background-color: #f2f2f2;
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  transition: 0.6s all;
+  margin-bottom: 1.5rem;
+}
+
+.inputFile::file-selector-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffc83d;
+  color: #222;
+  font-weight: 500;
+  font-family: var(--type-frist);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.6s ease, transform 0.4s ease;
+}
+
+.inputFile::file-selector-button:hover {
+  background-color: #ff9900;
+}
+
+.inputFile::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+
+.aviso span {
+  font-weight: 600;
+}
+
+.aviso {
+  text-align: center;
+  border-radius: 0.2rem;
+  background-color: rgba(250, 235, 215, 0.4);
+  padding: 0 1rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.hashtag {
+  color: #ff9900;
+}
+
+.preview {
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center center;
+}
+
+.preview::after {
+  content: "";
+  display: block;
+  height: 0px;
+  padding-bottom: 100%;
+}

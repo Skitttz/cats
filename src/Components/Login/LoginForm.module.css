@@ -1,0 +1,49 @@
+.form {
+  margin-bottom: 2rem;
+  min-height: 36vh;
+}
+
+.form input {
+  max-width: 350px;
+}
+
+.lostAcc {
+  display: inline-block;
+  color: #666;
+  padding: 0.5rem 0;
+  line-height: 1;
+  margin-top: 1rem;
+}
+
+.lostAcc::after {
+  content: "";
+  height: 1.75px;
+  width: 100%;
+  background: currentColor;
+  display: block;
+}
+
+.cadastro {
+  margin-top: 4rem;
+}
+
+.cadastro p {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  font-weight: 550;
+}
+
+.subtitle {
+  font-family: var(--type-second);
+  line-height: 1;
+  font-size: 2rem;
+}
+
+.subtitle::after {
+  content: "";
+  display: block;
+  background: rgba(248, 144, 81, 0.5);
+  height: 0.25rem;
+  width: 1rem;
+  border-radius: 0.2rem;
+}

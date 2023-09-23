@@ -1,0 +1,21 @@
+svg {
+  max-width: 600px;
+}
+
+.containerError {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.errorText {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 520;
+}
+
+@media (max-width: 40rem) {
+  .errorText {
+    font-size: 1rem;
+  }
+}

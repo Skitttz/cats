@@ -1,0 +1,45 @@
+.comments {
+  overflow-y: auto;
+  word-break: break-word;
+  padding: 0 2rem;
+}
+
+/* Para navegadores baseados no motor Blink (Chrome, Edge) */
+.comments::-webkit-scrollbar {
+  width: 5px; /* Largura do scroll */
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background-color: #333; /* Cor do thumb (barra de arrasto) */
+  border-radius: 5px; /* Borda arredondada */
+}
+
+/* Para navegadores baseados no motor Gecko (Firefox) */
+.comments {
+  scrollbar-width: thin; /* Define a largura do scroll */
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background-color: #333; /* Cor do thumb */
+  border-radius: 5px; /* Borda arredondada */
+}
+
+.single.comments {
+  padding: 0px;
+}
+
+.comments li {
+  margin-bottom: 0.5rem;
+  list-style: 1.2;
+}
+
+.attributes {
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: 700;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  justify-content: center;
+  gap: 40px;
+}

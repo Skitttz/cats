@@ -1,0 +1,26 @@
+.btnLike {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.btnLike.ativo {
+  animation: animeSvg 0.6s forwards;
+}
+
+@keyframes animeSvg {
+  0%,
+  100% {
+    -webkit-transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(1.5);
+  }
+}

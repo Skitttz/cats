@@ -1,0 +1,18 @@
+.containerMsg {
+  padding: 12px;
+  color: white;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.isCat {
+  background-color: #fa7c27;
+}
+
+.notCat {
+  background-color: rgba(188, 37, 37);
+}
+
+.containerMsg {
+  color:white;
+}

@@ -1,0 +1,28 @@
+.noPost {
+  text-align: center;
+  padding: 1rem 0px 4rem 0px;
+  color: #888;
+  position: relative;
+  opacity: 0;
+  transform: translateY(-80px);
+  animation: animeDownEmpty 2s forwards;
+  margin-top: 3rem;
+}
+
+@keyframes animeDownEmpty {
+  to {
+    opacity: 1;
+    transform: initial;
+  }
+}
+
+.noPost::before {
+  content: "";
+  background: url(../../Assets/empty-post-feed.svg);
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  margin-top: 1rem;
+  opacity: 0.4;
+  transform: translate(-4px, 6px);
+}

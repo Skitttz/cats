@@ -1,0 +1,18 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: azure;
+  margin-top: 6rem;
+  text-align: center;
+  color: #333;
+}
+
+.footer svg {
+  width: 48px;
+  display: inline-block;
+}
+
+.footer p {
+  font-size: 1rem;
+}
