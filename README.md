@@ -38,7 +38,7 @@ As tecnologias utilizadas na plataforma foram são diversas e abrangem diferente
 - <p> <b>⁍ Headless CMS WordPress</b> utilizado como o backend do projeto ele lida com o armazenamento e gerenciamento de conteúdo, como informações do perfil do usuario, postagens de feed e mensagens do chat entre outras coisas; </p>
 - <p><b>⁍ TensorFlow com COCO-SSD</b>, uma biblioteca de aprendizado de máquina e COCO-SSD é um modelo de detecção de objetos. Neste projeto, eles são usados para a detecção de gatos em fotos enviadas pelos usuários. Isso permite que o sistema identifique automaticamente a presença de gatos em imagens compartilhadas evitando que os usuarios postem fotos que fujam o proposito da plataforma;</p>
 
-- <p><b>⁍ Node.js</b> e <b>Socket.io</b>, socket.io é uma biblioteca que permite a criação de comunicação em tempo real entre o servidor e o cliente. Pode ser usado para implementar chats em tempo real, permitindo que os usuários conversem uns com os outros de forma.</p>
+- <p><b>⁍ Node.js</b> e <b>Socket.io</b>, o Node.js permite a execução de códigos JavaScript fora de um navegador web, já o Socket.io é uma biblioteca que permite a criação de comunicação em tempo real entre o servidor e o cliente. Pode ser usado para implementar chats, permitindo que os usuários conversem uns com os outros de forma instantânea.</p>
 
 ## Desafios 🎯
 
