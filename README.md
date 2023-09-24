@@ -1,7 +1,7 @@
-<h1 align="center">
+<div align="center" >
   <img src="https://i.ibb.co/KyVmV01/cats.png" width="20%" />
+</div>
 
-</h1>
 
 <p align="center">
   <a href="#contexto-">𝙲𝚘𝚗𝚝𝚎𝚡𝚝𝚘</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
