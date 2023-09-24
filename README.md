@@ -14,8 +14,8 @@
 
 
 <h3 align="center">Demo Video</h3>
+https://github.com/Skitttz/Cats/assets/94083688/41583a6f-8d6f-4a26-b057-1c8e2acb8ab9
 
-https://github.com/Skitttz/Cats/assets/94083688/ebc0c481-0ab2-430f-90cc-39997edf01fd
 
 > **Nota:**
 > Foram feitos cortes no vídeo para torná-lo mais conciso, resultando em um vídeo mais curto.
