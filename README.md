@@ -31,7 +31,7 @@ Este projeto nasceu como parte do curso de conclusão do "React Completo" da Ori
 
 ## Tecnologias 🖥️
 
-As tecnologias utilizadas na plataforma foram são diversas e abrangem diferentes aspectos do desenvolvimento. Aqui está uma descrição mais detalhada de como essas tecnologias são aplicadas no projeto:
+As tecnologias utilizadas na plataforma foram diversas e abrangem diferentes aspectos do desenvolvimento. Aqui está uma descrição mais detalhada de como essas tecnologias são aplicadas no projeto:
 
 - <p> <b>⁍ React JS</b> usado para desenvolver a interface do Cats criando componentes interativos e dinâmicos que exibem perfis dos usuarios, feeds com as fotos e outras partes da interface do usuário.;</p>
 
