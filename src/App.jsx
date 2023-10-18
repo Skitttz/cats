@@ -1,16 +1,16 @@
-import React from "react";
-import "./App.css";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import Home from "./Components/Home";
-import Login from "./Components/Login/Login";
-import User from "./Components/User/User";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { UserStorage } from "./UserContext";
-import ProtectedRouter from "./Components/Helper/ProtectedRouter";
-import Photo from "./Components/Photo/Photo";
-import UserProfile from "./Components/User/UserProfile";
-import NotFound404 from "./Components/Helper/404/NotFound404";
+import React from 'react';
+import './App.css';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
+import Home from './Components/Home';
+import Login from './Components/Login/Login';
+import User from './Components/User/User';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { UserStorage } from './UserContext';
+import ProtectedRouter from './Components/Helper/ProtectedRouter';
+import Photo from './Components/Photo/Photo';
+import UserProfile from './Components/User/UserProfile';
+import NotFound404 from './Components/Helper/404/NotFound404';
 
 function App() {
   return (

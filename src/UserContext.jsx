@@ -1,6 +1,6 @@
-import React from "react";
-import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from "./Api";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
+import { useNavigate } from 'react-router-dom';
 
 export const UserContext = React.createContext();
 
@@ -27,12 +27,12 @@ export const UserStorage = ({ children }) => {
       const tokenRes = await fetch(url, options);
       if (!tokenRes.ok)
         throw new Error(
-          `Arrrgh! 🙀 Parece que alguém arranhou as credenciais! 🐾 Usuário ou senha não encontrados, por favor, verifique e tente novamente. 😺`
+          `Arrrgh! 🙀 Parece que alguém arranhou as credenciais! 🐾 Usuário ou senha não encontrados, por favor, verifique e tente novamente. 😺`,
         );
       const { token } = await tokenRes.json();
-      window.localStorage.setItem("token", token);
+      window.localStorage.setItem('token', token);
       await getUser(token);
-      navigate("/conta");
+      navigate('/conta');
     } catch (err) {
       setError(err.message);
       setTimeout(() => {
@@ -43,27 +43,24 @@ export const UserStorage = ({ children }) => {
     }
   }
 
-  const userLogout = React.useCallback(
-    async function () {
-      setData(null);
-      setError(null);
-      setLoading(false);
-      setLogin(false);
-      window.localStorage.removeItem("token");
-    },
-    []
-  );
+  const userLogout = React.useCallback(async function () {
+    setData(null);
+    setError(null);
+    setLoading(false);
+    setLogin(false);
+    window.localStorage.removeItem('token');
+  }, []);
 
   React.useEffect(() => {
     async function autoLogin() {
-      const token = window.localStorage.getItem("token");
+      const token = window.localStorage.getItem('token');
       if (token) {
         try {
           setError(null);
           setLoading(true);
           const { url, options } = TOKEN_VALIDATE_POST(token);
           const response = await fetch(url, options);
-          if (!response.ok) throw new Error("Token Inválido");
+          if (!response.ok) throw new Error('Token Inválido');
           const json = await response.json();
           await getUser(token);
         } catch (err) {
@@ -92,7 +89,7 @@ export function useUser() {
   const context = React.useContext(UserContext);
 
   if (!context) {
-    throw new Error("Esse Hook deve ser usado com o provider");
+    throw new Error('Esse Hook deve ser usado com o provider');
   }
 
   return context;
