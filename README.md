@@ -1,6 +1,7 @@
 <h1 align="center">
+  <div align="center" >
   <img src="https://i.ibb.co/KyVmV01/cats.png" width="20%" />
-
+</div>
 </h1>
 
 <p align="center">
@@ -14,6 +15,11 @@
 
 <h3 align="center">Demo Video</h3>
 
+
+https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c3b36
+> **Nota:**
+> Foram feitos cortes no vídeo para torná-lo mais conciso, resultando em um vídeo mais curto.
+
 ## Contexto 📝
 
 Uma plataforma dedicada aos entusiastas de gatos e seus fiéis felinos. O objetivo principal do projeto "Cats" é cultivar uma comunidade online vibrante, onde os amantes de gatos possam se conectar, compartilhar suas experiências, trocar dicas sobre o cuidado com esses adoráveis animais de estimação e mostrar seus carismáticos felinos.
@@ -22,14 +28,14 @@ Este projeto nasceu como parte do curso de conclusão do "React Completo" da Ori
 
 ## Tecnologias 🖥️
 
-As tecnologias utilizadas na plataforma foram são diversas e abrangem diferentes aspectos do desenvolvimento. Aqui está uma descrição mais detalhada de como essas tecnologias são aplicadas no projeto:
+As tecnologias utilizadas na plataforma foram diversas e abrangem diferentes aspectos do desenvolvimento. Aqui está uma descrição mais detalhada de como essas tecnologias são aplicadas no projeto:
 
 - <p> <b>⁍ React JS</b> usado para desenvolver a interface do Cats criando componentes interativos e dinâmicos que exibem perfis dos usuarios, feeds com as fotos e outras partes da interface do usuário.;</p>
 
 - <p> <b>⁍ Headless CMS WordPress</b> utilizado como o backend do projeto ele lida com o armazenamento e gerenciamento de conteúdo, como informações do perfil do usuario, postagens de feed e mensagens do chat entre outras coisas; </p>
 - <p><b>⁍ TensorFlow com COCO-SSD</b>, uma biblioteca de aprendizado de máquina e COCO-SSD é um modelo de detecção de objetos. Neste projeto, eles são usados para a detecção de gatos em fotos enviadas pelos usuários. Isso permite que o sistema identifique automaticamente a presença de gatos em imagens compartilhadas evitando que os usuarios postem fotos que fujam o proposito da plataforma;</p>
 
-- <p><b>⁍ Node.js</b> e <b>Socket.io</b>, socket.io é uma biblioteca que permite a criação de comunicação em tempo real entre o servidor e o cliente. Pode ser usado para implementar chats em tempo real, permitindo que os usuários conversem uns com os outros de forma.</p>
+- <p><b>⁍ Node.js</b> e <b>Socket.io</b>, o Node.js permite a execução de códigos JavaScript fora de um navegador web, já o Socket.io é uma biblioteca que permite a criação de comunicação em tempo real entre o servidor e o cliente. Pode ser usado para implementar chats, permitindo que os usuários conversem uns com os outros de forma instantânea.</p>
 
 ## Desafios 🎯
 
@@ -51,12 +57,13 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
 
 2. <b>Clone o Repositório "cats-api":</b>
 
-   - Utilize o Git para clonar o repositório "cats-api" em seu ambiente de desenvolvimento local.
+   - Utilize o Git para clonar o repositório ["cats-local"](https://github.com/Skitttz/cats-local) em seu ambiente de desenvolvimento local **será utilizado em formato zip**;
 
 3. <b>Configuração no Local WP:</b>
 
    - Abra o Local WP e escolha a opção que afirma que você já possui um site.
-     Selecione a pasta clonada do repositório "cats-api" como o local para o seu site.
+     Selecione a pasta clonada do repositório "cats-local" como o local para o seu site, ao aparecer a tela de colocar o nome do site clique em Advanced Options
+     e troque o nome do dominio para "catsapi.test";
 
 4. <b>Baixe o repositório:</b>
 
@@ -68,7 +75,7 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
 
 6. <b>Inicie o Projeto:</b>
 
-   - Após a conclusão da instalação das dependências, execute o comando `npm run dev` em um terminal e inicie um segundo terminal para iniciar o comando `node server.cjs`.
+   - Após a conclusão da instalação das dependências, execute o comando `npm run dev` em um terminal e inicie um segundo terminal para iniciar o comando `node server.cjs`;
 
 7. <b>Configurarando middleware:</b>
 
@@ -86,7 +93,7 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
    ```
 
 8. <b>Para finalizar: </b>
-   - Para acessar o projeto, acesse "localhost" fornecido pelo `npm run dev` em seu navegador e desfrute a plataforma 😸.
+   - Para acessar o projeto, acesse "localhost" fornecido pelo `npm run dev` em seu navegador, a conta padrão é `login/senha: "cat"` 😸.
 
 ## Design 🎨
 
