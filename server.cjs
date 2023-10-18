@@ -2,7 +2,7 @@ const http = require("http");
 const server = http.createServer();
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:5173", // Permita solicitações apenas do seu aplicativo React
+    origin: "http://localhost:5174", // IP definido pelo React
     methods: ["GET", "POST"],
   },
 });
