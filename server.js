@@ -1,16 +1,22 @@
-const http = require("http");
+import http from 'http';
+import { config } from 'dotenv';
+import { Server } from 'socket.io';
+
+config();
+
 const server = http.createServer();
-const io = require("socket.io")(server, {
+const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5174", // IP definido pelo React
-    methods: ["GET", "POST"],
+    origin: process.env.BASE_API_ORIGIN, // IP definido pelo React
+    methods: ['GET', 'POST'],
   },
 });
 
+const port = process.env.PORT || 3000;
 const rooms = {};
 
-io.on("connection", (socket) => {
-  socket.on("joinRoom", (roomId, userName) => {
+io.on('connection', (socket) => {
+  socket.on('joinRoom', (roomId, userName) => {
     // Adiciona o usuário à sala especificada
     socket.join(roomId);
 
@@ -23,23 +29,23 @@ io.on("connection", (socket) => {
     rooms[roomId].push({ id: socket.id, name: userName });
 
     // Emite a lista de usuários para todos os clientes na sala
-    io.to(roomId).emit("updateUsers", rooms[roomId]);
+    io.to(roomId).emit('updateUsers', rooms[roomId]);
 
-    socket.on("message", (message) => {
+    socket.on('message', (message) => {
       // Lógica para lidar com as mensagens
-      io.to(roomId).emit("message", message);
+      io.to(roomId).emit('message', message);
     });
+
     // Evento para quando o usuário desconectar
-    socket.on("disconnect", () => {
+    socket.on('disconnect', () => {
       // Remove o usuário da lista de usuários na sala
       rooms[roomId] = rooms[roomId].filter((user) => user.id !== socket.id);
       // Emite a lista de usuários atualizada para todos os clientes na sala
-      io.to(roomId).emit("updateUsers", rooms[roomId]);
+      io.to(roomId).emit('updateUsers', rooms[roomId]);
     });
   });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`Servidor WebSocket está rodando na porta ${PORT}`);
+server.listen(port, () => {
+  console.log(`Servidor WebSocket está rodando na porta ${port}`);
 });
