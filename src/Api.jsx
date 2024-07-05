@@ -1,13 +1,15 @@
 // export const API_URL = "http://catsapi.test/json";
-export const API_URL = "http://catsapi.test/json";
+
+export const API_URL =
+  import.meta.env.VITE_BASE_API_URL || 'http://catsapi.test/json';
 
 export function TOKEN_POST(body) {
   return {
-    url: API_URL + "/jwt-auth/v1/token",
+    url: API_URL + '/jwt-auth/v1/token',
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     },
@@ -16,11 +18,11 @@ export function TOKEN_POST(body) {
 
 export function TOKEN_VALIDATE_POST(token) {
   return {
-    url: API_URL + "/jwt-auth/v1/token/validate",
+    url: API_URL + '/jwt-auth/v1/token/validate',
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Authorization: "Bearer" + token,
+        Authorization: 'Bearer' + token,
       },
     },
   };
@@ -28,11 +30,11 @@ export function TOKEN_VALIDATE_POST(token) {
 
 export function USER_GET(token) {
   return {
-    url: API_URL + "/api/user",
+    url: API_URL + '/api/user',
     options: {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Bearer" + token,
+        Authorization: 'Bearer' + token,
       },
     },
   };
@@ -40,11 +42,11 @@ export function USER_GET(token) {
 
 export function USER_POST(body) {
   return {
-    url: API_URL + "/api/user",
+    url: API_URL + '/api/user',
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     },
@@ -53,11 +55,11 @@ export function USER_POST(body) {
 
 export function PHOTO_POST(formData, token) {
   return {
-    url: API_URL + "/api/photo",
+    url: API_URL + '/api/photo',
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Authorization: "Bearer" + token,
+        Authorization: 'Bearer' + token,
       },
       body: formData,
     },
@@ -71,8 +73,8 @@ export function PHOTOS_GET({ page, total, user }) {
   return {
     url: `${API_URL}/api/photo/?_total=${total}&_page=${page}&_user=${user}`,
     options: {
-      method: "GET",
-      cache: "no-store",
+      method: 'GET',
+      cache: 'no-store',
     },
   };
 }
@@ -87,8 +89,8 @@ export function PHOTO_GET(id) {
   return {
     url: `${API_URL}/api/photo/${id}`,
     options: {
-      method: "GET",
-      cache: "no-store",
+      method: 'GET',
+      cache: 'no-store',
     },
   };
 }
@@ -97,10 +99,10 @@ export function COMMENT_POST(id, body) {
   return {
     url: `${API_URL}/api/comment/${id}`,
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       body: JSON.stringify(body),
     },
@@ -111,9 +113,9 @@ export function PHOTO_DELETE(id) {
   return {
     url: `${API_URL}/api/photo/${id}`,
     options: {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
     },
   };
@@ -123,9 +125,9 @@ export function PASSWORD_LOST(body) {
   return {
     url: `${API_URL}/api/password/lost`,
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     },
@@ -136,9 +138,9 @@ export function PASSWORD_RESET(body) {
   return {
     url: `${API_URL}/api/password/reset`,
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     },
@@ -149,9 +151,9 @@ export function STATS_GET(id) {
   return {
     url: `${API_URL}/api/stats`,
     options: {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
     },
   };
@@ -161,10 +163,10 @@ export function LIKE_POST(id) {
   return {
     url: `${API_URL}/api/like/${id}`,
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
     },
   };
@@ -174,10 +176,10 @@ export function HAS_LIKE_GET(id) {
   return {
     url: `${API_URL}/api/check-like/${id}`,
     options: {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
     },
   };
@@ -187,10 +189,10 @@ export function PHOTO_LIKE_GET(id) {
   return {
     url: `${API_URL}/api/get_total_likes/${id}`,
     options: {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
     },
   };
@@ -200,10 +202,10 @@ export function ROOM_MESSAGE_POST(id, body) {
   return {
     url: `${API_URL}/api/msg_room/${id}`,
     options: {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       body: JSON.stringify(body),
     },
@@ -214,7 +216,7 @@ export function ROOM_MESSAGE_GET(id) {
   return {
     url: `${API_URL}/api/msg_room/${id}`,
     options: {
-      method: "GET",
+      method: 'GET',
     },
   };
 }
