@@ -1,10 +1,10 @@
-import React from "react";
-import FeedPhotos from "./FeedPhotos";
-import FeedModal from "./FeedModal";
-import styles from "./Feed.module.css";
-import PropTypes from "prop-types";
+import React from 'react';
+import FeedPhotos from './FeedPhotos';
+import FeedModal from './FeedModal';
+import styles from './Feed.module.css';
+import PropTypes from 'prop-types';
 
-const Feed = ({ user }) => {
+const Feed = ({ user = 0 }) => {
   const [modalPhoto, setModalPhoto] = React.useState(null);
   const [pages, setPages] = React.useState([1]);
   const [infinite, setInfinite] = React.useState(true);
@@ -24,12 +24,12 @@ const Feed = ({ user }) => {
         }
       }
     }
-    window.addEventListener("wheel", infiniteScroll);
-    window.addEventListener("scroll", infiniteScroll);
+    window.addEventListener('wheel', infiniteScroll);
+    window.addEventListener('scroll', infiniteScroll);
 
     return () => {
-      window.removeEventListener("wheel", infiniteScroll);
-      window.removeEventListener("scroll", infiniteScroll);
+      window.removeEventListener('wheel', infiniteScroll);
+      window.removeEventListener('scroll', infiniteScroll);
     };
   }, [infinite]);
   return (
@@ -55,9 +55,11 @@ const Feed = ({ user }) => {
   );
 };
 
-Feed.defaultProps = {
-  user: 0,
-};
+// React will no longer support defaultProps in future versions.
+// Solution is use JavaScript default parameters directly in the function definition
+// Feed.defaultProps = {
+//   user: 0,
+// };
 
 Feed.propTypes = {
   user: PropTypes.oneOfType([
