@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import styles from "./PhotoLike.module.css";
-import { ReactComponent as Heart } from "../../Assets/heart.svg";
-import { HAS_LIKE_GET, LIKE_POST, PHOTO_LIKE_GET } from "../../Api";
-import useFetch from "../../Hooks/useFetch";
-import { useUser } from "../../UserContext";
+import React, { useRef } from 'react';
+import styles from './PhotoLike.module.css';
+import Heart from '../../Assets/heart.svg';
+import { HAS_LIKE_GET, LIKE_POST, PHOTO_LIKE_GET } from '../../Api';
+import useFetch from '../../Hooks/useFetch';
+import { useUser } from '../../UserContext';
 
 const PhotoLike = ({ id }) => {
   const { error, request } = useFetch();
@@ -19,7 +19,7 @@ const PhotoLike = ({ id }) => {
   async function handleClick() {
     const { url, options } = LIKE_POST(id);
     const { response, json } = await request(url, options);
-    if (response.ok && json.message === "Post foi curtido!") {
+    if (response.ok && json.message === 'Post foi curtido!') {
       setLike(true);
       totalIncrement(+1);
       setAnimation(true);
@@ -57,10 +57,10 @@ const PhotoLike = ({ id }) => {
       {like && login ? (
         <div className={styles.container}>
           <button
-            className={`${styles.btnLike} ${animation ? styles.ativo : ""}`}
+            className={`${styles.btnLike} ${animation ? styles.ativo : ''}`}
             onClick={handleClick}
           >
-            <Heart style={{ fill: "red" }} />
+            <Heart style={{ fill: 'red' }} />
           </button>
           <span>{total}</span>
         </div>

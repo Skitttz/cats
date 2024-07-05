@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./Loading.module.css";
-import { ReactComponent as LoadingSvg } from "../../Assets/carregando.svg";
-import { ReactComponent as LoadingLogoSvg } from "../../Assets/loadingLogo.svg";
+import React from 'react';
+import styles from './Loading.module.css';
+import LoadingSvg from '../../Assets/carregando.svg';
+import LoadingLogoSvg from '../../Assets/loadingLogo.svg';
 
 const Loading = () => {
   return (

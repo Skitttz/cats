@@ -1,6 +1,6 @@
-import React from "react";
-import { ReactComponent as Error404Cat } from "../../../Assets/cat-error-404.svg";
-import styles from "./NotFound404.module.css";
+import React from 'react';
+import Error404Cat from '../../../Assets/cat-error-404.svg';
+import styles from './NotFound404.module.css';
 
 const NotFound404 = () => {
   return (

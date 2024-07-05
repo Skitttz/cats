@@ -1,14 +1,14 @@
-import React from "react";
-import { ReactComponent as Enviar } from "../../Assets/enviar.svg";
-import { ReactComponent as Emoji } from "../../Assets/emoji.svg";
-import { COMMENT_POST } from "../../Api";
-import useFetch from "../../Hooks/useFetch";
-import Error from "../Helper/Error";
-import styles from "./PhotoCommentsForm.module.css";
-import EmojiPicker from "emoji-picker-react";
+import React from 'react';
+import Enviar from '../../Assets/enviar.svg';
+import Emoji from '../../Assets/emoji.svg';
+import { COMMENT_POST } from '../../Api';
+import useFetch from '../../Hooks/useFetch';
+import Error from '../Helper/Error';
+import styles from './PhotoCommentsForm.module.css';
+import EmojiPicker from 'emoji-picker-react';
 
 const PhotoCommentsForm = ({ id, setComments, single }) => {
-  const [comment, setComment] = React.useState("");
+  const [comment, setComment] = React.useState('');
   const pickerRef = React.useRef(null);
   const { request, error } = useFetch();
   const inputTextComment = React.useRef(null);
@@ -22,11 +22,11 @@ const PhotoCommentsForm = ({ id, setComments, single }) => {
   };
 
   React.useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     // Remova event listeners quando o componente é desmontado
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -51,7 +51,7 @@ const PhotoCommentsForm = ({ id, setComments, single }) => {
     const { url, options } = COMMENT_POST(id, { comment });
     const { response, json } = await request(url, options);
     if (response.ok) {
-      setComment("");
+      setComment('');
       setComments((comments) => [...comments, json]);
     }
   }
@@ -75,13 +75,13 @@ const PhotoCommentsForm = ({ id, setComments, single }) => {
         <div className={styles.line}>
           {error ? (
             <span
-              style={{ color: "#ff5733", fontWeight: 530, fontSize: "0.8rem" }}
+              style={{ color: '#ff5733', fontWeight: 530, fontSize: '0.8rem' }}
               className="animeComments"
             >
               Ops! Para continuar insira algo. 😺
             </span>
           ) : (
-            " "
+            ' '
           )}
         </div>
         <textarea
@@ -93,7 +93,7 @@ const PhotoCommentsForm = ({ id, setComments, single }) => {
           value={comment}
           onChange={({ target }) => setComment(target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === 'Enter') {
               e.preventDefault(); // Impede a quebra de linha padrão no textarea
               handleSubmit(e);
             }
@@ -111,7 +111,7 @@ const PhotoCommentsForm = ({ id, setComments, single }) => {
 
         <Emoji
           className={styles.btnEmoji}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
           onClick={togglePicker}
         />
       </form>
@@ -121,20 +121,20 @@ const PhotoCommentsForm = ({ id, setComments, single }) => {
           ref={pickerRef}
           className={styles.emojiPicker}
           style={{
-            position: "absolute",
+            position: 'absolute',
             zIndex: 12000,
-            right: "50px",
-            bottom: "75px",
-            backgroundColor: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            right: '50px',
+            bottom: '75px',
+            backgroundColor: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
           }}
         >
           <EmojiPicker
             height={400}
             width={500}
-            pickerStyle={{ position: "absolute" }} // Aplicar o estilo personalizado aqui
+            pickerStyle={{ position: 'absolute' }} // Aplicar o estilo personalizado aqui
             onEmojiClick={addEmojiToTextarea}
           />
         </div>

@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./Header.module.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { ReactComponent as Cats } from "../Assets/cats.svg";
-import { ReactComponent as MinhaConta } from "../Assets/usuario.svg";
-import { ReactComponent as Sair } from "../Assets/sair.svg";
-import { useUser } from "../UserContext";
+import React from 'react';
+import styles from './Header.module.css';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import Cats from '../Assets/cats.svg';
+import MinhaConta from '../Assets/usuario.svg';
+import Sair from '../Assets/sair.svg';
+import { useUser } from '../UserContext';
 
 const Header = () => {
   const { data, userLogout } = useUser();
@@ -12,7 +12,7 @@ const Header = () => {
 
   function handleLogout() {
     userLogout();
-    navigate("/login");
+    navigate('/login');
   }
   return (
     <header className={styles.header}>
@@ -23,8 +23,8 @@ const Header = () => {
         {data ? (
           <div className={styles.loginContainer}>
             <p className={styles.paragraphName}>
-              Olá,{" "}
-              <span style={{ color: "#333" }} className={styles.nome}>
+              Olá,{' '}
+              <span style={{ color: '#333' }} className={styles.nome}>
                 {data.nome[0].toUpperCase() + data.nome.substring(1)}
               </span>
             </p>

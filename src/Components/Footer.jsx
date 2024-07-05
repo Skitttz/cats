@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./Footer.module.css";
-import { ReactComponent as Cats } from "../Assets/cats.svg";
+import React from 'react';
+import styles from './Footer.module.css';
+import Cats from '../Assets/cats.svg';
 
 const Footer = () => {
   return (
