@@ -8,7 +8,8 @@
   <a href="#contexto-">Contexto</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
   <a href="#tecnologias-%EF%B8%8F">Tecnologias</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
   <a href="#desafios-">Desafios</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
-  <a href="#passos-para-testar-">Passos para Testar</a>&nbsp;&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;
+  <a href="#passos-para-testar-">Testar localmente</a>&nbsp;&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;
+  <a href="#design-">Como acessar</a>&nbsp;&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;
   <a href="#design-">Design</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 </p>
@@ -47,7 +48,8 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
 - [x] Desenvolver funcionalidades que permitam ao usuário dar "like", enviar, remover e salvar curtidas, bem como efetuar o devido registro e contagem dessas interações;
 - [x] Estabelecer um sistema para armazenar mensagens de chat e atualizar em tempo real a lista de usuários ativos no mesmo.
 
-## Passos para Testar 🚪🚶
+
+## Passos para Testar 🧪
 
 > Confira o passo-a-passo para testar o projeto localmente.
 
@@ -94,6 +96,11 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
 
 8. <b>Para finalizar: </b>
    - Para acessar o projeto, acesse "localhost" fornecido pelo `npm run dev` em seu navegador, a conta padrão é `login/senha: "cat"` 😸.
+  
+
+## Como acessar 🚪🚶
+
+O projeto está hospedado na DigitalOcean. Para acessar o projeto, basta clicar no seguinte link: [Cats](https://app.smallcats.live/)
 
 ## Design 🎨
 
