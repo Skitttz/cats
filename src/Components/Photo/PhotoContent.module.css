@@ -22,6 +22,13 @@
   border-bottom: 0.1px solid rgba(51, 51, 51, 0.5);
   position: relative;
   margin-bottom: 1rem;
+
+}
+
+@media (max-width: 31.25rem) {
+  .line {
+    margin-bottom: .5rem;
+  }
 }
 
 .photo::-webkit-scrollbar {
@@ -65,6 +72,12 @@
 
 .details {
   padding: 2rem 2rem 0 2rem;
+}
+
+@media (max-width: 31.25rem) {
+  .details {
+    padding: 1rem 2rem 0 1rem;
+  }
 }
 
 .single .details {
@@ -127,6 +140,15 @@
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
+
+@media (max-width: 31.25rem) {
+  .attributes {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+
 
 .attributes li {
   margin-right: 1.5rem;
