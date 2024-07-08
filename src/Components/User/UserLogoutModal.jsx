@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './UserLogoutModal.module.css';
 import Logo from '../../Assets/cats.svg';
+import { Link } from 'react-router-dom';
 
 const UserLogoutModal = ({ setModalLogout, handleLogout }) => {
   function handleOutSideClick(event) {
@@ -24,16 +25,19 @@ const UserLogoutModal = ({ setModalLogout, handleLogout }) => {
             </p>
           </div>
           <div className={styles.buttonContainer}>
-            <a
-              className={styles.buttonRefuse}
-              href="#"
-              onClick={handleOutSideClick}
-            >
+            <Link className={styles.buttonRefuse} onClick={handleOutSideClick}>
               Ficar com os gatinhos 😺
-            </a>
-            <a className={styles.buttonAccept} href="" onClick={handleLogout}>
+            </Link>
+            <Link
+              className={styles.buttonAccept}
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+                handleOutSideClick(e);
+              }}
+            >
               Sim, quero sair 🚪💨
-            </a>
+            </Link>
           </div>
         </div>
       </div>
