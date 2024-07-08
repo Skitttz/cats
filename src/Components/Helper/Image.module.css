@@ -1,11 +1,11 @@
 .wrapper {
   display: grid;
   height: 100%;
+}
 
-  &>img {
-    height: 100%;
-    object-fit: cover;
-  }
+.wrapper img {
+  object-fit: cover;
+  min-height: 100%;
 }
 
 .img {
