@@ -1,10 +1,20 @@
 .chatContainer {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 12.5rem 1fr;
   border: 1px solid rgba(51, 51, 51, 0.1);
 }
 
+.containerSendMessage {
+  padding-top: 16px;
+}
+
+.containerMsg {
+  background-color: #f1f1f1;
+}
+
+
 @media (max-width: 40rem) {
+
   .btnEmoji,
   .emojiPicker {
     display: none;
@@ -13,9 +23,11 @@
   .containerMsg::-webkit-scrollbar {
     width: 2px !important;
   }
+
   .containerMsg::-webkit-scrollbar-thumb {
     background: rgba(0, 123, 255, 0.4) !important;
   }
+
   .mainMsgContainer .containerMsg {
     padding: 10px;
   }
@@ -23,20 +35,25 @@
   .mainMsgContainer .headerContact {
     border-radius: 4px 4px 0 0;
   }
+
   .chatContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 400px;
   }
+
   .chatContainer .mainMsgContainer {
     grid-row: 1/2;
   }
+
   .containerSendMessage,
   .containerMsgAndDate .msgUnique {
     margin-left: 0.5rem;
   }
+
   .containerMsgAndDate .msgMyself {
     margin-right: 0.2rem;
   }
+
   .mainMsgContainer {
     margin-bottom: 1rem;
   }
@@ -48,6 +65,7 @@
   .sendButton {
     display: none;
   }
+
   .mainMsgContainer form {
     margin-right: 10px;
     margin-left: 10px;
@@ -108,11 +126,11 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   height: 25rem;
   grid-column: 2;
   overflow: scroll;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .containerMsgAndDate {
@@ -136,7 +154,6 @@
   color: white;
   background-color: #f4f4f4;
   padding: 10px;
-  margin-bottom: 5px;
   border-radius: 0.2rem;
 }
 
@@ -160,6 +177,14 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: none;
+  outline: none;
+  transition: border ease-in 200ms;
+}
+
+
+.messageInput:focus,
+.messageInput:hover {
+  border-color: #3584e4;
 }
 
 .messageInput::placeholder {
@@ -173,9 +198,15 @@
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
+  padding: 16px 20px 16px 20px;
   cursor: pointer;
   margin-right: 1rem;
+  transition: opacity ease-in 200ms;
+}
+
+.sendButton:hover {
+  background-color: #007bff;
+  opacity: .85;
 }
 
 .nameUser {
@@ -261,6 +292,7 @@
   grid-template-columns: 60px 1fr;
   grid-template-rows: 1fr 1fr;
 }
+
 .containerUserContactSpecifyAtivo {
   background-color: rgb(39, 41, 58);
 }
