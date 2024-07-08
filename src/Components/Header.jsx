@@ -27,9 +27,17 @@ const Header = () => {
             <div className={styles.loginContainer}>
               <p className={styles.paragraphName}>
                 Olá,{' '}
-                <span style={{ color: '#333' }} className={styles.nome}>
+                <a
+                  href=""
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/conta');
+                  }}
+                  style={{ color: '#333' }}
+                  className={styles.nome}
+                >
                   {data.nome[0].toUpperCase() + data.nome.substring(1)}
-                </span>
+                </a>
               </p>
               <Link className={styles.login} to="/conta">
                 <button className={styles.btnMinha}>

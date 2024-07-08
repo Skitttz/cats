@@ -1,10 +1,10 @@
-import React from "react";
-import FeedPhotosItem from "./FeedPhotosItem";
-import { PHOTOS_GET } from "../../Api";
-import useFetch from "../../Hooks/useFetch";
-import Error from "../Helper/Error";
-import Loading from "../Helper/Loading";
-import styles from "./FeedPhotos.module.css";
+import React from 'react';
+import FeedPhotosItem from './FeedPhotosItem';
+import { PHOTOS_GET } from '../../Api';
+import useFetch from '../../Hooks/useFetch';
+import Error from '../Helper/Error';
+import Loading from '../Helper/Loading';
+import styles from './FeedPhotos.module.css';
 
 const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   const { data, loading, error, request } = useFetch();
@@ -23,6 +23,13 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
 
   if (error) return <Error error={error} />;
   if (loading) return <Loading />;
+  if ((data === null || data.length === 0) && user !== 0)
+    return (
+      <div className={`${styles.noPostUser} animeOpacity`}>
+        <p>Ops! Parece que seu estoque de gatinhos está vazio.</p>
+        <p>Ainda não existem postagens para exibir.</p>
+      </div>
+    );
   if (data)
     return (
       <ul className={`${styles.feed} animeLeft`}>

@@ -6,7 +6,7 @@
   opacity: 0;
   transform: translateY(-80px);
   animation: animeDownEmpty 2s forwards;
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 @keyframes animeDownEmpty {
