@@ -6,6 +6,7 @@ import MinhaConta from '../Assets/usuario.svg';
 import Sair from '../Assets/sair.svg';
 import { useUser } from '../UserContext';
 import UserLogoutModal from './User/UserLogoutModal';
+import { disableScroll } from './Utils/DisableScroll';
 
 const Header = () => {
   const { data, userLogout } = useUser();
@@ -16,6 +17,7 @@ const Header = () => {
     userLogout();
     navigate('/login');
   }
+  disableScroll(!!modalLogout);
   return (
     <>
       <header className={styles.header}>

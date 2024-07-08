@@ -3,6 +3,7 @@ import FeedPhotos from './FeedPhotos';
 import FeedModal from './FeedModal';
 import styles from './Feed.module.css';
 import PropTypes from 'prop-types';
+import { disableScroll } from '../Utils/DisableScroll';
 
 const Feed = ({ user = 0 }) => {
   const [modalPhoto, setModalPhoto] = React.useState(null);
@@ -32,6 +33,8 @@ const Feed = ({ user = 0 }) => {
       window.removeEventListener('scroll', infiniteScroll);
     };
   }, [infinite]);
+  disableScroll(!!modalPhoto);
+
   return (
     <div>
       {modalPhoto && (
