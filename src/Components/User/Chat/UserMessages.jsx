@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./UserChat.module.css";
+import React from 'react';
+import styles from './UserChat.module.css';
 
 function UserMessages({ data, messages, messagesContainerRef }) {
   return (
@@ -18,12 +18,12 @@ function UserMessages({ data, messages, messagesContainerRef }) {
             className={styles.sender}
             style={{ fontWeight: 700 }}
           >
-            {msg.sender === data.nome ? "" : `${msg.sender}`}
+            {msg.sender === data.nome ? '' : `${msg.sender}`}
           </div>
           <div className={styles.containerMsgAndDate}>
             <div
               key={`text_${msg.id}`} // Chave única para o texto da mensagem
-              style={{ marginBottom: "8px", wordBreak: "break-all" }}
+              style={{ wordBreak: 'break-all' }}
               className={
                 msg.sender === data.nome
                   ? `${styles.msgMyself} ${styles.message} `
@@ -31,7 +31,7 @@ function UserMessages({ data, messages, messagesContainerRef }) {
               }
             >
               <p
-                style={{ wordBreak: "break-all" }}
+                style={{ wordBreak: 'break-all' }}
                 className={styles.messageText}
               >
                 {msg.message}
@@ -39,7 +39,7 @@ function UserMessages({ data, messages, messagesContainerRef }) {
 
               <span
                 style={{
-                  marginBottom: "2px",
+                  marginBottom: '2px',
                 }}
                 className={
                   msg.sender === data.nome
