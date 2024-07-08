@@ -12,6 +12,7 @@
   animation: scaleUp 0.3s forwards;
 }
 
+
 .line {
   opacity: 0.2;
   grid-column: 1/-1;
@@ -24,22 +25,28 @@
 }
 
 .photo::-webkit-scrollbar {
-  width: 6px; /* Largura do scroll */
+  width: 6px;
+  /* Largura do scroll */
 }
 
 .photo::-webkit-scrollbar-thumb {
-  background-color: #333; /* Cor do thumb (barra de arrasto) */
-  border-radius: 5px; /* Borda arredondada */
+  background-color: #333;
+  /* Cor do thumb (barra de arrasto) */
+  border-radius: 5px;
+  /* Borda arredondada */
 }
 
 /* Para navegadores baseados no motor Gecko (Firefox) */
 .photo {
-  scrollbar-width: thin; /* Define a largura do scroll */
+  scrollbar-width: thin;
+  /* Define a largura do scroll */
 }
 
 .photo::-webkit-scrollbar-thumb {
-  background-color: #333; /* Cor do thumb */
-  border-radius: 5px; /* Borda arredondada */
+  background-color: #333;
+  /* Cor do thumb */
+  border-radius: 5px;
+  /* Borda arredondada */
 }
 
 .single.photo {
@@ -63,7 +70,7 @@
 }
 
 .img {
-  grid-row: 1/4;
+  grid-row: 1/5;
 }
 
 .single .img {
