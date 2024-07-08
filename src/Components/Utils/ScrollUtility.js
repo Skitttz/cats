@@ -5,3 +5,10 @@ export function disableScroll(isDisabled) {
     document.body.classList.remove('no-scroll');
   }
 }
+
+export function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+}
