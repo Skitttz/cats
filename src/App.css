@@ -76,6 +76,7 @@ input {
   font-size: 3rem;
   margin: 1rem 0;
   position: relative;
+  user-select: none;
 }
 
 .container {
@@ -132,6 +133,17 @@ a {
   to {
     opacity: 1;
     transform: initial;
+  }
+}
+
+.animeOpacity {
+  opacity: 0;
+  animation: animeOpacity 1s forwards;
+}
+
+@keyframes animeOpacity {
+  to {
+    opacity: 1;
   }
 }
 
