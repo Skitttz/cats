@@ -1,0 +1,96 @@
+.modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0px;
+  left: 0px;
+  display: flex;
+  z-index: 1000;
+  /* calc para que o lado direito que tem scroll fique do mesmo tamanho do lado esquerdo */
+  padding: 2rem calc(4rem + 15px) 2rem 4rem;
+}
+
+.dialogModal {
+  border-radius: 4px;
+  inset: 0;
+  margin: 0 auto;
+  justify-self: center;
+  align-self: center;
+  padding: 24px;
+  background-color: rgba(255, 255, 255, 0.85);
+  max-width: 320px;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &>h4 {
+    font-size: 1.2rem;
+    margin: 8px 0 8px 0;
+    color: rgb(230, 111, 27);
+  }
+
+  &>p {
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+}
+
+
+
+.buttonContainer {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  justify-content: center;
+  margin-top: 21px;
+  flex-direction: column;
+  border-radius: 8px;
+  gap: 12px;
+
+  &>a {
+    padding: 8px 0 8px 0;
+    border-radius: 6px;
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+
+  & .buttonAccept {
+    background-color: #e9e9e9;
+    border: 1px solid rgb(153, 153, 153, 0.3);
+    color: #333;
+    transition: background 0.5s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: #e2e2e2;
+    }
+  }
+
+  & .buttonRefuse {
+    opacity: 1;
+    background: linear-gradient(90deg, #fa7c27, #f96f1b);
+    border: 1px solid rgb(153, 153, 153, 0.3);
+    border: none;
+    color: white;
+    transition: opacity 0.5s ease, transform 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+}
+
+
+@media (max-width: 40rem) {
+  .modal {
+    padding: 2rem calc(2rem + 15px) 2rem 2rem;
+  }
+}
