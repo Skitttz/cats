@@ -5,6 +5,9 @@ import useFetch from '../../Hooks/useFetch';
 import Error from '../Helper/Error';
 import Loading from '../Helper/Loading';
 import styles from './FeedPhotos.module.css';
+import Button from '../Forms/Button';
+import { NavLink } from 'react-router-dom';
+import AddPhotosSvg from '../../Assets/adicionar.svg';
 
 const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   const { data, loading, error, request } = useFetch();
@@ -26,8 +29,19 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   if ((data === null || data.length === 0) && user !== 0)
     return (
       <div className={`${styles.noPostUser} animeOpacity`}>
-        <p>Ops! Parece que seu estoque de gatinhos está vazio.</p>
-        <p>Ainda não existem postagens para exibir.</p>
+        <div>
+          <p>Ops! Parece que seu estoque de gatinhos está vazio.</p>
+          <p>Ainda não existem postagens para exibir.</p>
+        </div>
+        <div className={`${styles.containerButtons}`}>
+          <NavLink to={'/conta/post'}>
+            <Button>Criar primeiro post 🐾</Button>
+          </NavLink>
+          ou selecione
+          <NavLink to={'/conta/post'} aria-label="Icone Nav">
+            <AddPhotosSvg />
+          </NavLink>
+        </div>
       </div>
     );
   if (data)

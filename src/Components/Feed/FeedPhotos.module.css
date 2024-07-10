@@ -7,12 +7,57 @@
 }
 
 .noPostUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   text-align: center;
   padding: 1rem 0px 4rem 0px;
   color: #888;
   position: relative;
   opacity: 0;
 }
+
+.containerButtons {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+
+.containerButtons a[aria-label="Icone Nav"] {
+  background-color: #f2f2f2;
+  border-radius: 0.2rem;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.containerButtons a[aria-label="Icone Nav"]:hover,
+.containerButtons a[aria-label="Icone Nav"]:focus {
+  background-color: white;
+  box-shadow: 0 0 0 3px #c4c9f3;
+  border-color: #212121;
+  outline: none;
+}
+
+.containerButtons a[aria-label="Icone Nav"]:global(.active) {
+  background-color: white;
+  box-shadow: 0 0 0 3px #c4c9f3;
+  border-color: #737dd2;
+}
+
+.containerButtons a[aria-label="Icone Nav"]:global(.active)>* {
+  fill: #3b4de7;
+}
+
 
 .noPostUser::before {
   content: "";

@@ -1,8 +1,8 @@
-import React from "react";
-import "@tensorflow/tfjs-backend-cpu";
-import * as cocoSsd from "@tensorflow-models/coco-ssd";
-import Loading from "../Helper/Loading";
-import styles from "./CatsIA.module.css";
+import React from 'react';
+import '@tensorflow/tfjs-backend-cpu';
+import * as cocoSsd from '@tensorflow-models/coco-ssd';
+import Loading from '../Helper/Loading';
+import styles from './CatsIA.module.css';
 
 const CatsIA = ({ img, onCatDetection }) => {
   const [predictions, setPredictions] = React.useState([]);
@@ -25,7 +25,7 @@ const CatsIA = ({ img, onCatDetection }) => {
       setLoading(false);
 
       // Verifique previsao é um gato retorna true ou false
-      isCatDetected = detected.some((prediction) => prediction.class == "cat");
+      isCatDetected = detected.some((prediction) => prediction.class == 'cat');
 
       // Atualize o estado isCat com base na detecção
       onCatDetection(isCatDetected);
@@ -71,8 +71,10 @@ const CatsIA = ({ img, onCatDetection }) => {
             : `Oops! Apenas fotos de gatos são permitidas aqui 🐱🐾🛑. Era uma foto de gato? Para reportar o problema, entre em contato com o suporte`}
         </div>
       ) : (
-        <div style={{ marginTop: "1rem", fontWeight: 600 }}>
-          <p>Analisando...</p>
+        <div style={{ marginTop: '1rem', fontWeight: 600 }}>
+          <p>
+            Peraí, só um pouquinho estamos analisando se sua foto tem um...🐱🐾
+          </p>
           <Loading />
         </div>
       )}
