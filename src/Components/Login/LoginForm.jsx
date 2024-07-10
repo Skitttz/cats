@@ -8,6 +8,7 @@ import Error from '../Helper/Error';
 import styles from './LoginForm.module.css';
 import stylesBtn from '../Forms/Button.module.css';
 import Head from '../Helper/Head';
+import { scrollToTop } from '../Utils/ScrollUtility';
 
 const LoginForm = () => {
   const username = useForm();
@@ -19,6 +20,7 @@ const LoginForm = () => {
     event.preventDefault();
     if (username.validate() && password.validate()) {
       userLogin(username.value, password.value);
+      scrollToTop();
     }
   }
 
