@@ -8,21 +8,25 @@ import styles from './FeedPhotos.module.css';
 import Button from '../Forms/Button';
 import { NavLink } from 'react-router-dom';
 import AddPhotosSvg from '../../Assets/adicionar.svg';
+import { CurrentPathProfileUser } from '../Utils/CurrentRoute';
 
 const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   const { data, loading, error, request } = useFetch();
   const [userInfo, setUserInfo] = React.useState(null);
+  const pathnameProfile = CurrentPathProfileUser();
   React.useEffect(() => {
-    async function fetchUserInfo() {
-      try {
-        const name = await USER_GET_INFO_NAME();
-        setUserInfo(name);
-      } catch (error) {
-        console.error('[Error User]');
-        setUserInfo(null);
+    if (pathnameProfile) {
+      async function fetchUserInfo() {
+        try {
+          const name = await USER_GET_INFO_NAME();
+          setUserInfo(name);
+        } catch (error) {
+          console.error('[Error User]');
+          setUserInfo(null);
+        }
       }
+      fetchUserInfo();
     }
-    fetchUserInfo();
   }, []);
 
   React.useEffect(() => {
@@ -40,8 +44,10 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   if (loading) return <Loading />;
   if ((data === null || data.length === 0) && user !== 0) {
     if (
-      (typeof user === 'string' && user === userInfo?.name) ||
-      (typeof user === 'number' && user === userInfo?.id)
+      (typeof user === 'string' &&
+        user === userInfo?.name &&
+        pathnameProfile) ||
+      (typeof user === 'number' && user === userInfo?.id && pathnameProfile)
     ) {
       return (
         <div className={`${styles.noPostUser} animeOpacity`}>
