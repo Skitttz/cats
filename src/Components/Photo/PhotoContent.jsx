@@ -1,16 +1,16 @@
-import React from "react";
-import styles from "./PhotoContent.module.css";
-import { Link } from "react-router-dom";
-import PhotoComments from "./PhotoComments";
-import { useUser } from "../../UserContext";
-import PhotoDelete from "./PhotoDelete";
-import Image from "../Helper/Image";
+import React from 'react';
+import styles from './PhotoContent.module.css';
+import { Link } from 'react-router-dom';
+import PhotoComments from './PhotoComments';
+import { useUser } from '../../UserContext';
+import PhotoDelete from './PhotoDelete';
+import Image from '../Helper/Image';
 
 const PhotoContent = ({ data, single }) => {
   const user = useUser();
   const { photo, comments } = data;
   return (
-    <div className={`${styles.photo} ${single ? styles.single : ""}`}>
+    <div className={`${styles.photo} ${single ? styles.single : ''}`}>
       <div className={styles.img}>
         <Image src={photo.src} alt={photo.title} />
       </div>
@@ -26,10 +26,12 @@ const PhotoContent = ({ data, single }) => {
             <span className={styles.view}>{photo.acessos}</span>
           </p>
           <h1 className={`${styles.titlePhoto} title`}>
-            <Link to={`/photo/${photo.id}`}>{photo.title}</Link>
+            <Link style={{ wordBreak: 'break-all' }} to={`/photo/${photo.id}`}>
+              {photo.title}
+            </Link>
           </h1>
           <ul className={styles.attributes}>
-            <li style={{ wordBreak: "break-all" }}>{photo.descricao} </li>
+            <li style={{ wordBreak: 'break-all' }}>{photo.descricao} </li>
           </ul>
           <div className={styles.line}></div>
         </div>
