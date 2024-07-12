@@ -14,20 +14,20 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   const { data, loading, error, request } = useFetch();
   const [userInfo, setUserInfo] = React.useState(null);
   const pathnameProfile = CurrentPathProfileUser();
+  async function fetchUserInfo() {
+    try {
+      const name = await USER_GET_INFO_NAME();
+      setUserInfo(name);
+    } catch (error) {
+      console.error('[Error User]');
+      setUserInfo(null);
+    }
+  }
   React.useEffect(() => {
     if (pathnameProfile) {
-      async function fetchUserInfo() {
-        try {
-          const name = await USER_GET_INFO_NAME();
-          setUserInfo(name);
-        } catch (error) {
-          console.error('[Error User]');
-          setUserInfo(null);
-        }
-      }
       fetchUserInfo();
     }
-  }, []);
+  }, [pathnameProfile]);
 
   React.useEffect(() => {
     async function fetchPhotos() {
