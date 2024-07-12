@@ -63,7 +63,8 @@
   }
 
   .sendButton {
-    display: none;
+    padding: 18px 14px !important;
+    margin-right: 0px !important;
   }
 
   .mainMsgContainer form {
