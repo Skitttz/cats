@@ -7,7 +7,8 @@ import { disableScroll } from '../Utils/ScrollUtility';
 
 const Feed = ({ user = 0 }) => {
   const [modalPhoto, setModalPhoto] = React.useState(null);
-  const [pages, setPages] = React.useState([1]);
+  // Render two pages in main Feed
+  const [pages, setPages] = React.useState(user !== 0 ? [1] : [1, 2]);
   const [infinite, setInfinite] = React.useState(true);
 
   React.useEffect(() => {
