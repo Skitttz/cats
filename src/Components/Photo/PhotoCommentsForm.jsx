@@ -1,7 +1,7 @@
 import React from 'react';
 import Enviar from '../../Assets/enviar.svg';
 import Emoji from '../../Assets/emoji.svg';
-import { COMMENT_POST } from '../../Api';
+import { COMMENT_POST } from '../../Api/index';
 import useFetch from '../../Hooks/useFetch';
 import Error from '../Helper/Error';
 import styles from './PhotoCommentsForm.module.css';

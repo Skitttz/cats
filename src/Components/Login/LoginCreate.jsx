@@ -1,18 +1,18 @@
-import React from "react";
-import Input from "../Forms/Input";
-import Button from "../Forms/Button";
-import useForm from "../../Hooks/useForm";
-import PasswordStrong from "./PasswordStrong";
-import { USER_POST } from "../../Api";
-import { useUser } from "../../UserContext";
-import useFetch from "../../Hooks/useFetch";
-import Error from "../Helper/Error";
-import Head from "../Helper/Head";
+import React from 'react';
+import Input from '../Forms/Input';
+import Button from '../Forms/Button';
+import useForm from '../../Hooks/useForm';
+import PasswordStrong from './PasswordStrong';
+import { USER_POST } from '../../Api/index';
+import { useUser } from '../../UserContext';
+import useFetch from '../../Hooks/useFetch';
+import Error from '../Helper/Error';
+import Head from '../Helper/Head';
 
 const LoginCreate = () => {
-  const username = useForm("username");
-  const password = useForm("password");
-  const email = useForm("email");
+  const username = useForm('username');
+  const password = useForm('password');
+  const email = useForm('email');
 
   const { userLogin } = useUser();
   const { loading, error, request } = useFetch();
@@ -42,10 +42,10 @@ const LoginCreate = () => {
         <Input label="Usuário" type="text" name="username" {...username} />
         <Input label="Email" type="email" name="email" {...email} />
         <Input label="Senha" type="password" name="senha" {...password} />
-        {password.value || password.value === "" ? (
+        {password.value || password.value === '' ? (
           <PasswordStrong>{password.value}</PasswordStrong>
         ) : (
-          ""
+          ''
         )}
         {loading ? (
           <Button disabled>Cadastrarando...</Button>

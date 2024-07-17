@@ -1,5 +1,5 @@
 // import React from "react";
-// import { PHOTO_LIKE_GET } from "../../Api";
+// import { PHOTO_LIKE_GET } from "../../Api/index";
 // import useFetch from "../../Hooks/useFetch";
 
 // const PhotoTotalLike = ({ id }) => {

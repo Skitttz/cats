@@ -1,26 +1,26 @@
-import React from "react";
-import styles from "./UserPhotoPost.module.css";
-import Input from "../Forms/Input";
-import Button from "../Forms/Button";
-import useForm from "../../Hooks/useForm";
-import useFetch from "../../Hooks/useFetch";
-import { PHOTO_POST } from "../../Api";
-import Error from "../Helper/Error";
-import { useNavigate } from "react-router-dom";
-import Head from "../Helper/Head";
-const CatsIA = React.lazy(() => import("../Detector/CatsIA"));
+import React from 'react';
+import styles from './UserPhotoPost.module.css';
+import Input from '../Forms/Input';
+import Button from '../Forms/Button';
+import useForm from '../../Hooks/useForm';
+import useFetch from '../../Hooks/useFetch';
+import { PHOTO_POST } from '../../Api/index';
+import Error from '../Helper/Error';
+import { useNavigate } from 'react-router-dom';
+import Head from '../Helper/Head';
+const CatsIA = React.lazy(() => import('../Detector/CatsIA'));
 
 const UserPhotoPost = () => {
   const nome = useForm();
-  const descricao = useForm("description");
-  const idade = useForm("age");
+  const descricao = useForm('description');
+  const idade = useForm('age');
   const [img, setImg] = React.useState({});
   const { data, error, loading, request } = useFetch();
   const [isCatDetected, setIsCatDetected] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (data) navigate("/conta");
+    if (data) navigate('/conta');
   }, [data, navigate]);
 
   function handleCatDetection(isCatDetected) {
@@ -31,12 +31,12 @@ const UserPhotoPost = () => {
 
     if (descricao.validate() && idade.validate() && isCatDetected) {
       const formData = new FormData();
-      formData.append("img", img.raw);
-      formData.append("nome", nome.value);
-      formData.append("descricao", descricao.value);
-      formData.append("idade", idade.value);
+      formData.append('img', img.raw);
+      formData.append('nome', nome.value);
+      formData.append('descricao', descricao.value);
+      formData.append('idade', idade.value);
 
-      const token = window.localStorage.getItem("token");
+      const token = window.localStorage.getItem('token');
       const { url, options } = PHOTO_POST(formData, token);
       request(url, options);
     } else {
@@ -60,7 +60,7 @@ const UserPhotoPost = () => {
           label="Legenda"
           type="text"
           name="descricao"
-          placeholder={"Escreva uma legenda..."}
+          placeholder={'Escreva uma legenda...'}
           style={200}
           {...descricao}
         />

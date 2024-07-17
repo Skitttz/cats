@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styles from './PhotoLike.module.css';
 import Heart from '../../Assets/heart.svg';
-import { HAS_LIKE_GET, LIKE_POST, PHOTO_LIKE_GET } from '../../Api';
+import { HAS_LIKE_GET, LIKE_POST, PHOTO_LIKE_GET } from '../../Api/index';
 import useFetch from '../../Hooks/useFetch';
 import { useUser } from '../../UserContext';
 

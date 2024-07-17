@@ -1,10 +1,10 @@
-import React from "react";
-import Head from "../Helper/Head";
-import useFetch from "../../Hooks/useFetch";
-import { STATS_GET } from "../../Api";
-import Loading from "../Helper/Loading";
-import Error from "../Helper/Error";
-const UserStatsGraph = React.lazy(() => import("./UserStatsGraph"));
+import React from 'react';
+import Head from '../Helper/Head';
+import useFetch from '../../Hooks/useFetch';
+import { STATS_GET } from '../../Api/index';
+import Loading from '../Helper/Loading';
+import Error from '../Helper/Error';
+const UserStatsGraph = React.lazy(() => import('./UserStatsGraph'));
 
 const UserStats = () => {
   const { data, error, loading, request } = useFetch();
