@@ -1,18 +1,88 @@
 .footer {
+  width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   background-color: #f3f3f3;
-  margin-top: 6rem;
-  text-align: center;
   color: #333;
+  padding: 0 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px 0px inset;
 }
 
-.footer svg {
-  width: 48px;
-  display: inline-block;
+.container {
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 50rem;
+  width: 100%;
+}
+
+.containerMain svg {
+  width: 64px;
+  vertical-align: middle;
+  position: relative;
+  z-index: 20;
+}
+
+.containerMain {
+  position: relative;
+}
+
+.containerMain::after {
+  position: absolute;
+  content: " ";
+  width: 150px;
+  height: 10px;
+  background-color: #d4d4d4;
+  bottom: 0;
+  left: -70%;
+  z-index: 10;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .footer p {
-  font-size: 1rem;
+  font-size: 0.875rem;
+}
+
+.containerMain {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.containerMain h4 {
+  font-size: 0.875rem;
+}
+
+
+.containerExtra {
+  font-weight: 500;
+  font-size: 0.5rem;
+  color: #777;
+}
+
+.containerNetwork {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btnInfo {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 40rem) {
+  .btnInfo span {
+    display: none;
+  }
 }
