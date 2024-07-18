@@ -7,6 +7,7 @@ import Sair from '../Assets/sair.svg';
 import { useUser } from '../UserContext';
 import UserLogoutModal from './User/UserLogoutModal';
 import { disableScroll } from './Utils/ScrollUtility';
+import { Pets } from '@mui/icons-material';
 
 const Header = () => {
   const { data, userLogout } = useUser();
@@ -54,9 +55,15 @@ const Header = () => {
               </button>
             </div>
           ) : (
-            <Link className={styles.login} to="/login">
-              Login / Criar
-            </Link>
+            <div className={styles.containerLogin}>
+              <Link className={styles.login} to="/login">
+                Entrar
+              </Link>
+              <Link className={styles.signIn} to="/login/criar">
+                Criar Conta
+                <Pets />
+              </Link>
+            </div>
           )}
         </nav>
       </header>
