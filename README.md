@@ -77,24 +77,26 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
 
 6. <b>Inicie o Projeto:</b>
 
-   - Após a conclusão da instalação das dependências, execute o comando `npm run dev` em um terminal e inicie um segundo terminal para iniciar o comando `node server.cjs`;
+   - Após a conclusão da instalação das dependências, execute o comando `npm run dev` em um terminal;
 
-7. <b>Configurarando middleware:</b>
+7. <b>Evite erro de Cors:</b>
 
-   - Vá no arquivo `server.cjs` e insira o endereço fornecido pelo comando npm run dev na propriedade origin.
+   - Vá no arquivo `server.js` e insira o endereço fornecido pelo comando `npm run dev` na propriedade origin.
 
    ```javascript
-   // Por padrão o origin sera http://localhost:5174
-   // Entretando pode ser fornecido uma URL com outras portas apos o comando
-   // ex: http://localhost:5172, http://localhost:5173 ...
-   // Altere o origin no cors caso seja preciso.
+   // Por padrão, o `origin` será a variável de ambiente `BASE_API_ORIGIN`.
+   // Altere o `origin` para o IP fornecido pelo App React no CORS caso seja necessário.
+   // Exemplo padrões: http://localhost:5174, http://localhost:5173, etc.
    cors: {
     origin: "http://localhost:5174",
     methods: ["GET", "POST"],
     }
    ```
 
-8. <b>Para finalizar: </b>
+8. <b>Inicie o Socket:</b>
+   - Abra um segundo terminal para iniciar o serviço do web socket utilizando o comando `node server.js`
+
+9. <b>Para finalizar: </b>
    - Para acessar o projeto, acesse "localhost" fornecido pelo `npm run dev` em seu navegador, a conta padrão é `login/senha: "cat"` 😸.
   
 
