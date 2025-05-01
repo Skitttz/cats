@@ -102,7 +102,7 @@ Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui
 
 ## Como acessar 🚪🚶
 
-O projeto está hospedado na DigitalOcean. Para acessar o projeto, basta clicar no seguinte link: [Cats](https://app.smallcats.live/)
+O projeto estáva hospedado na DigitalOcean mas infelizmente acabaram os creditos de estudante. Volte novamente outra hora, irei trabalhar para coloca-lo no ar novamente =)
 
 ## Design 🎨
 
