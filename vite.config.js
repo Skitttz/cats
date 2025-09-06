@@ -20,16 +20,17 @@ export default defineConfig({
     cssMinify: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
+      cache: false,
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          tf: [
-            '@tensorflow/tfjs-core',
-            '@tensorflow/tfjs-converter',
-            '@tensorflow/tfjs-backend-cpu',
-            '@tensorflow/tfjs-backend-webgl',
-            '@tensorflow-models/coco-ssd',
-          ],
+        sourcemap: false,
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString();
+          }
         },
       },
     },
