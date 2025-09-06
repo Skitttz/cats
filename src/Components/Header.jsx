@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import Cats from '../Assets/cats.svg';
 import MinhaConta from '../Assets/usuario.svg';
 import Sair from '../Assets/sair.svg';
@@ -23,9 +23,9 @@ const Header = () => {
     <>
       <header className={styles.header}>
         <nav className={`${styles.nav} container`}>
-          <Link className={styles.logo} to="/" aria-label="Cats - Home">
+          <NavLink className={styles.logo} to={'/'} aria-label="Cats - Home">
             <Cats />
-          </Link>
+          </NavLink>
           {data ? (
             <div className={styles.loginContainer}>
               <p className={styles.paragraphName}>

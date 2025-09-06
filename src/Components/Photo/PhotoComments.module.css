@@ -4,24 +4,40 @@
   padding: 0 2rem;
 }
 
+@media (max-width: 31.25rem) {
+  .comments {
+    margin-bottom: .5rem;
+    padding: 0 2rem;
+    min-height: 4rem;
+  }
+}
+
 /* Para navegadores baseados no motor Blink (Chrome, Edge) */
 .comments::-webkit-scrollbar {
-  width: 5px; /* Largura do scroll */
+  width: 5px;
+  /* Largura do scroll */
 }
 
 .comments::-webkit-scrollbar-thumb {
-  background-color: #333; /* Cor do thumb (barra de arrasto) */
-  border-radius: 5px; /* Borda arredondada */
+  background-color: #333;
+  /* Cor do thumb (barra de arrasto) */
+  border-radius: 5px;
+  /* Borda arredondada */
 }
 
 /* Para navegadores baseados no motor Gecko (Firefox) */
 .comments {
-  scrollbar-width: thin; /* Define a largura do scroll */
+  scrollbar-width: thin;
+  /* Define a largura do scroll */
+  scrollbar-color: #333;
+  /* Cor do thumb e do fundo */
 }
 
 .comments::-webkit-scrollbar-thumb {
-  background-color: #333; /* Cor do thumb */
-  border-radius: 5px; /* Borda arredondada */
+  background-color: #333;
+  /* Cor do thumb */
+  border-radius: 5px;
+  /* Borda arredondada */
 }
 
 .single.comments {
@@ -42,4 +58,10 @@
   margin-bottom: 0.5rem;
   justify-content: center;
   gap: 40px;
+}
+
+@media (max-width: 31.25rem) {
+  .attributes {
+    margin-top: 0.5rem;
+  }
 }

@@ -21,7 +21,6 @@ export function PHOTOS_GET({ page, total, user }) {
     url: `${API_URL}/api/photo/?_total=${total}&_page=${page}&_user=${user}`,
     options: {
       method: 'GET',
-      cache: 'no-store',
     },
   };
 }
@@ -31,7 +30,6 @@ export function PHOTO_GET(id) {
     url: `${API_URL}/api/photo/${id}`,
     options: {
       method: 'GET',
-      cache: 'no-store',
     },
   };
 }

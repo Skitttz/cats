@@ -1,8 +1,7 @@
-import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -16,4 +15,23 @@ export default defineConfig({
       include: '**/*.svg',
     }),
   ],
+  build: {
+    minify: 'esbuild',
+    cssMinify: true,
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          tf: [
+            '@tensorflow/tfjs-core',
+            '@tensorflow/tfjs-converter',
+            '@tensorflow/tfjs-backend-cpu',
+            '@tensorflow/tfjs-backend-webgl',
+            '@tensorflow-models/coco-ssd',
+          ],
+        },
+      },
+    },
+  },
 });

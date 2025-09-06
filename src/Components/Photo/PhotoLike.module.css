@@ -14,7 +14,81 @@
   animation: animeSvg 0.6s forwards;
 }
 
+.like-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.like-btn:hover:not(:disabled) {
+  background-color: rgba(239, 68, 68, 0.1);
+  transform: scale(1.05);
+}
+
+.like-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.like-btn.animating {
+  animation: likeAnimation 0.3s ease-out;
+}
+
+.like-count {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+@keyframes likeAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .like-btn,
+  .like-btn svg {
+    transition: none;
+  }
+
+  .like-btn.animating {
+    animation: none;
+  }
+}
+
 @keyframes animeSvg {
+
   0%,
   100% {
     -webkit-transform: scale(1);

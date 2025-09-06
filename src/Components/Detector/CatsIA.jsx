@@ -1,14 +1,15 @@
-import React from 'react';
 import '@tensorflow/tfjs-backend-cpu';
-import * as cocoSsd from '@tensorflow-models/coco-ssd';
+import { useEffect, useState } from 'react';
 import Loading from '../Helper/Loading';
 import styles from './CatsIA.module.css';
 
+const cocoSsd = await import('@tensorflow-models/coco-ssd');
+
 const CatsIA = ({ img, onCatDetection }) => {
-  const [predictions, setPredictions] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const [isCat, setIsCat] = React.useState(false);
-  let isCatDetected = false; // Declare a variável aqui fora
+  const [predictions, setPredictions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isCat, setIsCat] = useState(false);
+  let isCatDetected = false;
 
   const suporte = (
     <a href="mailto:seuendereco@email.com">Entre em contato com o suporte</a>
@@ -24,16 +25,14 @@ const CatsIA = ({ img, onCatDetection }) => {
       setPredictions(detected);
       setLoading(false);
 
-      // Verifique previsao é um gato retorna true ou false
       isCatDetected = detected.some((prediction) => prediction.class == 'cat');
 
-      // Atualize o estado isCat com base na detecção
       onCatDetection(isCatDetected);
       setIsCat(isCatDetected);
     };
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (img) {
       setLoading(true);
       objectDetector();
@@ -42,24 +41,6 @@ const CatsIA = ({ img, onCatDetection }) => {
 
   return (
     <>
-      {/*  linecode -> Para ver todos os box de obj da IA
-      <div>
-        {predictions.map((prediction, index) => (
-          <div
-            style={{
-              display: "flex",
-              backgroundColor: "purple",
-              marginTop: "1rem",
-              borderRadius: "0.2rem",
-            }}
-          >
-            <li style={{ color: "white", textAlign: "center" }} key={index}>
-              <p> {prediction.class}</p>
-            </li>
-          </div>
-        ))} 
-        </div>
-        */}
       {!loading ? (
         <div
           className={`${styles.containerMsg} ${

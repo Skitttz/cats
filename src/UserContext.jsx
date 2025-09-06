@@ -1,6 +1,6 @@
 import React from 'react';
-import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
 import { useNavigate } from 'react-router-dom';
+import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
 
 export const UserContext = React.createContext();
 
@@ -89,7 +89,7 @@ export function useUser() {
   const context = React.useContext(UserContext);
 
   if (!context) {
-    throw new Error('Esse Hook deve ser usado com o provider');
+    throw new Error('useUser must be used within a UserProvider');
   }
 
   return context;

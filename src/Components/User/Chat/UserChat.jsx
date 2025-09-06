@@ -5,13 +5,14 @@ import Head from '../../Helper/Head';
 import UserPhoto2 from '../../../Assets/cats.svg';
 import { useUser } from '../../../UserContext';
 import useFetch from '../../../Hooks/useFetch';
-import { ROOM_MESSAGE_GET, ROOM_MESSAGE_POST } from '../../../Api';
+import { ROOM_MESSAGE_GET, ROOM_MESSAGE_POST } from '../../../Api/index';
 import UserChatList from './UserChatList';
 import MessageInput from './UserMessageInput';
 import UserMessages from './UserMessages';
 import formatDate from './UserChatDate';
 
-const socket = io('http://localhost:3000/');
+const urlApp = `${import.meta.env.VITE_APP_URL}:3000` || 'localhost:xxx';
+const socket = io(urlApp);
 
 const UserChat = () => {
   const [message, setMessage] = React.useState('');
@@ -33,7 +34,7 @@ const UserChat = () => {
       );
       if (messages.length > 0) {
         const lastMessage = messages[messages.length - 1];
-        lastMessage.scrollIntoView({ block: 'nearest' });
+        lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
     }
   };
@@ -47,6 +48,9 @@ const UserChat = () => {
 
     socket.on('message', (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
+      setTimeout(() => {
+        scrollToLastMessage();
+      }, 50);
     });
     return () => {
       socket.off('message');
@@ -120,9 +124,6 @@ const UserChat = () => {
     const { url, options } = ROOM_MESSAGE_POST(211, requestBody);
     request(url, options);
     sendMessage();
-    setTimeout(() => {
-      scrollToLastMessage();
-    }, 10);
   }
 
   return (

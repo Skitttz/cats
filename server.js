@@ -1,18 +1,20 @@
 import http from 'http';
 import { config } from 'dotenv';
 import { Server } from 'socket.io';
-
 config();
-
 const server = http.createServer();
 const io = new Server(server, {
   cors: {
-    origin: process.env.BASE_API_ORIGIN, // IP definido pelo React
+    origin: process.env.CORS_ORIGIN,
     methods: ['GET', 'POST'],
   },
+  reconnectionAttempts: 5,
+  reconnectionDelay: 2000,
+  timeout: 5000,
+  autoConnect: true,
 });
 
-const port = process.env.PORT || 3000;
+const portSocket = process.env.PORT_SOCKET;
 const rooms = {};
 
 io.on('connection', (socket) => {
@@ -46,6 +48,14 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Servidor WebSocket está rodando na porta ${port}`);
+io.on('connect_error', (error) => {
+  console.error('Erro de conexão');
+});
+
+io.on('reconnect_failed', () => {
+  console.error('Todas as tentativas de reconexão falharam.');
+});
+
+server.listen(portSocket, () => {
+  console.log(`Servidor WebSocket está rodando`);
 });
