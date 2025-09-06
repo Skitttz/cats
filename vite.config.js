@@ -16,23 +16,58 @@ export default defineConfig({
     }),
   ],
   build: {
-    minify: 'esbuild',
+    outDir: 'build',
     cssMinify: true,
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500,
+    sourcemap: false,
+    minify: 'esbuild',
     rollupOptions: {
       cache: false,
+      maxParallelFileOps: 2,
       output: {
         sourcemap: false,
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            return id
-              .toString()
-              .split('node_modules/')[1]
-              .split('/')[0]
-              .toString();
+            const packageName = id.toString().split('node_modules/')[1];
+            if (!packageName) return 'vendor';
+
+            const firstDir = packageName.split('/')[0];
+
+            const largePackages = [
+              '@tensorflow',
+              'victory',
+              'emoji-picker-react',
+              'socket.io',
+              'lucide-react',
+            ];
+
+            if (largePackages.some((pkg) => firstDir.includes(pkg))) {
+              return `vendor-${firstDir}`;
+            }
+
+            return 'vendor';
           }
         },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
+  },
+  server: {
+    watch: {
+      usePolling: true,
+      interval: 100,
+    },
+  },
+  optimizeDeps: {
+    exclude: [
+      '@tensorflow-models/coco-ssd',
+      '@tensorflow/tfjs-core',
+      '@tensorflow/tfjs-backend-webgl',
+      '@tensorflow/tfjs-converter',
+      'victory',
+    ],
+    entries: ['./src/main.jsx', './src/App.jsx'],
   },
 });

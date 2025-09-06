@@ -1,13 +1,13 @@
+import { PawPrint } from 'lucide-react';
 import React from 'react';
-import styles from './Header.module.css';
-import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Cats from '../Assets/cats.svg';
-import MinhaConta from '../Assets/usuario.svg';
 import Sair from '../Assets/sair.svg';
+import MinhaConta from '../Assets/usuario.svg';
 import { useUser } from '../UserContext';
+import styles from './Header.module.css';
 import UserLogoutModal from './User/UserLogoutModal';
 import { disableScroll } from './Utils/ScrollUtility';
-import { Pets } from '@mui/icons-material';
 
 const Header = () => {
   const { data, userLogout } = useUser();
@@ -61,7 +61,7 @@ const Header = () => {
               </Link>
               <Link className={styles.signIn} to="/login/criar">
                 Criar Conta
-                <Pets />
+                <PawPrint />
               </Link>
             </div>
           )}

@@ -1,9 +1,9 @@
+import { Info } from 'lucide-react';
 import React from 'react';
-import styles from './Footer.module.css';
-import Cats from '../Assets/cats.svg';
-import { InfoOutlined } from '@mui/icons-material';
-import InfoProjectModal from './InfoProject';
 import { NavLink } from 'react-router-dom';
+import Cats from '../Assets/cats.svg';
+import styles from './Footer.module.css';
+import InfoProjectModal from './InfoProject';
 const Footer = () => {
   const [infoModal, setInfoModal] = React.useState(null);
   return (
@@ -18,7 +18,7 @@ const Footer = () => {
                 setInfoModal(true);
               }}
             >
-              <InfoOutlined /> <span>Sobre</span>
+              <Info /> <span>Sobre</span>
             </button>
           </nav>
           <div className={styles.containerMain}>
