@@ -3,20 +3,16 @@ import { useEffect, useState } from 'react';
 import Loading from '../Helper/Loading';
 import styles from './CatsIA.module.css';
 
-const cocoSsd = await import('@tensorflow-models/coco-ssd');
-
 const CatsIA = ({ img, onCatDetection }) => {
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isCat, setIsCat] = useState(false);
-  let isCatDetected = false;
-
-  const suporte = (
-    <a href="mailto:seuendereco@email.com">Entre em contato com o suporte</a>
-  );
 
   async function objectDetector() {
+    // Importa dinamicamente apenas quando precisar
+    const cocoSsd = await import('@tensorflow-models/coco-ssd');
     const model = await cocoSsd.load();
+
     const imageElement = new Image();
     imageElement.src = URL.createObjectURL(img);
 
@@ -25,8 +21,9 @@ const CatsIA = ({ img, onCatDetection }) => {
       setPredictions(detected);
       setLoading(false);
 
-      isCatDetected = detected.some((prediction) => prediction.class == 'cat');
-
+      const isCatDetected = detected.some(
+        (prediction) => prediction.class === 'cat',
+      );
       onCatDetection(isCatDetected);
       setIsCat(isCatDetected);
     };
