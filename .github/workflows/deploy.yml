@@ -1,5 +1,4 @@
-name: Cats
-
+name: Deploy Cats
 on:
   push:
     branches:
@@ -11,49 +10,44 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
-          cache-dependency-path: './app/package-lock.json'
-
+          
       - name: Install Dependencies
-        working-directory: ./app
-        run: npm ci
-
+        run: npm ci  
+        
       - name: Run Tests (opcional)
-        working-directory: ./app
         run: npm test -- --watchAll=false
         continue-on-error: true
-
+        
       - name: Build Production
-        working-directory: ./app
-        run: npm run build
-
+        run: npm run build  
+        
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: production-build
-          path: ./app/dist/
+          path: ./dist/  # dist no root
           retention-days: 7
-
+          
       - name: Deploy
         if: github.ref == 'refs/heads/main'
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --delete --chmod=D755,F644
-          path: ./app/dist/
+          path: ./dist/  # dist no root
           remote_path: /var/www/html/
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USER }}
           remote_key: ${{ secrets.SSH_KEY }}
-
+          
       - name: Restart Containers
         if: github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v1.0.3
@@ -62,6 +56,6 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ${{secrets.PATH_DOCKER}}
+            cd ${{ secrets.PATH_DOCKER }}
             docker-compose down frontend
             docker-compose up -d frontend
