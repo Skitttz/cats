@@ -2,63 +2,74 @@ name: Deploy Cats
 on:
   push:
     branches:
-      - main
+    - main
   pull_request:
     branches:
-      - main
+    - main
   workflow_dispatch:
+
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm ci
+    - name: Install Dependencies
+      run: npm ci
 
-      - name: Run Tests (opcional)
-        run: npm test -- --watchAll=false
-        continue-on-error: true
+    - name: Run Tests (opcional)
+      run: npm test -- --watchAll=false
+      continue-on-error: true
 
-      - name: Build Production
-        run: npm run build
+    - name: Build Production
+      run: npm run build
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: production-build
-          path: ./dist/ # dist no root
-          retention-days: 7
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: production-build
+        path: ./dist/
+        retention-days: 7
 
-      - name: Deploy
-        if: github.ref == 'refs/heads/main'
-        uses: burnett01/rsync-deployments@6.0.0
-        with:
-          switches: -avzr --delete --chmod=D755,F644
-          path: ./dist/ # dist no root
-          remote_path: /var/www/html/
-          remote_host: ${{ secrets.HOST }}
-          remote_user: ${{ secrets.USER }}
-          remote_key: ${{ secrets.SSH_KEY }}
+    - name: Deploy
+      if: github.ref == 'refs/heads/main'
+      uses: burnett01/rsync-deployments@6.0.0
+      with:
+        switches: -avzr --delete --chmod=D755,F644
+        path: ./dist/
+        remote_path: /var/www/html/
+        remote_host: ${{ secrets.HOST }}
+        remote_user: ${{ secrets.USER }}
+        remote_key: ${{ secrets.SSH_KEY }}
 
-      - name: Restart Containers
-        if: github.ref == 'refs/heads/main'
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd ${{ secrets.PATH_DOCKER }}
-            docker-compose down frontend
-            docker rmi cats-frontend
-            docker-compose build --no-cache frontend
-            docker-compose up -d frontend
+    - name: Stop and Clean Container
+      if: github.ref == 'refs/heads/main'
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd ${{ secrets.PATH_DOCKER }}
+          docker-compose down frontend || true
+          docker rmi cats-frontend || true
+
+    - name: Build and Start Container
+      if: github.ref == 'refs/heads/main'
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd ${{ secrets.PATH_DOCKER }}
+          docker-compose build --no-cache frontend
+          docker-compose up -d frontend
