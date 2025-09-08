@@ -42,7 +42,7 @@ const Header = () => {
                   {data.nome[0].toUpperCase() + data.nome.substring(1)}
                 </a>
               </p>
-              <Link className={styles.login} to="/conta">
+              <Link to="/conta">
                 <button className={styles.btnMinha}>
                   <MinhaConta />
                 </button>

@@ -25,10 +25,11 @@
 }
 
 .paragraphName {
+  padding-inline: 12px !important;
+  border-radius: 8px;
   margin-right: 0.5rem;
   color: #333;
   padding: 4px;
-  border-radius: 3px;
   background-color: rgb(90, 92, 160, 0.1);
   border: 0.4px solid rgb(40, 92, 160, 0.4);
 }
