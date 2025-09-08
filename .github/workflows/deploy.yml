@@ -70,6 +70,9 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          cd ${{ secrets.PATH_REPO }}
+          git fetch --all
+          git reset --hard origin/main
           cd ${{ secrets.PATH_DOCKER }}
           docker-compose build --no-cache frontend
           docker-compose up -d frontend
