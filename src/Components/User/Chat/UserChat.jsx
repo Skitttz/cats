@@ -11,7 +11,7 @@ import UserChatList from './UserChatList';
 import MessageInput from './UserMessageInput';
 import UserMessages from './UserMessages';
 
-const urlApp = `${import.meta.env.VITE_APP_URL}:3001` || 'localhost:3001';
+const urlApp = import.meta.env.VITE_APP_URL || 'localhost:3001';
 const socket = io(urlApp);
 
 const UserChat = () => {
