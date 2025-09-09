@@ -1,8 +1,7 @@
-import React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { ROOM_MESSAGE_GET, ROOM_MESSAGE_POST } from '../../../Api/index';
 import UserPhoto2 from '../../../Assets/cats.svg';
-import useFetch from '../../../Hooks/useFetch';
 import { useUser } from '../../../UserContext';
 import Head from '../../Helper/Head';
 import styles from './UserChat.module.css';
@@ -11,136 +10,137 @@ import UserChatList from './UserChatList';
 import MessageInput from './UserMessageInput';
 import UserMessages from './UserMessages';
 
-const urlApp = import.meta.env.VITE_APP_URL || 'localhost:3001';
-const socket = io(urlApp);
+const urlApp = import.meta.env.VITE_APP_URL || 'http://localhost:3001';
 
 const UserChat = () => {
-  const [message, setMessage] = React.useState('');
-  const [messages, setMessages] = React.useState([]);
   const { data } = useUser();
-  const { request } = useFetch();
-  const [messageHistoryLoaded, setMessageHistoryLoaded] = React.useState(false);
-  const messagesContainerRef = React.useRef(null);
 
-  const [users, setUsers] = React.useState([]); // Lista de usuários na sala
-  const userName = data.nome; // Nome do usuário obtido de data.nome
-  const roomId = 'SalaPrincipal'; // ID da sala (você pode definir isso como quiser)
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [messageHistoryLoaded, setMessageHistoryLoaded] = useState(false);
+
+  const messagesContainerRef = useRef(null);
+  const socketRef = useRef(null);
+
+  const userName = data?.nome || `Usuário_${new Date()}`;
+  const roomId = 'SalaPrincipal';
   const localDate = formatDate(new Date());
 
-  const scrollToLastMessage = () => {
+  // Rolagem automática para última mensagem
+  const scrollToLastMessage = useCallback(() => {
     if (messagesContainerRef.current) {
-      const messages = messagesContainerRef.current.querySelectorAll(
+      const items = messagesContainerRef.current.querySelectorAll(
         `.${styles.message}`,
       );
-      if (messages.length > 0) {
-        const lastMessage = messages[messages.length - 1];
-        lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      if (items.length > 0) {
+        items[items.length - 1].scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+        });
       }
     }
-  };
+  }, []);
 
-  React.useEffect(() => {
-    socket.on('connect', () => {});
-    socket.emit('joinRoom', roomId, userName);
+  // Inicializar socket
+  useEffect(() => {
+    const socket = io(urlApp, { transports: ['websocket'] });
+    socketRef.current = socket;
+
+    socket.on('connect', () => {
+      console.log('✅ Conectado ao servidor:', socket.id);
+      socket.emit('joinRoom', { roomId, userName });
+    });
+
     socket.on('updateUsers', (updatedUsers) => {
       setUsers(updatedUsers);
     });
 
     socket.on('message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      setTimeout(() => {
-        scrollToLastMessage();
-      }, 50);
+      setMessages((prev) => [...prev, data]);
+      setTimeout(scrollToLastMessage, 50);
     });
-    return () => {
-      socket.off('message');
-    };
-  }, [roomId, userName]);
 
-  React.useEffect(() => {
-    // Carregue o histórico de mensagens somente se ainda não foi carregado
+    socket.on('joinedRoom', ({ users }) => {
+      setUsers(users);
+    });
+
+    socket.on('error', (err) => {
+      console.error('Erro socket:', err);
+    });
+
+    return () => {
+      socket.disconnect();
+      console.log('🔌 Socket desconectado');
+    };
+  }, [roomId, userName, scrollToLastMessage]);
+
+  useEffect(() => {
     if (!messageHistoryLoaded) {
-      const loadMessageHistory = async () => {
-        const { url, options } = ROOM_MESSAGE_GET(210); // Substitua 210 pelo ID da sala relevante
+      const loadHistory = async () => {
+        const { url, options } = ROOM_MESSAGE_GET(210);
         const { json, response } = await request(url, options);
 
-        try {
-          if (response.ok && json != null) {
-            const transformedMessages = json.map((item) => ({
-              sender: item.sender,
-              message: item.msg, // Mapeie 'msg' para 'message'
-              date: item.timestamp,
-            }));
-            if (Array.isArray(transformedMessages)) {
-              // Se a resposta for um array, adicione-a às mensagens existentes.
-              setMessages((prevMessages) => [
-                ...prevMessages,
-                ...transformedMessages,
-              ]);
-            } else if (typeof transformedMessages === 'object') {
-              // Se a resposta for um objeto (uma única mensagem), coloque-a em um array e adicione-a às mensagens existentes.
-              setMessages((prevMessages) => [
-                ...prevMessages,
-                transformedMessages,
-              ]);
-            } else {
-              console.error(
-                'Dados do servidor não são um array ou objeto:',
-                transformedMessages,
-              );
-            }
-            setMessageHistoryLoaded(true);
-          } else {
-            console.error('Erro na resposta do servidor:', response.statusText);
-          }
-        } catch (error) {
-          console.error('Erro ao carregar o histórico de mensagens:', error);
-          // Trate o erro de forma apropriada, como exibir uma mensagem de erro para o usuário.
+        if (response.ok && json) {
+          const transformed = json.map((item) => ({
+            sender: item.sender,
+            message: item.msg,
+            date: item.timestamp,
+          }));
+
+          setMessages((prev) => [...prev, ...transformed]);
+          setMessageHistoryLoaded(true);
+          setTimeout(scrollToLastMessage, 50);
+        } else {
+          console.error('Erro ao carregar histórico:', response?.statusText);
         }
       };
-      loadMessageHistory();
+      loadHistory();
     }
-    scrollToLastMessage();
-  }, [messageHistoryLoaded, request]);
+  }, [messageHistoryLoaded, request, scrollToLastMessage]);
 
-  const sendMessage = () => {
-    if (message.trim() !== '') {
-      // Configurar os dados que serão enviados no corpo da solicitação
-      socket.emit('message', {
-        sender: data.nome,
-        message: message,
-        date: localDate,
-      });
+  const sendMessage = useCallback(() => {
+    if (message.trim() !== '' && socketRef.current) {
+      socketRef.current.emit('message', { message, roomId });
       setMessage('');
     }
-  };
+  }, [message, roomId]);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const requestBody = {
-      msg: message, // Nomeie o campo de acordo com o esperado pelo seu endpoint
-      id: 210, // Substitua 1 pelo ID da sala de chat relevante
-    };
-    const { url, options } = ROOM_MESSAGE_POST(211, requestBody);
-    request(url, options);
-    sendMessage();
-  }
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const requestBody = {
+        msg: message,
+        id: 210,
+        sender: data.nome,
+        date: localDate,
+      };
+
+      const { url, options } = ROOM_MESSAGE_POST(210, requestBody);
+      request(url, options);
+
+      sendMessage();
+    },
+    [message, data?.nome, localDate, request, sendMessage],
+  );
 
   return (
     <section className={`${styles.chatContainer} animeLeft`}>
       <UserChatList users={users} />
       <Head title="Chat" />
-      <title className="title">Chat</title>
       <div className={styles.mainMsgContainer}>
         <div className={styles.headerContact}>
           <p className={styles.nameUserTarget}>Chat Room</p>
-          <img src={UserPhoto2} alt="" />
+          <img src={UserPhoto2} alt="Chat" />
         </div>
+
         <UserMessages
           data={data}
           messages={messages}
           messagesContainerRef={messagesContainerRef}
         />
+
         <MessageInput
           message={message}
           setMessage={setMessage}
