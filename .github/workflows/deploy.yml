@@ -59,8 +59,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           cd ${{ secrets.PATH_DOCKER }}
-          docker-compose down frontend || true
-          docker rmi cats-frontend || true
+          docker-compose down frontend
 
     - name: Build and Start Container
       if: github.ref == 'refs/heads/main'
@@ -74,5 +73,5 @@ jobs:
           git fetch --all
           git reset --hard origin/main
           cd ${{ secrets.PATH_DOCKER }}
-          docker-compose build --no-cache frontend
+          docker-compose build frontend
           docker-compose up -d frontend
