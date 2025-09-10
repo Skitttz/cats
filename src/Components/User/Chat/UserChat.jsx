@@ -4,6 +4,7 @@ import { ROOM_MESSAGE_GET, ROOM_MESSAGE_POST } from '../../../Api/index';
 import UserPhoto2 from '../../../Assets/cats.svg';
 import useFetch from '../../../Hooks/useFetch';
 import { useUser } from '../../../UserContext';
+import { formatDateMessage } from '../../../Utils/format-date-message';
 import Head from '../../Helper/Head';
 import styles from './UserChat.module.css';
 import formatDate from './UserChatDate';
@@ -28,7 +29,6 @@ const UserChat = () => {
   const roomId = 'SalaPrincipal';
   const localDate = formatDate(new Date());
 
-  // Rolagem automática para última mensagem
   const scrollToLastMessage = useCallback(() => {
     if (messagesContainerRef.current) {
       const items = messagesContainerRef.current.querySelectorAll(
@@ -43,16 +43,14 @@ const UserChat = () => {
     }
   }, []);
 
-  // Função para normalizar formato das mensagens
   const normalizeMessage = useCallback((messageData) => {
     return {
-      sender: messageData.sender,
-      message: messageData.message || messageData.msg, // Aceita tanto 'message' quanto 'msg'
-      date: messageData.date || messageData.timestamp, // Aceita tanto 'date' quanto 'timestamp'
+      sender: messageData.user.name,
+      message: messageData.message,
+      date: formatDateMessage(new Date(messageData.timestamp)),
     };
   }, []);
 
-  // Inicializar socket
   useEffect(() => {
     const socket = io(urlApp, { transports: ['websocket'] });
     socketRef.current = socket;
@@ -111,12 +109,11 @@ const UserChat = () => {
 
   const sendMessage = useCallback(() => {
     if (message.trim() !== '' && socketRef.current) {
-      // Enviando no formato que o socket espera
       socketRef.current.emit('message', {
-        message, // ou msg: message, dependendo do que o servidor espera
+        message,
         roomId,
-        sender: userName, // Garantindo que o sender seja enviado
-        timestamp: localDate, // ou date: localDate, dependendo do que o servidor espera
+        sender: userName,
+        timestamp: formatDateMessage(new Date(localDate)),
       });
       setMessage('');
     }
@@ -129,7 +126,7 @@ const UserChat = () => {
       const requestBody = {
         msg: message,
         id: 210,
-        sender: data?.nome || userName, // Fallback para userName
+        sender: data?.nome || userName,
         date: localDate,
       };
 
