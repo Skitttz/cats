@@ -1,3 +1,4 @@
+import { getAuthHeaders } from '../Utils/auth';
 import { API_URL } from './index';
 
 export function COMMENT_POST(id, body) {
@@ -5,10 +6,7 @@ export function COMMENT_POST(id, body) {
     url: `${API_URL}/api/comment/${id}`,
     options: {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
-      },
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(body),
     },
   };

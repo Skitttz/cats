@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './PhotoContent.module.css';
 import { Link } from 'react-router-dom';
-import PhotoComments from './PhotoComments';
 import { useUser } from '../../UserContext';
-import PhotoDelete from './PhotoDelete';
 import Image from '../Helper/Image';
+import PhotoComments from './PhotoComments';
+import styles from './PhotoContent.module.css';
+import PhotoDelete from './PhotoDelete';
 
 const PhotoContent = ({ data, single }) => {
   const user = useUser();
@@ -39,8 +39,8 @@ const PhotoContent = ({ data, single }) => {
 
       <PhotoComments
         single={single}
-        idade={photo.idade} // Passe idade como prop
-        descricao={photo.descricao} // Passe descricao como prop
+        idade={photo.idade}
+        descricao={photo.descricao}
         id={photo.id}
         comments={comments}
       />

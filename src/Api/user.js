@@ -1,3 +1,4 @@
+import { getAuthHeaders } from '../Utils/auth';
 import { API_URL } from './index';
 
 export function USER_GET(token) {
@@ -5,9 +6,7 @@ export function USER_GET(token) {
     url: API_URL + '/api/user',
     options: {
       method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
+      headers: getAuthHeaders(),
     },
   };
 }

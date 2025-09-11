@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './UserPhotoPost.module.css';
-import Input from '../Forms/Input';
-import Button from '../Forms/Button';
-import useForm from '../../Hooks/useForm';
-import useFetch from '../../Hooks/useFetch';
-import { PHOTO_POST } from '../../Api/index';
-import Error from '../Helper/Error';
 import { useNavigate } from 'react-router-dom';
+import { PHOTO_POST } from '../../Api/index';
+import useFetch from '../../Hooks/useFetch';
+import useForm from '../../Hooks/useForm';
+import Button from '../Forms/Button';
+import Input from '../Forms/Input';
+import Error from '../Helper/Error';
 import Head from '../Helper/Head';
+import styles from './UserPhotoPost.module.css';
 const CatsIA = React.lazy(() => import('../Detector/CatsIA'));
 
 const UserPhotoPost = () => {
@@ -36,8 +36,7 @@ const UserPhotoPost = () => {
       formData.append('descricao', descricao.value);
       formData.append('idade', idade.value);
 
-      const token = window.localStorage.getItem('token');
-      const { url, options } = PHOTO_POST(formData, token);
+      const { url, options } = PHOTO_POST(formData);
       request(url, options);
     } else {
       return null;

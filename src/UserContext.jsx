@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
@@ -23,14 +24,19 @@ export const UserStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
+
       const { url, options } = TOKEN_POST({ username, password });
       const tokenRes = await fetch(url, options);
+
       if (!tokenRes.ok)
         throw new Error(
           `Arrrgh! 🙀 Parece que alguém arranhou as credenciais! 🐾 Usuário ou senha não encontrados, por favor, verifique e tente novamente. 😺`,
         );
+
       const { token } = await tokenRes.json();
-      window.localStorage.setItem('token', token);
+
+      Cookies.set('token', token, { expires: 7, secure: true });
+
       await getUser(token);
       navigate('/conta');
     } catch (err) {
@@ -43,25 +49,29 @@ export const UserStorage = ({ children }) => {
     }
   }
 
-  const userLogout = React.useCallback(async function () {
+  const userLogout = React.useCallback(() => {
     setData(null);
     setError(null);
     setLoading(false);
     setLogin(false);
-    window.localStorage.removeItem('token');
+
+    // Remove o cookie
+    Cookies.remove('token');
   }, []);
 
   React.useEffect(() => {
     async function autoLogin() {
-      const token = window.localStorage.getItem('token');
+      const token = Cookies.get('token');
       if (token) {
         try {
           setError(null);
           setLoading(true);
-          const { url, options } = TOKEN_VALIDATE_POST(token);
+
+          const { url, options } = TOKEN_VALIDATE_POST();
           const response = await fetch(url, options);
+
           if (!response.ok) throw new Error('Token Inválido');
-          const json = await response.json();
+
           await getUser(token);
         } catch (err) {
           userLogout();
