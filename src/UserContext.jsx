@@ -8,8 +8,9 @@ export const UserContext = React.createContext();
 export const UserStorage = ({ children }) => {
   const [data, setData] = React.useState(null);
   const [login, setLogin] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [isInitialized, setIsInitialized] = React.useState(false);
   const navigate = useNavigate();
 
   async function getUser(token) {
@@ -24,19 +25,14 @@ export const UserStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-
       const { url, options } = TOKEN_POST({ username, password });
       const tokenRes = await fetch(url, options);
-
       if (!tokenRes.ok)
         throw new Error(
           `Arrrgh! 🙀 Parece que alguém arranhou as credenciais! 🐾 Usuário ou senha não encontrados, por favor, verifique e tente novamente. 😺`,
         );
-
       const { token } = await tokenRes.json();
-
       Cookies.set('token', token, { expires: 7, secure: true });
-
       await getUser(token);
       navigate('/conta');
     } catch (err) {
@@ -54,8 +50,6 @@ export const UserStorage = ({ children }) => {
     setError(null);
     setLoading(false);
     setLogin(false);
-
-    // Remove o cookie
     Cookies.remove('token');
   }, []);
 
@@ -65,26 +59,33 @@ export const UserStorage = ({ children }) => {
       if (token) {
         try {
           setError(null);
-          setLoading(true);
-
           const { url, options } = TOKEN_VALIDATE_POST();
           const response = await fetch(url, options);
-
           if (!response.ok) throw new Error('Token Inválido');
-
           await getUser(token);
         } catch (err) {
           userLogout();
           setError(err.message);
         } finally {
           setLoading(false);
+          setIsInitialized(true);
         }
       } else {
         setLogin(false);
+        setLoading(false);
+        setIsInitialized(true);
       }
     }
     autoLogin();
   }, [userLogout]);
+
+  if (!isInitialized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <UserContext.Provider
@@ -97,10 +98,8 @@ export const UserStorage = ({ children }) => {
 
 export function useUser() {
   const context = React.useContext(UserContext);
-
   if (!context) {
     throw new Error('useUser must be used within a UserProvider');
   }
-
   return context;
 }

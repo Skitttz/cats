@@ -10,7 +10,7 @@ import UserLogoutModal from './User/UserLogoutModal';
 import { disableScroll } from './Utils/ScrollUtility';
 
 const Header = () => {
-  const { data, userLogout } = useUser();
+  const { data, userLogout, loading } = useUser();
   const [modalLogout, setModalLogout] = React.useState(null);
   const navigate = useNavigate();
 
@@ -18,7 +18,9 @@ const Header = () => {
     userLogout();
     navigate('/login');
   }
+
   disableScroll(!!modalLogout);
+
   return (
     <>
       <header className={styles.header}>
@@ -26,7 +28,12 @@ const Header = () => {
           <NavLink className={styles.logo} to={'/'} aria-label="Cats - Home">
             <Cats />
           </NavLink>
-          {data ? (
+
+          {loading ? (
+            <div className={styles.containerLogin}>
+              <span className={styles.skeleton}>⏳</span>
+            </div>
+          ) : data ? (
             <div className={styles.loginContainer}>
               <p className={styles.paragraphName}>
                 Olá,{' '}
@@ -36,7 +43,6 @@ const Header = () => {
                     e.preventDefault();
                     navigate('/conta');
                   }}
-                  style={{ color: '#333' }}
                   className={styles.nome}
                 >
                   {data.nome[0].toUpperCase() + data.nome.substring(1)}
@@ -67,6 +73,7 @@ const Header = () => {
           )}
         </nav>
       </header>
+
       {modalLogout && (
         <UserLogoutModal
           setModalLogout={setModalLogout}
