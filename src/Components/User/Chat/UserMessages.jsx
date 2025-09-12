@@ -4,55 +4,41 @@ import styles from './UserChat.module.css';
 function UserMessages({ data, messages, messagesContainerRef }) {
   return (
     <div className={styles.containerMsg} ref={messagesContainerRef}>
-      {messages.map((msg, index) => (
-        <div
-          className={
-            msg.sender === data.nome
-              ? `${styles.containerMsgMySelf}`
-              : `${styles.containerMsgOther} `
-          }
-          key={`message_${index}`} // Chave única para a div da mensagem
-        >
-          <div
-            key={`sender_${index}`} // Chave única para o nome do remetente
-            className={styles.sender}
-            style={{ fontWeight: 700 }}
-          >
-            {msg.sender === data.nome ? '' : `${msg.sender}`}
-          </div>
-          <div className={styles.containerMsgAndDate}>
-            <div
-              key={`text_${msg.id}`} // Chave única para o texto da mensagem
-              style={{ wordBreak: 'break-all' }}
-              className={
-                msg.sender === data.nome
-                  ? `${styles.msgMyself} ${styles.message} `
-                  : `${styles.msgUnique} ${styles.message} `
-              }
-            >
-              <p
-                style={{ wordBreak: 'break-all' }}
-                className={styles.messageText}
-              >
-                {msg.message}
-              </p>
+      {messages.map((msg, index) => {
+        const isMyMessage = msg.sender === data.nome;
+        const bubbleClass = isMyMessage ? styles.myBubble : styles.otherBubble;
+        const rowClass = isMyMessage
+          ? styles.myMessageRow
+          : styles.otherMessageRow;
+        const dateClass = isMyMessage ? styles.myDate : styles.otherDate;
 
-              <span
-                style={{
-                  marginBottom: '2px',
-                }}
-                className={
-                  msg.sender === data.nome
-                    ? `${styles.messageDate}  `
-                    : `${styles.messageDate} ${styles.messageDateOther}   `
-                }
-              >
+        return (
+          <div
+            key={`message_${index}`}
+            className={`${styles.messageRow} ${rowClass}`}
+          >
+            {/* {!isMyMessage && (
+              <img
+                src={msg.avatar || '/default-avatar.png'}
+                alt="avatar"
+                className={styles.avatar}
+              />
+            )} */}
+
+            <div className={`${styles.messageBubble} ${bubbleClass}`}>
+              {!isMyMessage && (
+                <span className={styles.senderName}>{msg.sender}</span>
+              )}
+
+              <p className={styles.messageText}>{msg.message}</p>
+
+              <span className={`${styles.messageDate} ${dateClass}`}>
                 {msg.date}
               </span>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
