@@ -1,44 +1,46 @@
+/* UserChatList.module.css */
+
 .containerListUser {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 0px;
-  overflow-y: scroll;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 16px;
+  margin-right: 24px;
+  overflow-y: auto;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  max-height: 600px;
+  min-height: 300px;
+}
+
+.containerListUser:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .containerListUser::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
-/* Track */
 .containerListUser::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 10px;
+  margin: 8px 0;
 }
 
-/* Handle */
 .containerListUser::-webkit-scrollbar-thumb {
-  background: rgba(0, 123, 255, 0.4);
+  background: linear-gradient(135deg, #c28d55 0%, #966d03 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
-/* Handle on hover */
 .containerListUser::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 123, 255, 1);
-}
-
-@media (max-width: 40rem) {
-  .containerTitulo {
-    width: 100%;
-  }
-
-  .containerListUser .containerTitulo {
-    border-radius: 4px 4px 0 0;
-  }
-}
-
-.titleUserList {
-  font-size: 1.7rem;
-  text-align: center;
-  color: #f1f1f1;
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a42a0 100%);
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
 }
 
 .containerTitulo {
@@ -46,19 +48,327 @@
   align-items: center;
   text-align: center;
   justify-content: center;
+  width: 100%;
   height: 88px;
-  border-radius: 4px 0px 0px 0px;
-  background-color: rgb(42, 48, 71, 0.9);
+  border-radius: 16px 16px 0px 0px;
+  background: linear-gradient(135deg, #c28d55 0%, #cfa22d 100%);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.listNames li:first-child {
-  margin-top: 2rem;
+.containerTitulo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shine 4s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+.titleUserList {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.5px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userCount {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.listNames {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
 }
 
 .userNames {
-  font-weight: 550;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  border-bottom: 0.2px solid rgba(51, 51, 51, 0.1);
+  font-weight: 600;
   text-align: center;
+  font-size: 1.1rem;
+  margin: 0 16px;
+  padding: 0;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.userLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  text-decoration: none;
+  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.userLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.userLink:hover::before {
+  left: 100%;
+}
+
+.userLink:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+  color: #667eea;
+}
+
+.userName {
+  flex: 1;
+  font-weight: 600;
+}
+
+.onlineIndicator {
+  font-size: 0.8rem;
+  margin-left: 8px;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.featuredBadge {
+  font-size: 0.9rem;
+  margin-left: 6px;
+  animation: sparkle 1.5s infinite;
+}
+
+@keyframes sparkle {
+
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+.online .userLink {
+  border-left: 4px solid #4caf50;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(102, 126, 234, 0.05));
+}
+
+.featured .userLink {
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
+  color: white;
+  font-weight: 700;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.featured .userLink:hover {
+  background: linear-gradient(135deg, #ff8a46 0%, #ff5b25 100%);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  margin: 3rem 2rem;
+  font-size: 1.1rem;
+  padding: 20px;
+  background: rgba(108, 117, 125, 0.1);
+  border-radius: 12px;
+  border: 2px dashed rgba(108, 117, 125, 0.3);
+}
+
+.listFooter {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  border-top: 1px solid rgba(102, 126, 234, 0.1);
+  padding: 12px 16px;
+  border-radius: 0 0 16px 16px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.totalUsers,
+.onlineUsers {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 88px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #667eea, transparent);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 768px) {
+  .containerListUser {
+    margin-right: 12px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    min-height: 250px;
+  }
+
+  .containerTitulo {
+    height: 70px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .titleUserList {
+    font-size: 1.3rem;
+  }
+
+  .userLink {
+    padding: 12px 16px;
+  }
+
+  .userName {
+    font-size: 1rem;
+  }
+
+  .containerListUser::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .stats {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .containerListUser {
+    margin-right: 8px;
+  }
+
+  .titleUserList {
+    font-size: 1.1rem;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .userCount {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+
+  .userLink {
+    padding: 10px 12px;
+  }
+
+  .listNames {
+    gap: 6px;
+  }
 }

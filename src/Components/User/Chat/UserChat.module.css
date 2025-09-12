@@ -1,7 +1,6 @@
 .chatContainer {
   display: grid;
   grid-template-columns: 12.5rem 1fr;
-  border: 1px solid rgba(51, 51, 51, 0.1);
 }
 
 .containerSendMessage {
@@ -10,6 +9,12 @@
 
 .containerMsg {
   background-color: #f1f1f1;
+}
+
+.mainMsgContainer {
+  border: #c3c3c3 solid 1px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 
@@ -27,6 +32,7 @@
   .containerMsg::-webkit-scrollbar-thumb {
     background: rgba(0, 123, 255, 0.4) !important;
   }
+
 
   .mainMsgContainer .containerMsg {
     padding: 10px;

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { ROOM_MESSAGE_GET, ROOM_MESSAGE_POST } from '../../../Api/index';
-import UserPhoto2 from '../../../Assets/cats.svg';
 import useFetch from '../../../Hooks/useFetch';
 import { useUser } from '../../../UserContext';
 import { formatDateMessage } from '../../../Utils/format-date-message';
@@ -89,11 +88,10 @@ const UserChat = () => {
         const { json, response } = await request(url, options);
 
         if (response.ok && json) {
-          // Corrigindo a transformação dos dados do histórico
           const transformed = json.map((item) => ({
             sender: item.sender,
-            message: item.msg, // Usando 'msg' como vem da API
-            date: item.timestamp, // Usando 'timestamp' como vem da API
+            message: item.msg,
+            date: item.timestamp,
           }));
 
           setMessages((prev) => [...prev, ...transformed]);
@@ -145,7 +143,6 @@ const UserChat = () => {
       <div className={styles.mainMsgContainer}>
         <div className={styles.headerContact}>
           <p className={styles.nameUserTarget}>Chat Room</p>
-          <img src={UserPhoto2} alt="Chat" />
         </div>
 
         <UserMessages
