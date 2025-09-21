@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PHOTO_POST } from '../../Api/index';
+import { PHOTO_POST } from '../../Api';
 import useFetch from '../../Hooks/useFetch';
 import useForm from '../../Hooks/useForm';
 import Button from '../Forms/Button';
@@ -11,110 +11,111 @@ import styles from './UserPhotoPost.module.css';
 
 const CatsIA = React.lazy(() => import('../Detector/CatsIA'));
 
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png'];
+const ACCEPTED_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
+
 const UserPhotoPost = () => {
   const nome = useForm();
   const descricao = useForm('description');
   const idade = useForm('age');
-  const [img, setImg] = React.useState({});
+  const [img, setImg] = React.useState({ preview: null, raw: null });
   const [imgError, setImgError] = React.useState('');
+  const [catDetectionError, setCatDetectionError] = React.useState(false);
   const { data, error, loading, request } = useFetch();
   const [isCatDetected, setIsCatDetected] = React.useState(false);
   const navigate = useNavigate();
-
-  const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
-  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
   React.useEffect(() => {
     if (data) navigate('/conta');
   }, [data, navigate]);
 
-  function handleCatDetection(isCatDetected) {
-    setIsCatDetected(isCatDetected);
-  }
+  React.useEffect(() => {
+    return () => {
+      if (img.preview) URL.revokeObjectURL(img.preview);
+    };
+  }, [img.preview]);
 
-  function validateImage(file) {
+  const validateImage = (file) => {
     setImgError('');
-
     if (!file) {
       setImgError('Por favor, selecione uma imagem.');
       return false;
     }
 
-    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-      setImgError(
-        'Formato não suportado. Por favor, selecione apenas imagens JPEG ou PNG.',
-      );
-      return false;
-    }
+    const fileName = file.name.toLowerCase();
+    const isValidExtension = ACCEPTED_EXTENSIONS.some((ext) =>
+      fileName.endsWith(ext),
+    );
+    const isValidType = ACCEPTED_IMAGE_TYPES.includes(file.type);
 
-    if (file.size > MAX_FILE_SIZE) {
-      setImgError('Arquivo muito grande. O tamanho máximo permitido é 10MB.');
+    if (!isValidExtension || !isValidType) {
+      setImgError('Formato não suportado. Use JPEG (.jpg) ou PNG (.png).');
       return false;
     }
 
     return true;
-  }
+  };
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  const handleImgChange = ({ target }) => {
+    const file = target.files[0];
+    if (!file) {
+      setImg({ preview: null, raw: null });
+      setImgError('');
+      setIsCatDetected(false);
+      setCatDetectionError(false);
+      return;
+    }
 
+    if (validateImage(file)) {
+      if (img.preview) URL.revokeObjectURL(img.preview);
+      setImg({ preview: URL.createObjectURL(file), raw: file });
+      setImgError('');
+      setIsCatDetected(false);
+      setCatDetectionError(false);
+    } else {
+      setImg({ preview: null, raw: null });
+      setIsCatDetected(false);
+      setCatDetectionError(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!img.raw) {
       setImgError('Por favor, selecione uma imagem.');
       return;
     }
 
-    if (descricao.validate() && idade.validate() && isCatDetected && img.raw) {
+    if (!isCatDetected) {
+      setImgError('Ops! A imagem deve conter um gato 😺.');
+      return;
+    }
+
+    if (
+      nome.validate() &&
+      descricao.validate() &&
+      idade.validate() &&
+      img.raw &&
+      isCatDetected
+    ) {
       const formData = new FormData();
       formData.append('img', img.raw);
       formData.append('nome', nome.value);
       formData.append('descricao', descricao.value);
       formData.append('idade', idade.value);
+
       const { url, options } = PHOTO_POST(formData);
       request(url, options);
     }
-  }
+  };
 
-  function handleImgChange({ target }) {
-    const file = target.files[0];
-
-    if (!file) {
-      setImg({});
-      setImgError('');
-      return;
-    }
-
-    if (validateImage(file)) {
-      try {
-        const preview = URL.createObjectURL(file);
-        setImg({
-          preview,
-          raw: file,
-        });
-        setImgError('');
-      } catch (error) {
-        setImgError('Erro ao processar a imagem. Tente novamente.');
-        setImg({});
-      }
-    } else {
-      target.value = '';
-      setImg({});
-    }
-  }
-
-  function clearImage() {
-    setImg({});
-    setImgError('');
-    const fileInput = document.getElementById('img');
-    if (fileInput) fileInput.value = '';
-  }
-
-  function formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  }
+  const handleCatDetection = React.useCallback(
+    (catDetected) => {
+      setIsCatDetected(catDetected);
+      setCatDetectionError(!catDetected && !imgError);
+    },
+    [imgError],
+  );
 
   return (
     <section className={`${styles.photoPost} animeLeft`}>
@@ -125,75 +126,50 @@ const UserPhotoPost = () => {
           label="Legenda"
           type="text"
           name="descricao"
-          placeholder={'Escreva uma legenda...'}
+          placeholder="Escreva uma legenda..."
           style={200}
           {...descricao}
         />
-        <Input label="Idade" type="number" name="idade" {...idade} />
+        <Input label="Idade" type="text" name="idade" {...idade} />
 
         <div className={styles.fileInputContainer}>
-          <label htmlFor="img" className={styles.fileInputLabel}>
-            Selecionar Imagem (JPEG/PNG)
-          </label>
           <input
-            className={styles.inputFile}
-            type="file"
-            name="img"
             id="img"
-            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+            type="file"
+            accept=".jpg,.jpeg,.png"
             onChange={handleImgChange}
+            className={styles.inputFile}
           />
-
-          {img.raw && (
-            <div className={styles.fileInfo}>
-              <span className={styles.fileName}>
-                📁 {img.raw.name} ({formatFileSize(img.raw.size)})
-              </span>
-              <button
-                type="button"
-                onClick={clearImage}
-                className={styles.clearButton}
-                title="Remover imagem"
-              >
-                ❌
-              </button>
-            </div>
-          )}
-
-          {imgError && <span className={styles.imgError}>{imgError}</span>}
         </div>
 
-        {loading ? (
-          <Button disabled>Enviando...🙀</Button>
-        ) : (
-          <Button disabled={!img.raw || !!imgError}>Enviar 😸</Button>
-        )}
+        <Button disabled={loading || !!imgError || !img.raw || !isCatDetected}>
+          {loading ? 'Enviando...🙀' : 'Enviar 😸'}
+        </Button>
 
-        <Error error={error} />
+        <Error error={error || imgError} />
 
         <p className={styles.aviso}>
-          <span>AVISO: </span>Evite imagens muito pequenas, isso garantirá que
-          as fotos sejam exibidas com melhor qualidade dando nitidez e charme!
-          😺📸 Formatos aceitos: JPEG e PNG (máx. 10MB)
-          <span className={styles.hashtag}>#GatosEmAltaResolução </span>
+          <strong>AVISO:</strong> Evite enviar imagens maiores que 10MB para não
+          sobrecarregar o servidor 😺📸
+          <span className={styles.hashtag}> #GatinhosNaMedida</span>
         </p>
       </form>
 
-      <div className={styles.previeContainer}>
-        {img.preview && (
-          <>
-            <div
-              className={`${styles.preview} animeLeft`}
-              style={{ backgroundImage: `url(${img.preview})` }}
-            ></div>
-            <div>
-              <React.Suspense fallback={<div>Analisando imagem...</div>}>
-                <CatsIA img={img.raw} onCatDetection={handleCatDetection} />
-              </React.Suspense>
-            </div>
-          </>
-        )}
-      </div>
+      {img.preview && (
+        <div className={styles.previeContainer}>
+          <div
+            className={`${styles.preview} animeLeft`}
+            style={{ backgroundImage: `url(${img.preview})` }}
+          />
+          <React.Suspense fallback={<div>Carregando detector de gatos...</div>}>
+            <CatsIA
+              key={img.raw?.name || 'no-image'}
+              img={img.raw}
+              onCatDetection={handleCatDetection}
+            />
+          </React.Suspense>
+        </div>
+      )}
     </section>
   );
 };

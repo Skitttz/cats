@@ -18,13 +18,13 @@
   margin-bottom: 0.4rem;
 }
 
-.button:hover,
-.button:focus {
+.button:not(:disabled):hover,
+.button:not(:disabled):focus {
   outline: none;
   box-shadow: 0 0 0 1px #f89051, 0 0 0 1.5px #f29958;
 }
 
 button:disabled {
+  cursor: pointer;
   opacity: 0.6;
-  cursor: wait;
 }

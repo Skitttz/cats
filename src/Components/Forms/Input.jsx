@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./Input.module.css";
-import Error from "../Helper/Error";
+import React from 'react';
+import Error from '../Helper/Error';
+import styles from './Input.module.css';
 
 const Input = ({
   label,
@@ -15,7 +15,7 @@ const Input = ({
   height,
 }) => {
   const inputStyle = {
-    height: height || "auto", // Se a altura não for fornecida, use "auto"
+    height: height || 'auto', // Se a altura não for fornecida, use "auto"
   };
   return (
     <div className={styles.wrapper}>
@@ -30,7 +30,7 @@ const Input = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        placeholder={placeholder ? placeholder : ""}
+        placeholder={placeholder ? placeholder : ''}
         style={inputStyle}
       />
       {error && <Error error={error} />}
