@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryLabel,
-  VictoryPie,
-  VictoryTooltip,
-} from 'victory';
+import { VictoryLabel, VictoryPie } from 'victory';
 import styles from './UserStatsGraph.module.css';
 
 const UserStatsGraph = ({ data }) => {
@@ -129,71 +122,6 @@ const UserStatsGraph = ({ data }) => {
                 <span className={styles.pieStatLabel}>Mais acessado:</span>
                 <span className={styles.pieStatValue}>{displayData[0]?.x}</span>
               </div>
-            </div>
-          </div>
-
-          <div className={`${styles.barCard} ${styles.graphCard}`}>
-            <div className={styles.cardHeader}>
-              <h3>Performance dos Posts</h3>
-              <span className={styles.cardIcon}>📊</span>
-            </div>
-            <div className={styles.barContainer}>
-              <VictoryChart
-                padding={{ left: 80, top: 20, right: 40, bottom: 60 }}
-                height={300}
-                animate={{
-                  duration: 1000,
-                  onLoad: { duration: 500 },
-                }}
-              >
-                <VictoryAxis
-                  dependentAxis
-                  tickFormat={(x) => x.toLocaleString()}
-                  style={{
-                    tickLabels: {
-                      fontSize: 11,
-                      fill: '#6b7280',
-                      fontFamily: 'Inter, sans-serif',
-                    },
-                    axis: { stroke: '#e5e7eb' },
-                    grid: { stroke: '#f3f4f6', strokeDasharray: '3,3' },
-                  }}
-                />
-                <VictoryAxis
-                  fixLabelOverlap={true}
-                  style={{
-                    tickLabels: {
-                      fontSize: 10,
-                      fill: '#6b7280',
-                      fontFamily: 'Inter, sans-serif',
-                      angle: -45,
-                      textAnchor: 'end',
-                    },
-                    axis: { stroke: '#e5e7eb' },
-                  }}
-                />
-                <VictoryBar
-                  data={displayData}
-                  x="x"
-                  y="y"
-                  style={{
-                    data: {
-                      fill: ({ index }) => getColor(index),
-                      stroke: '#ffffff',
-                      strokeWidth: 1,
-                      fillOpacity: 0.8,
-                    },
-                  }}
-                  cornerRadius={{ top: 4 }}
-                  labelComponent={
-                    <VictoryTooltip flyoutStyle={{ fill: '#374151' }} />
-                  }
-                  animate={{
-                    duration: 1000,
-                    onLoad: { duration: 500 },
-                  }}
-                />
-              </VictoryChart>
             </div>
           </div>
         </div>
