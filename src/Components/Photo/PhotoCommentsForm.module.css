@@ -41,6 +41,7 @@
 }
 
 @media (max-width: 1020px) {
+
   .btnEmoji,
   .emojiPicker {
     display: none;
@@ -88,9 +89,8 @@
 .textArea:focus,
 .textArea:hover {
   outline: none;
-  border-color: #3b4de7;
+  border-color: #e3ac5e;
   background: #f2f2f2;
-  box-shadow: 0 0 0 1px #737dd2;
 }
 
 .btn {
@@ -128,6 +128,7 @@
 }
 
 @keyframes move {
+
   0%,
   100% {
     opacity: 1;

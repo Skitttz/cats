@@ -127,9 +127,7 @@ const UserStatsGraph = ({ data }) => {
             <div className={styles.pieStats}>
               <div className={styles.pieStat}>
                 <span className={styles.pieStatLabel}>Mais acessado:</span>
-                <span className={styles.pieStatValue}>
-                  {displayData[0]?.x.substring(0, 20)}...
-                </span>
+                <span className={styles.pieStatValue}>{displayData[0]?.x}</span>
               </div>
             </div>
           </div>

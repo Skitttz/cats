@@ -26,11 +26,17 @@ const FeedModal = ({ photo, setModalPhoto }) => {
     }
   }
 
+  function handleCloseModal() {
+    setModalPhoto(false);
+  }
+
   return (
     <div className={styles.modal} onClick={handleOutSideClick}>
       {isError && <Error error={error?.message || 'Erro ao carregar foto'} />}
       {isLoading && <Loading />}
-      {data && <PhotoContent data={data} />}
+      {data && (
+        <PhotoContent data={data} handleCloseModalPhoto={handleCloseModal} />
+      )}
     </div>
   );
 };

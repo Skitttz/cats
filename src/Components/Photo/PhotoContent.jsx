@@ -6,8 +6,9 @@ import PhotoComments from './PhotoComments';
 import styles from './PhotoContent.module.css';
 import PhotoDelete from './PhotoDelete';
 
-const PhotoContent = ({ data, single }) => {
+const PhotoContent = ({ data, single, handleCloseModalPhoto }) => {
   const user = useUser();
+  if (!data || !data.photo) return null;
   const { photo, comments } = data;
   return (
     <div className={`${styles.photo} ${single ? styles.single : ''}`}>
@@ -15,10 +16,15 @@ const PhotoContent = ({ data, single }) => {
         <Image src={photo.src} alt={photo.title} />
       </div>
       <div className={styles.details}>
-        <div>
+        <div style={{ position: 'relative' }}>
           <p className={styles.author}>
             {user.data && user.data.username === photo.author ? (
-              <PhotoDelete id={photo.id} />
+              <PhotoDelete
+                id={photo.id}
+                queryKey={['photo', photo.id]}
+                userId={user.data.id}
+                handleCloseModalPhoto={handleCloseModalPhoto}
+              />
             ) : (
               <Link to={`/perfil/${photo.author}`}>@{photo.author}</Link>
             )}

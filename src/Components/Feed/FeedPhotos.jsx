@@ -30,7 +30,7 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
     error: photosError,
     isLoading: photosLoading,
   } = useQuery({
-    queryKey: ['photos', page, user],
+    queryKey: ['photos', user, page],
     queryFn: async () => {
       const total = window.innerWidth <= 640 ? 4 : 3;
       const { url, options } = PHOTOS_GET({ page, total, user });
