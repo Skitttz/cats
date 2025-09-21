@@ -1,16 +1,13 @@
 import React from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { useUser } from '../../UserContext';
-import useMedia from '../../Hooks/useMedia';
-import styles from './UserHeaderNav.module.css';
-import PhotosSvg from '../../Assets/feed.svg';
-import StatsSvg from '../../Assets/estatisticas.svg';
+import { NavLink, useLocation } from 'react-router-dom';
 import AddPhotosSvg from '../../Assets/adicionar.svg';
 import ChatSvg from '../../Assets/chat.svg';
+import StatsSvg from '../../Assets/estatisticas.svg';
+import PhotosSvg from '../../Assets/feed.svg';
+import useMedia from '../../Hooks/useMedia';
+import styles from './UserHeaderNav.module.css';
 
 const UserHeaderNav = () => {
-  const { userLogout } = useUser();
-  const navigate = useNavigate();
   const mobile = useMedia('(max-width:40rem)');
   const [mobileMenu, setMobileMenu] = React.useState(false);
   const { pathname } = useLocation();

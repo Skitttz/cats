@@ -3,9 +3,9 @@ import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Cats from '../Assets/cats.svg';
 import Sair from '../Assets/sair.svg';
-import MinhaConta from '../Assets/usuario.svg';
 import { useUser } from '../UserContext';
 import styles from './Header.module.css';
+import UserHeaderNav from './User/UserHeaderNav';
 import UserLogoutModal from './User/UserLogoutModal';
 import { disableScroll } from './Utils/ScrollUtility';
 
@@ -35,7 +35,7 @@ const Header = () => {
             </div>
           ) : data ? (
             <div className={styles.loginContainer}>
-              <p className={styles.paragraphName}>
+              {/* <p className={styles.paragraphName}>
                 Olá,{' '}
                 <a
                   href=""
@@ -47,12 +47,8 @@ const Header = () => {
                 >
                   {data.nome[0].toUpperCase() + data.nome.substring(1)}
                 </a>
-              </p>
-              <Link to="/conta">
-                <button className={styles.btnMinha}>
-                  <MinhaConta />
-                </button>
-              </Link>
+              </p> */}
+              <UserHeaderNav />
               <button
                 className={styles.sair}
                 onClick={() => setModalLogout(true)}

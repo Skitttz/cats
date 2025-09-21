@@ -8,8 +8,8 @@
 .nav button {
   background-color: #f2f2f2;
   border-radius: 0.2rem;
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,11 +34,11 @@
   border-color: #737dd2;
 }
 
-.nav a:global(.active) svg > * {
+.nav a:global(.active) svg>* {
   fill: #3b4de7;
 }
 
-.chat:global(.active) svg > * {
+.chat:global(.active) svg>* {
   fill: rgba(59, 77, 231, 0.5) !important;
   stroke: rgba(0, 0, 0, 0.8);
 }
@@ -118,8 +118,8 @@
   cursor: pointer;
 }
 
-.navMobile a:hover svg > *,
-.navMobile button:hover svg > * {
+.navMobile a:hover svg>*,
+.navMobile button:hover svg>* {
   fill: #3b4de7;
 }
 

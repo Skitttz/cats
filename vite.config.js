@@ -72,8 +72,8 @@ export default defineConfig({
       '@tensorflow/tfjs-backend-webgl',
       '@tensorflow/tfjs-converter',
       '@tensorflow-models/coco-ssd',
+      'victory',
     ],
-    exclude: ['victory'],
     entries: ['./src/main.jsx', './src/App.jsx'],
     esbuildOptions: {
       target: 'esnext',

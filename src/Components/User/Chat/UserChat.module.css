@@ -94,6 +94,16 @@
   color: #ffe0c7;
 }
 
+.emojiPicker {
+  position: absolute;
+  z-index: 12000;
+  right: 50px;
+  bottom: 75px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
 
 @media (max-width: 40rem) {
