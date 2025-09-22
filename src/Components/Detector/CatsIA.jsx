@@ -45,7 +45,6 @@ const CatsIA = ({ img, onCatDetection }) => {
 
         URL.revokeObjectURL(imageElement.src);
       } catch (err) {
-        console.error('Erro na detecção de gatos:', err);
         setError(true);
         onCatDetection(false);
       } finally {

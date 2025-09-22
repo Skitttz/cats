@@ -74,8 +74,6 @@ const PhotoDelete = ({ id, queryKey, userId, handleCloseModalPhoto }) => {
     }
   }, [isModalOpen]);
 
-  console.log({ isModalOpen });
-
   return (
     <div className={styles.deleteContainer}>
       <button
