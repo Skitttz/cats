@@ -13,16 +13,6 @@
   <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
 </div>
 
-## 📋 Índice
-
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Demonstração](#demonstração)
-- [Funcionalidades](#funcionalidades)
-- [Tecnologias](#tecnologias)
-- [CI/CD & Deploy](#cicd--deploy)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Desafios Técnicos](#desafios-técnicos)
-- [Design](#design)
 
 ## 🐾 Sobre o Projeto
 
