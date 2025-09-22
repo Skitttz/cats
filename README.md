@@ -1,110 +1,132 @@
-<h1 align="center">
-  <div align="center" >
+<div align="center">
   <img src="https://i.ibb.co/KyVmV01/cats.png" width="20%" />
+  <p align="center">
+  <strong>Uma plataforma social dedicada aos amantes de gatos e seus adoráveis felinos</strong>
+  </p>
 </div>
-</h1>
 
-<p align="center">
-  <a href="#contexto-">Contexto</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
-  <a href="#tecnologias-%EF%B8%8F">Tecnologias</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
-  <a href="#desafios-">Desafios</a>&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;&nbsp;
-  <a href="#passos-para-testar-">Testar localmente</a>&nbsp;&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;
-  <a href="#design-">Como acessar</a>&nbsp;&nbsp;&nbsp;&nbsp;┋&nbsp;&nbsp;
-  <a href="#design-">Design</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101" alt="Socket.io" />
+  <img src="https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress" />
+  <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow" />
+  <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+</div>
 
-</p>
+## 📋 Índice
 
-<h3 align="center">Demo Video</h3>
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Demonstração](#demonstração)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias](#tecnologias)
+- [CI/CD & Deploy](#cicd--deploy)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Desafios Técnicos](#desafios-técnicos)
+- [Design](#design)
 
+## 🐾 Sobre o Projeto
+
+O **Cats** é uma rede social criada especificamente para entusiastas de gatos. A plataforma permite que usuários se conectem, compartilhem fotos dos seus felinos, troquem experiências e participem de conversas em tempo real através de um chat integrado.
+
+Este projeto foi inicialmente desenvolvido como trabalho de conclusão do curso "React Completo" da Origamid, mas evoluiu muito além do escopo original, incorporando funcionalidades avançadas como:
+
+- 🤖 **Detecção de gatos** em imagens usando TensorFlow
+- 💬 **Chat em tempo real** com WebSockets
+- ❤️ **Sistema de curtidas** e interações sociais
+- 📱 **Interface responsiva** e moderna
+
+## 🖼️ Demonstração
 
 https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c3b36
-> **Nota:**
-> Foram feitos cortes no vídeo para torná-lo mais conciso, resultando em um vídeo mais curto.
 
-## Contexto 📝
+> **Nota:** Foram feitos cortes no vídeo para torná-lo mais conciso.
 
-Uma plataforma dedicada aos entusiastas de gatos e seus fiéis felinos. O objetivo principal do projeto "Cats" é cultivar uma comunidade online vibrante, onde os amantes de gatos possam se conectar, compartilhar suas experiências, trocar dicas sobre o cuidado com esses adoráveis animais de estimação e mostrar seus carismáticos felinos.
+## ✨ Funcionalidades
 
-Este projeto nasceu como parte do curso de conclusão do "React Completo" da Origamid, mas não se limitou às instruções do curso. Elevando a experiência a novos desafios, foram incorporados elementos adicionais, como uma inteligência artificial para detectar gatos em imagens, um chat em tempo real para interações instantâneas e até mesmo a funcionalidade de "curtir" fotos, entre outras melhorias.
+### 🔐 Autenticação
+- Login e cadastro de usuários
+- Gerenciamento de sessão
+- Perfis personalizados
 
-## Tecnologias 🖥️
+### 📸 Feed Social
+- Upload de fotos com detecção automática de gatos
+- Sistema de curtidas e comentários
+- Rolagem infinita (infinite scroll)
+- Visualização de estatísticas das postagens
 
-As tecnologias utilizadas na plataforma foram diversas e abrangem diferentes aspectos do desenvolvimento. Aqui está uma descrição mais detalhada de como essas tecnologias são aplicadas no projeto:
+### 💬 Chat em Tempo Real
+- Mensagens instantâneas entre usuários
+- Lista de usuários online
+- Histórico de conversas
 
-- <p> <b>⁍ React JS</b> usado para desenvolver a interface do Cats criando componentes interativos e dinâmicos que exibem perfis dos usuarios, feeds com as fotos e outras partes da interface do usuário.;</p>
+## 🛠️ Tecnologias
 
-- <p> <b>⁍ Headless CMS WordPress</b> utilizado como o backend do projeto ele lida com o armazenamento e gerenciamento de conteúdo, como informações do perfil do usuario, postagens de feed e mensagens do chat entre outras coisas; </p>
-- <p><b>⁍ TensorFlow com COCO-SSD</b>, uma biblioteca de aprendizado de máquina e COCO-SSD é um modelo de detecção de objetos. Neste projeto, eles são usados para a detecção de gatos em fotos enviadas pelos usuários. Isso permite que o sistema identifique automaticamente a presença de gatos em imagens compartilhadas evitando que os usuarios postem fotos que fujam o proposito da plataforma;</p>
+### Frontend
+- **React.js** - Biblioteca para construção da interface
+- **JavaScript (ES6+)** - Linguagem principal
+- **CSS3** - Estilização e layouts responsivos
+- **Vite** - Build tool e servidor de desenvolvimento
 
-- <p><b>⁍ Node.js</b> e <b>Socket.io</b>, o Node.js permite a execução de códigos JavaScript fora de um navegador web, já o Socket.io é uma biblioteca que permite a criação de comunicação em tempo real entre o servidor e o cliente. Pode ser usado para implementar chats, permitindo que os usuários conversem uns com os outros de forma instantânea.</p>
+### Backend & APIs
+- **WordPress Headless** - CMS para gerenciamento de conteúdo
+- **Node.js** - Runtime JavaScript para o servidor
+- **Socket.io** - Comunicação em tempo real (WebSockets)
 
-## Desafios 🎯
+### Machine Learning
+- **TensorFlow.js** - Framework de machine learning
+- **COCO-SSD** - Modelo de detecção de objetos
 
-Desenvolver um projeto pode ser empolgante, mas também apresenta desafios. Aqui está um resumo de alguns desafios que foram impostos para executar esse projeto:
+### DevOps
+- **GitHub Actions** - CI/CD para automação de testes e deploy
+- **Docker** - Utilizado para deploy do frontend em container
 
-- [x] Estruturar a criação de componentes de menor escala no ambiente React;
-- [x] Desenvolver uma interface dinâmica que se adapte de acordo com o status de login do usuário.
-- [x] Implementar um feed com rolagem infinita para uma experiência de usuário contínua;
-- [x] Desenvolver funcionalidades que permitam ao usuário dar "like", enviar, remover e salvar curtidas, bem como efetuar o devido registro e contagem dessas interações;
-- [x] Estabelecer um sistema para armazenar mensagens de chat e atualizar em tempo real a lista de usuários ativos no mesmo.
+## ⚙️ CI/CD & Deploy
+
+O projeto utiliza **GitHub Actions** para automação de processos de desenvolvimento:  
+
+- **Continuous Integration (CI):**
+  - Verificação de build
+  - Linting e análise de qualidade de código
+  - Validação de dependências  
+
+- **Continuous Deployment (CD):**
+  - Deploy automatizado em container (via Docker)
+  - Preview de deploys em Pull Requests
+  - Notificações de status de deploy  
+
+## 📁 Estrutura do Projeto
+
+```
+cats/
+├── src/
+│ ├── Components/ # Componentes React reutilizáveis
+│ ├── Hooks/ # Hooks customizados
+│ ├── Api/ # APIs e serviços externos
+│ ├── Utils/ # Funções utilitárias
+│ └── Assets/ # Imagens, ícones e recursos estáticos
+└── package.json # Configurações e dependências
+```
 
 
-## Passos para Testar 🧪
+## 🎯 Desafios Técnicos
 
-> Confira o passo-a-passo para testar o projeto localmente.
+Durante o desenvolvimento, foram superados diversos desafios técnicos:
 
-1. <b>Instale o Software Necessário: </b>
+- **Arquitetura de Componentes:** Criação de uma estrutura modular e reutilizável
+- **Estado Global:** Gerenciamento eficiente do estado da aplicação
+- **Performance:** Implementação de infinite scroll otimizado
+- **Real-time:** Integração complexa entre WebSockets e React
+- **Object Detection Model:** Incorporação do TensorFlow para detecção de objetos
+- **Responsividade:** Interface adaptativa para diferentes dispositivos
 
-   - Chamado [LocalWP](https://localwp.com/), fazendo com que consiga utilizar a API localmente.
+## 🎨 Design
 
-2. <b>Clone o Repositório "cats-api":</b>
+O projeto conta com um design system completo desenvolvido no Figma, incluindo:
 
-   - Utilize o Git para clonar o repositório ["cats-local"](https://github.com/Skitttz/cats-local) em seu ambiente de desenvolvimento local **será utilizado em formato zip**;
+- **Paleta de cores** cuidadosamente escolhida
+- **Tipografia** moderna e legível
+- **Duas versões** da logomarca
 
-3. <b>Configuração no Local WP:</b>
+**🔗 [Acesse o Design System no Figma](https://www.figma.com/file/W3Ms5OmiEDYSquoKonZ55h/Cats?type=design&node-id=0%3A1&mode=design&t=A2WmgYHU4V3n9mRr-1)**
 
-   - Abra o Local WP e escolha a opção que afirma que você já possui um site.
-     Selecione a pasta clonada do repositório "cats-local" como o local para o seu site, ao aparecer a tela de colocar o nome do site clique em Advanced Options
-     e troque o nome do dominio para "catsapi.test";
 
-4. <b>Baixe o repositório:</b>
-
-   - O qual você está atualmente visualizando (o repositório do projeto Cats) para o seu computador.
-
-5. <b>Instale Dependências:</b>
-
-   - Abra um terminal na pasta do projeto Cats (o repositório que você baixou neste passo). Execute o comando `npm install` para instalar todas as dependências do projeto.
-
-6. <b>Inicie o Projeto:</b>
-
-   - Após a conclusão da instalação das dependências, execute o comando `npm run dev` em um terminal;
-
-7. <b>Evite erro de Cors:</b>
-
-   - Vá no arquivo `server.js` e insira o endereço fornecido pelo comando `npm run dev` na propriedade origin.
-
-   ```javascript
-   // Por padrão, o `origin` será a variável de ambiente `BASE_API_ORIGIN`.
-   // Altere o `origin` para o IP fornecido pelo App React no CORS caso seja necessário.
-   // Exemplo padrões: http://localhost:5174, http://localhost:5173, etc.
-   cors: {
-    origin: "http://localhost:5174",
-    methods: ["GET", "POST"],
-    }
-   ```
-
-8. <b>Inicie o Socket:</b>
-   - Abra um segundo terminal para iniciar o serviço do web socket utilizando o comando `node server.js`
-
-9. <b>Para finalizar: </b>
-   - Para acessar o projeto, acesse "localhost" fornecido pelo `npm run dev` em seu navegador, a conta padrão é `login/senha: "cat"` 😸.
-  
-
-## Como acessar 🚪🚶
-
-O projeto estava hospedado na DigitalOcean mas infelizmente acabaram os creditos de estudante. Volte novamente outra hora, irei trabalhar para coloca-lo no ar novamente =)
-
-## Design 🎨
-
-A parte do planejamento estético da plataforma, incluindo a definição das paletas de cores, tipografia e a apresentação de duas versões da logomarca. Foi criado um guia de estilo do projeto dentro do software Figma. Para acessá-lo, clique no link:
-<a href="https://www.figma.com/file/W3Ms5OmiEDYSquoKonZ55h/Cats?type=design&node-id=0%3A1&mode=design&t=A2WmgYHU4V3n9mRr-1">Figma</a>
