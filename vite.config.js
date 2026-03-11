@@ -40,7 +40,6 @@ export default defineConfig({
             if (!packageName) return 'vendor';
             const firstDir = packageName.split('/')[0];
             const largePackages = [
-              '@tensorflow',
               'victory',
               'emoji-picker-react',
               'socket.io',
@@ -78,6 +77,9 @@ export default defineConfig({
     esbuildOptions: {
       target: 'esnext',
       supported: { 'top-level-await': true },
+    },
+    build: {
+      target: 'esnext',
     },
   },
 });
