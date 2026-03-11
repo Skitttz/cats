@@ -1,6 +1,6 @@
 import { PawPrint } from 'lucide-react';
 import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Cats from '../Assets/cats.svg';
 import Sair from '../Assets/sair.svg';
 import { useUser } from '../UserContext';
@@ -11,13 +11,17 @@ import { disableScroll } from './Utils/ScrollUtility';
 
 const Header = () => {
   const { data, userLogout, loading } = useUser();
+  const { pathname } = useLocation();
   const [modalLogout, setModalLogout] = React.useState(null);
   const navigate = useNavigate();
 
-  function handleLogout() {
+  const isRouteLogin = pathname === '/login';
+  const shoudLoadingHeader = loading && !isRouteLogin;
+
+  const handleLogout = () => {
     userLogout();
     navigate('/login');
-  }
+  };
 
   disableScroll(!!modalLogout);
 
@@ -29,7 +33,7 @@ const Header = () => {
             <Cats />
           </NavLink>
 
-          {loading ? (
+          {shoudLoadingHeader ? (
             <div className={styles.containerLogin}>
               <span className={styles.skeleton}>⏳</span>
             </div>
