@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { PHOTO_POST } from '../../Api';
 import useFetch from '../../Hooks/useFetch';
 import useForm from '../../Hooks/useForm';

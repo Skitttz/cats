@@ -1,6 +1,6 @@
 import { Info } from 'lucide-react';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import Cats from '../Assets/cats.svg';
 import styles from './Footer.module.css';
 import InfoProjectModal from './InfoProject';

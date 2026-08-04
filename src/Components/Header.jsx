@@ -1,6 +1,6 @@
 import { PawPrint } from 'lucide-react';
 import React from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import Cats from '../Assets/cats.svg';
 import Sair from '../Assets/sair.svg';
 import { useUser } from '../UserContext';

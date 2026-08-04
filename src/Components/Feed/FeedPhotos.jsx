@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { PHOTOS_GET, USER_GET_INFO_NAME } from '../../Api/index';
 import AddPhotosSvg from '../../Assets/adicionar.svg';
 import useFetch from '../../Hooks/useFetch';

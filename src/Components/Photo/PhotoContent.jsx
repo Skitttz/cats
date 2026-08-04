@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useUser } from '../../UserContext';
 import Image from '../Helper/Image';
 import PhotoComments from './PhotoComments';
