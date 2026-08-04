@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router';
 import AddPhotosSvg from '../../Assets/adicionar.svg';
 import ChatSvg from '../../Assets/chat.svg';
 import StatsSvg from '../../Assets/estatisticas.svg';

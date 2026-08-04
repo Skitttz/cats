@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { PHOTO_GET_USER } from '../../Api/index';
 import useFetch from '../../Hooks/useFetch';
 import Error from '../Helper/Error';

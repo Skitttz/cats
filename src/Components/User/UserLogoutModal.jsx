@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './UserLogoutModal.module.css';
 import Logo from '../../Assets/cats.svg';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const UserLogoutModal = ({ setModalLogout, handleLogout }) => {
   function handleOutSideClick(event) {

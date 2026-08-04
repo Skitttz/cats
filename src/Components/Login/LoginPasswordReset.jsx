@@ -7,7 +7,7 @@ import PasswordStrong from './PasswordStrong';
 
 import { PASSWORD_RESET } from '../../Api/index';
 import Error from '../Helper/Error';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Head from '../Helper/Head';
 
 const LoginPasswordReset = () => {

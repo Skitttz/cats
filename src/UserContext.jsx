@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
 
 export const UserContext = React.createContext();
