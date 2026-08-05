@@ -1,17 +1,35 @@
+import Cookies from 'js-cookie';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
-import { ROOM_MESSAGE_GET, ROOM_MESSAGE_POST } from '../../../Api/index';
+import { ROOM_MESSAGE_GET } from '../../../Api/index';
 import useFetch from '../../../Hooks/useFetch';
 import { useUser } from '../../../UserContext';
 import { formatDateMessage } from '../../../Utils/format-date-message';
 import Head from '../../Helper/Head';
 import styles from './UserChat.module.css';
-import formatDate from './UserChatDate';
 import UserChatList from './UserChatList';
 import MessageInput from './UserMessageInput';
 import UserMessages from './UserMessages';
 
 const urlApp = import.meta.env.VITE_APP_URL || 'http://localhost:3001';
+
+const ROOM_ID = 210;
+const ROOM_SOCKET_ID = 'SalaPrincipal';
+const PAGE_SIZE = 50;
+
+const toUiMessage = (msg) => ({
+  id: msg.id,
+  sender: msg.sender,
+  message: msg.msg,
+  userId: msg.user_id,
+  date: formatDateMessage(new Date(String(msg.timestamp).replace(' ', 'T'))),
+});
+
+const mergeMessages = (current, incoming) => {
+  const byId = new Map(current.map((msg) => [msg.id, msg]));
+  incoming.forEach((msg) => byId.set(msg.id, msg));
+  return [...byId.values()].sort((a, b) => a.id - b.id);
+};
 
 const UserChat = () => {
   const { data } = useUser();
@@ -19,19 +37,20 @@ const UserChat = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
-  const [messageHistoryLoaded, setMessageHistoryLoaded] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingOlder, setLoadingOlder] = useState(false);
 
   const messagesContainerRef = useRef(null);
   const socketRef = useRef(null);
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
 
-  const userName = data?.nome || `Usuário_${new Date()}`;
-  const roomId = 'SalaPrincipal';
-  const localDate = formatDate(new Date());
+  const userName = data?.nome || 'Usuário';
 
   const scrollToLastMessage = useCallback(() => {
     if (messagesContainerRef.current) {
       const items = messagesContainerRef.current.querySelectorAll(
-        `.${styles.message}`,
+        `.${styles.messageRow}`,
       );
       if (items.length > 0) {
         items[items.length - 1].scrollIntoView({
@@ -42,29 +61,64 @@ const UserChat = () => {
     }
   }, []);
 
-  const normalizeMessage = useCallback((messageData) => {
-    return {
-      sender: messageData.user.name,
-      message: messageData.message,
-      date: formatDateMessage(new Date(messageData.timestamp)),
-    };
-  }, []);
+  const loadHistory = useCallback(
+    async (beforeId) => {
+      const { url, options } = ROOM_MESSAGE_GET(ROOM_ID, {
+        perPage: PAGE_SIZE,
+        beforeId,
+      });
+      const { json, response } = await request(url, options);
+
+      if (response.ok && Array.isArray(json)) {
+        setMessages((prev) => mergeMessages(prev, json.map(toUiMessage)));
+        setHasMore(json.length === PAGE_SIZE);
+        return json.length;
+      }
+
+      console.error('Erro ao carregar histórico:', response?.statusText);
+      return 0;
+    },
+    [request],
+  );
 
   useEffect(() => {
-    const socket = io(urlApp, { transports: ['websocket'] });
+    loadHistory().then((count) => {
+      if (count > 0) {
+        setTimeout(scrollToLastMessage, 50);
+      }
+    });
+  }, [loadHistory, scrollToLastMessage]);
+
+  const loadOlderMessages = useCallback(async () => {
+    const oldest = messagesRef.current[0];
+    if (!oldest || loadingOlder) return;
+
+    setLoadingOlder(true);
+    await loadHistory(oldest.id);
+    setLoadingOlder(false);
+  }, [loadHistory, loadingOlder]);
+
+  useEffect(() => {
+    const socket = io(urlApp, {
+      transports: ['websocket'],
+      auth: { token: Cookies.get('token') },
+    });
     socketRef.current = socket;
 
     socket.on('connect', () => {
-      socket.emit('joinRoom', { roomId, userName });
+      socket.emit('joinRoom', { roomId: ROOM_SOCKET_ID, userName });
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error('[Socket]:', err.message);
     });
 
     socket.on('updateUsers', (updatedUsers) => {
       setUsers(updatedUsers);
     });
 
-    socket.on('message', (data) => {
-      const normalizedMessage = normalizeMessage(data);
-      setMessages((prev) => [...prev, normalizedMessage]);
+    socket.on('message', (msg) => {
+      setMessages((prev) => mergeMessages(prev, [toUiMessage(msg)]));
       setTimeout(scrollToLastMessage, 50);
     });
 
@@ -79,61 +133,30 @@ const UserChat = () => {
     return () => {
       socket.disconnect();
     };
-  }, [roomId, userName, scrollToLastMessage, normalizeMessage]);
+  }, [userName, scrollToLastMessage]);
 
-  useEffect(() => {
-    if (!messageHistoryLoaded) {
-      const loadHistory = async () => {
-        const { url, options } = ROOM_MESSAGE_GET(210);
-        const { json, response } = await request(url, options);
-
-        if (response.ok && json) {
-          const transformed = json.map((item) => ({
-            sender: item.sender,
-            message: item.msg,
-            date: item.timestamp,
-          }));
-
-          setMessages((prev) => [...prev, ...transformed]);
-          setMessageHistoryLoaded(true);
-          setTimeout(scrollToLastMessage, 50);
-        } else {
-          console.error('Erro ao carregar histórico:', response?.statusText);
-        }
-      };
-      loadHistory();
-    }
-  }, [messageHistoryLoaded, request, scrollToLastMessage]);
-
-  const sendMessage = useCallback(() => {
-    if (message.trim() !== '' && socketRef.current) {
-      socketRef.current.emit('message', {
-        message,
-        roomId,
-        sender: userName,
-        timestamp: formatDateMessage(new Date(localDate)),
-      });
-      setMessage('');
-    }
-  }, [message, roomId, userName, localDate]);
-
+  // O envio vai só pelo socket: o servidor persiste no WP e devolve a mensagem
+  // já com id do banco via broadcast. O input só limpa com ack de sucesso.
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
 
-      const requestBody = {
-        msg: message,
-        id: 210,
-        sender: data?.nome || userName,
-        date: localDate,
-      };
+      const text = message.trim();
+      if (!text || !socketRef.current) return;
 
-      const { url, options } = ROOM_MESSAGE_POST(210, { ...requestBody });
-      request(url, options);
-
-      sendMessage();
+      socketRef.current.emit(
+        'message',
+        { roomId: ROOM_SOCKET_ID, message: text },
+        (ack) => {
+          if (ack?.ok) {
+            setMessage('');
+          } else {
+            console.error('Erro ao enviar mensagem:', ack?.error);
+          }
+        },
+      );
     },
-    [message, data?.nome, userName, localDate, request, sendMessage],
+    [message],
   );
 
   return (
@@ -149,6 +172,9 @@ const UserChat = () => {
           data={data}
           messages={messages}
           messagesContainerRef={messagesContainerRef}
+          hasMore={hasMore}
+          loadingOlder={loadingOlder}
+          onLoadOlder={loadOlderMessages}
         />
 
         <MessageInput
