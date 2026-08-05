@@ -1,22 +1,17 @@
 import { getAuthHeaders } from '../Utils/auth';
 import { API_URL } from './index';
 
-export function ROOM_MESSAGE_POST(id, body) {
-  return {
-    url: `${API_URL}/api/msg_room/${id}`,
-    options: {
-      method: 'POST',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify(body),
-    },
-  };
-}
+export function ROOM_MESSAGE_GET(id, { perPage = 50, beforeId } = {}) {
+  const params = new URLSearchParams({ per_page: String(perPage) });
+  if (beforeId) {
+    params.set('before_id', String(beforeId));
+  }
 
-export function ROOM_MESSAGE_GET(id) {
   return {
-    url: `${API_URL}/api/msg_room/${id}`,
+    url: `${API_URL}/api/msg_room/${id}?${params.toString()}`,
     options: {
       method: 'GET',
+      headers: getAuthHeaders(),
     },
   };
 }

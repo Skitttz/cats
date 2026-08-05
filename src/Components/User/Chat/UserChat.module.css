@@ -431,3 +431,24 @@
 .messageDateOther {
   color: #c2c2c2 !important;
 }
+
+.loadOlder {
+  align-self: center;
+  background: none;
+  border: 1px solid #c3c3c3;
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  color: #555;
+  cursor: pointer;
+  transition: background ease-in 200ms;
+}
+
+.loadOlder:hover:not(:disabled) {
+  background: #e4e4e4;
+}
+
+.loadOlder:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
