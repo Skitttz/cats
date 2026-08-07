@@ -5,38 +5,66 @@
   width: 100%;
   max-height: 42rem;
   overflow: hidden;
-  border: 1px solid #e2e3e8;
+  border: 1px solid #e4e5ea;
   border-radius: 1rem;
   background: #fff;
-  box-shadow: 0 12px 35px rgba(42, 44, 71, 0.1);
+  box-shadow: 0 10px 30px rgba(42, 44, 71, 0.08);
 }
 
 .containerTitulo {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.7rem;
   min-height: 5.5rem;
-  padding: 0.75rem;
-  background: linear-gradient(135deg, #e9a350, #f4762b);
+  padding: 0.85rem 1rem;
+  background: linear-gradient(135deg, #2a2c47, #40466e);
+}
+
+.headerIcon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.75rem;
+  background: rgba(244, 118, 43, 0.18);
+  color: #ffb37f;
+}
+
+.headerCopy {
+  min-width: 0;
+}
+
+.headerCopy p {
+  margin: 0.15rem 0 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .titleUserList {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
   margin: 0;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 750;
 }
 
 .userCount {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
   min-width: 1.55rem;
+  margin-left: auto;
   padding: 0.15rem 0.45rem;
-  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
+  background: #f4762b;
+  color: #fff;
   font-size: 0.72rem;
+  font-weight: 800;
   text-align: center;
 }
 
@@ -44,10 +72,10 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.15rem;
   min-height: 0;
   margin: 0;
-  padding: 0.75rem;
+  padding: 0.65rem;
   overflow-y: auto;
   list-style: none;
   scrollbar-width: thin;
@@ -64,12 +92,14 @@
   justify-content: space-between;
   gap: 0.55rem;
   width: 100%;
-  min-height: 2.75rem;
-  padding: 0.65rem 0.75rem;
+  min-height: 3rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid transparent;
   border-radius: 0.7rem;
-  background: #f6f7fa;
+  background: transparent;
   color: #36394e;
-  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+  transition: border-color 160ms ease, background 160ms ease,
+    color 160ms ease;
 }
 
 .roomIcon {
@@ -77,8 +107,8 @@
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border-radius: 0.65rem;
 }
 
@@ -102,9 +132,14 @@
 }
 
 .userLink:hover {
-  transform: translateY(-1px);
-  background: #fff0e7;
+  border-color: #f6dccd;
+  background: #fff7f2;
   color: #c95716;
+}
+
+.userLink:focus-visible {
+  outline: 3px solid rgba(244, 118, 43, 0.22);
+  outline-offset: 1px;
 }
 
 .roomButton {
@@ -115,6 +150,7 @@
 }
 
 .activeRoom .roomButton {
+  border-color: #f4d1bc;
   background: #fff0e7;
   box-shadow: inset 3px 0 #f4762b;
   color: #c95716;
@@ -169,19 +205,48 @@
 }
 
 .sectionLabel {
-  margin: 0.5rem 0.25rem 0.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.85rem 0.4rem 0.25rem;
   color: #777a89;
+}
+
+.sectionLabel:first-child {
+  margin-top: 0.25rem;
+}
+
+.sectionLabel h3 {
+  margin: 0;
   font-size: 0.68rem;
   font-weight: 750;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
+.sectionLabel > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.32rem;
+  border-radius: 999px;
+  background: #f0f1f5;
+  color: #686b7c;
+  font-size: 0.64rem;
+  font-weight: 750;
+}
+
 .sectionEmpty {
-  padding: 0.45rem 0.75rem;
+  margin: 0 0.25rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px dashed #dfe0e6;
+  border-radius: 0.65rem;
+  background: #fafafd;
   color: #9294a1;
   font-size: 0.75rem;
-  font-style: italic;
 }
 
 .onlineIndicator {
@@ -194,6 +259,11 @@
   box-shadow: 0 0 0 3px rgba(56, 201, 118, 0.14);
 }
 
+.onlineText {
+  color: #258653;
+  font-weight: 650;
+}
+
 .emptyMessage {
   padding: 1rem 0.5rem;
   color: #777a89;
@@ -203,7 +273,7 @@
 }
 
 .listFooter {
-  padding: 0.7rem;
+  padding: 0.65rem 0.7rem;
   border-top: 1px solid #ececf0;
   background: #fafafd;
 }
@@ -240,8 +310,8 @@
   }
 
   .containerTitulo {
-    min-height: 3rem;
-    padding: 0.5rem 0.75rem;
+    min-height: 4.2rem;
+    padding: 0.6rem 0.75rem;
   }
 
   .listNames {
@@ -261,6 +331,10 @@
     flex: 0 0 auto;
     align-items: center;
     margin: 0 0.25rem;
+  }
+
+  .sectionLabel:first-child {
+    margin-top: 0;
   }
 
   .userLink {
