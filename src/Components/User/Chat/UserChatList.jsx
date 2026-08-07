@@ -1,12 +1,18 @@
 import { useMemo } from 'react';
+import { MessageCircle, UserRound, UsersRound } from 'lucide-react';
 import styles from './UserChatList.module.css';
+
+const userInitial = (name = '') => name.trim().charAt(0).toUpperCase() || '?';
 
 const UserChatList = ({
   users = [],
+  conversations = [],
+  unreadByRoom = {},
   currentUserId,
   activeRoomPostId,
   mainRoomPostId,
   onSelectUser,
+  onSelectConversation,
   onSelectMainRoom,
   isLoading = false,
 }) => {
@@ -23,6 +29,16 @@ const UserChatList = ({
         return true;
       });
   }, [users, currentUserId]);
+  const conversationUnread = (conversation) =>
+    Math.max(
+      conversation.unread || 0,
+      unreadByRoom[conversation.postId] || 0,
+    );
+  const unreadCount = conversations.reduce(
+    (total, conversation) => total + conversationUnread(conversation),
+    0,
+  );
+  const isMainRoom = activeRoomPostId === mainRoomPostId;
 
   return (
     <div
@@ -32,15 +48,18 @@ const UserChatList = ({
     >
       <div className={styles.containerTitulo}>
         <h2 className={styles.titleUserList}>
-          <span aria-hidden="true">🐱</span>
-          Ativos
-          <span className={styles.userCount}>{users.length}</span>
+          <MessageCircle size={18} aria-hidden="true" />
+          Mensagens
+          {unreadCount > 0 && (
+            <span className={styles.userCount}>{unreadCount}</span>
+          )}
         </h2>
       </div>
       <ul className={styles.listNames}>
+        <li className={styles.sectionLabel}>Grupos</li>
         <li
           className={`${styles.userNames} ${
-            activeRoomPostId === mainRoomPostId ? styles.activeRoom : ''
+            isMainRoom ? styles.activeRoom : ''
           }`}
         >
           <button
@@ -49,13 +68,68 @@ const UserChatList = ({
             onClick={onSelectMainRoom}
             title="Voltar para a Sala Principal"
           >
-            <span className={styles.userName}># Sala Principal</span>
+            <span className={`${styles.roomIcon} ${styles.groupIcon}`}>
+              <UsersRound size={17} aria-hidden="true" />
+            </span>
+            <span className={styles.conversationContent}>
+              <span className={styles.userName}>Sala Principal</span>
+              <span className={styles.roomKind}>Grupo público</span>
+            </span>
           </button>
         </li>
 
+        <li className={styles.sectionLabel}>Mensagens diretas</li>
+        {conversations.length === 0 && (
+          <li className={styles.sectionEmpty}>Nenhuma conversa privada</li>
+        )}
+        {conversations.map((conversation) => (
+          <li
+            key={conversation.postId}
+            className={`${styles.userNames} ${
+              activeRoomPostId === conversation.postId
+                ? styles.activeRoom
+                : ''
+            }`}
+          >
+            <button
+              type="button"
+              className={`${styles.userLink} ${styles.roomButton}`}
+              onClick={() => onSelectConversation(conversation)}
+              title={`Abrir conversa com ${conversation.title}`}
+            >
+              <span className={`${styles.roomIcon} ${styles.directAvatar}`}>
+                {userInitial(conversation.title)}
+              </span>
+              <span className={styles.conversationContent}>
+                <span className={styles.userName}>{conversation.title}</span>
+                {conversation.lastMessage && (
+                  <span className={styles.conversationPreview}>
+                    {conversation.lastMessage.userId === currentUserId
+                      ? 'Você: '
+                      : ''}
+                    {conversation.lastMessage.message}
+                  </span>
+                )}
+              </span>
+              {conversationUnread(conversation) > 0 && (
+                <span
+                  className={styles.unreadBadge}
+                  aria-label={`${conversationUnread(conversation)} mensagens não lidas`}
+                >
+                  {conversationUnread(conversation) > 99
+                    ? '99+'
+                    : conversationUnread(conversation)}
+                </span>
+              )}
+            </button>
+          </li>
+        ))}
+
+        <li className={styles.sectionLabel}>Online agora</li>
+
         {uniqueUsers.length === 0 && !isLoading ? (
           <li className={styles.emptyMessage}>
-            🐾 Nenhum gatinho por aqui ainda...
+            🐾 Só você está por aqui agora.
           </li>
         ) : (
           uniqueUsers.map((user, index) => (
@@ -72,7 +146,13 @@ const UserChatList = ({
                 title={`Conversar com ${user.name}`}
                 onClick={() => onSelectUser(user)}
               >
-                <span className={styles.userName}>{user.name}</span>
+                <span className={`${styles.roomIcon} ${styles.onlineAvatar}`}>
+                  <UserRound size={15} aria-hidden="true" />
+                </span>
+                <span className={styles.conversationContent}>
+                  <span className={styles.userName}>{user.name}</span>
+                  <span className={styles.roomKind}>Iniciar conversa</span>
+                </span>
                 <span className={styles.onlineIndicator} title="Online agora">
                   🟢
                 </span>
@@ -85,7 +165,13 @@ const UserChatList = ({
         <div className={styles.stats}>
           <span className={styles.onlineUsers}>
             <span className={styles.statusDot} aria-hidden="true" />
-            {users.length} {users.length === 1 ? 'pessoa' : 'pessoas'} online
+            {isMainRoom
+              ? users.length <= 1
+                ? 'Só você na sala principal'
+                : `${users.length} pessoas na sala principal`
+              : uniqueUsers.length > 0
+                ? 'A outra pessoa está nesta conversa'
+                : 'Só você nesta conversa'}
           </span>
         </div>
       </div>

@@ -2,7 +2,8 @@ const CHAT_SERVER_URL = import.meta.env.VITE_APP_URL;
 
 const MAIN_CHAT_ROOM = Object.freeze({
   postId: 210,
-  title: 'Chat Room',
+  title: 'Sala Principal',
+  type: 'main',
 });
 
 const CHAT_PAGE_SIZE = 50;

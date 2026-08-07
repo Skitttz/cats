@@ -12,6 +12,16 @@ function DM_ROOM_POST(userId) {
   };
 }
 
+function DM_ROOMS_GET() {
+  return {
+    url: `${API_URL}/api/dm_rooms`,
+    options: {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    },
+  };
+}
+
 function ROOM_MESSAGE_GET(id, { perPage = 50, beforeId } = {}) {
   const params = new URLSearchParams({ per_page: String(perPage) });
   if (beforeId) {
@@ -27,4 +37,4 @@ function ROOM_MESSAGE_GET(id, { perPage = 50, beforeId } = {}) {
   };
 }
 
-export { DM_ROOM_POST, ROOM_MESSAGE_GET };
+export { DM_ROOM_POST, DM_ROOMS_GET, ROOM_MESSAGE_GET };
