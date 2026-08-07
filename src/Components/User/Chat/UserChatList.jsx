@@ -19,7 +19,12 @@ const UserChatList = ({
   const uniqueUsers = useMemo(() => {
     const seen = new Set();
     return users
-      .filter((user) => user && user.name && user.id !== currentUserId)
+      .filter(
+        (user) =>
+          user &&
+          user.name &&
+          Number(user.id) !== Number(currentUserId),
+      )
       .filter((user) => {
         const key = user.id || user.name;
         if (seen.has(key)) {
@@ -37,6 +42,17 @@ const UserChatList = ({
           .map((conversation) => [String(conversation.userId), conversation]),
       ),
     [conversations],
+  );
+  const usersWithoutConversation = useMemo(
+    () =>
+      uniqueUsers.filter(
+        (user) => !conversationByUserId.has(String(user.id)),
+      ),
+    [conversationByUserId, uniqueUsers],
+  );
+  const usersInActiveRoom = useMemo(
+    () => new Set(uniqueUsers.map((user) => String(user.id))),
+    [uniqueUsers],
   );
   const conversationUnread = (conversation) =>
     Math.max(
@@ -147,92 +163,86 @@ const UserChatList = ({
                   <span className={styles.roomKind}>Conversa privada</span>
                 )}
               </span>
-              {conversationUnread(conversation) > 0 && (
-                <span
-                  className={styles.unreadBadge}
-                  aria-label={`${conversationUnread(conversation)} mensagens não lidas`}
-                >
-                  {conversationUnread(conversation) > 99
-                    ? '99+'
-                    : conversationUnread(conversation)}
-                </span>
-              )}
+              <span className={styles.itemMeta}>
+                {conversationUnread(conversation) > 0 && (
+                  <span
+                    className={styles.unreadBadge}
+                    aria-label={`${conversationUnread(conversation)} mensagens não lidas`}
+                  >
+                    {conversationUnread(conversation) > 99
+                      ? '99+'
+                      : conversationUnread(conversation)}
+                  </span>
+                )}
+                {usersInActiveRoom.has(String(conversation.userId)) && (
+                  <span
+                    className={styles.onlineIndicator}
+                    title={
+                      isMainRoom
+                        ? 'Online na Sala Principal'
+                        : 'Online nesta conversa'
+                    }
+                    aria-label={
+                      isMainRoom
+                        ? 'Online na Sala Principal'
+                        : 'Online nesta conversa'
+                    }
+                  />
+                )}
+              </span>
             </button>
           </li>
         ))}
 
-        <li className={styles.sectionLabel}>
-          <h3>Online agora</h3>
-          <span aria-label={`${uniqueUsers.length} pessoas online`}>
-            {uniqueUsers.length}
-          </span>
-        </li>
-
-        {uniqueUsers.length === 0 && !isLoading ? (
-          <li className={styles.emptyMessage}>
-            🐾 Só você está por aqui agora.
+        {isMainRoom && usersWithoutConversation.length > 0 && (
+          <li className={styles.sectionLabel}>
+            <h3>Na Sala Principal</h3>
+            <span
+              aria-label={`${usersWithoutConversation.length} pessoas disponíveis para conversar`}
+            >
+              {usersWithoutConversation.length}
+            </span>
           </li>
-        ) : (
-          uniqueUsers.map((user, index) => {
-            const existingConversation = conversationByUserId.get(
-              String(user.id),
-            );
-            const conversationAction = existingConversation
-              ? 'Abrir conversa'
-              : 'Iniciar conversa';
-
-            return (
-              <li
-                key={user.id || `user-${index}`}
-                className={`${styles.userNames} ${
-                  existingConversation?.postId === activeRoomPostId
-                    ? styles.activeRoom
-                    : ''
-                }`}
-                style={{
-                  animationDelay: `${index * 0.1}s`,
-                }}
-              >
-                <button
-                  type="button"
-                  className={`${styles.userLink} ${styles.roomButton}`}
-                  title={`${conversationAction} com ${user.name}`}
-                  aria-current={
-                    existingConversation?.postId === activeRoomPostId
-                      ? 'page'
-                      : undefined
-                  }
-                  onClick={() =>
-                    existingConversation
-                      ? onSelectConversation(existingConversation)
-                      : onSelectUser(user)
-                  }
-                >
-                  <span
-                    className={`${styles.roomIcon} ${styles.onlineAvatar}`}
-                  >
-                    <UserRound size={15} aria-hidden="true" />
-                  </span>
-                  <span className={styles.conversationContent}>
-                    <span className={styles.userName}>{user.name}</span>
-                    <span className={styles.roomKind}>
-                      <span className={styles.onlineText}>Online</span>
-                      <span aria-hidden="true"> · </span>
-                      {conversationAction}
-                    </span>
-                  </span>
-                  <span
-                    className={styles.onlineIndicator}
-                    title="Online agora"
-                    aria-hidden="true"
-                  >
-                    🟢
-                  </span>
-                </button>
-              </li>
-            );
-          })
         )}
+
+        {isMainRoom &&
+          usersWithoutConversation.map((user, index) => (
+            <li
+              key={user.id || `user-${index}`}
+              className={styles.userNames}
+              style={{
+                animationDelay: `${index * 0.1}s`,
+              }}
+            >
+              <button
+                type="button"
+                className={`${styles.userLink} ${styles.roomButton}`}
+                title={`Iniciar conversa com ${user.name}`}
+                onClick={() => onSelectUser(user)}
+              >
+                <span
+                  className={`${styles.roomIcon} ${styles.onlineAvatar}`}
+                >
+                  <UserRound size={15} aria-hidden="true" />
+                </span>
+                <span className={styles.conversationContent}>
+                  <span className={styles.userName}>{user.name}</span>
+                  <span className={styles.roomKind}>
+                    <span className={styles.onlineText}>Online</span>
+                    <span aria-hidden="true"> · </span>
+                    Iniciar conversa
+                  </span>
+                </span>
+                <span
+                  className={styles.onlineIndicator}
+                  title="Online na Sala Principal"
+                  aria-hidden="true"
+                >
+                  🟢
+                </span>
+              </button>
+            </li>
+          ))}
       </ul>
       <div className={styles.listFooter}>
         <div className={styles.stats}>

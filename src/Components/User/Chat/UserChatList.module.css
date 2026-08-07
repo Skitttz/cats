@@ -204,6 +204,13 @@
   font-weight: 800;
 }
 
+.itemMeta {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 .sectionLabel {
   display: flex;
   align-items: center;
