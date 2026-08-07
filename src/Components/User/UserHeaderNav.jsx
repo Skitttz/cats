@@ -5,12 +5,14 @@ import ChatSvg from '../../Assets/chat.svg';
 import StatsSvg from '../../Assets/estatisticas.svg';
 import PhotosSvg from '../../Assets/feed.svg';
 import useMedia from '../../Hooks/useMedia';
+import { useChatNotifications } from '../../ChatNotificationsContext';
 import styles from './UserHeaderNav.module.css';
 
 const UserHeaderNav = () => {
   const mobile = useMedia('(max-width:40rem)');
   const [mobileMenu, setMobileMenu] = React.useState(false);
   const { pathname } = useLocation();
+  const { totalUnread } = useChatNotifications();
 
   React.useEffect(() => {
     setMobileMenu(false);
@@ -40,6 +42,14 @@ const UserHeaderNav = () => {
         </NavLink>
         <NavLink className={styles.chat} to="/conta/chat">
           <ChatSvg /> {mobile && 'Chat'}
+          {totalUnread > 0 && (
+            <span
+              className={styles.unreadBadge}
+              aria-label={`${totalUnread} mensagens não lidas`}
+            >
+              {totalUnread > 99 ? '99+' : totalUnread}
+            </span>
+          )}
         </NavLink>
         <NavLink to="/conta/stat">
           <StatsSvg /> {mobile && 'Estatistica'}

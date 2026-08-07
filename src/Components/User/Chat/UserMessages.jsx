@@ -7,6 +7,7 @@ function UserMessages({
   hasMore,
   loadingOlder,
   onLoadOlder,
+  roomType,
 }) {
   return (
     <div className={styles.containerMsg} ref={messagesContainerRef}>
@@ -32,7 +33,7 @@ function UserMessages({
         return (
           <div key={msg.id} className={`${styles.messageRow} ${rowClass}`}>
             <div className={`${styles.messageBubble} ${bubbleClass}`}>
-              {!isMyMessage && (
+              {!isMyMessage && roomType === 'main' && (
                 <span className={styles.senderName}>{msg.sender}</span>
               )}
 
