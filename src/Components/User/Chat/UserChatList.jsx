@@ -31,7 +31,11 @@ const UserChatList = ({
       }`}
     >
       <div className={styles.containerTitulo}>
-        <h2 className={styles.titleUserList}>🐱</h2>
+        <h2 className={styles.titleUserList}>
+          <span aria-hidden="true">🐱</span>
+          Ativos
+          <span className={styles.userCount}>{users.length}</span>
+        </h2>
       </div>
       <ul className={styles.listNames}>
         <li
@@ -80,7 +84,8 @@ const UserChatList = ({
       <div className={styles.listFooter}>
         <div className={styles.stats}>
           <span className={styles.onlineUsers}>
-            🟢 {uniqueUsers.length} online
+            <span className={styles.statusDot} aria-hidden="true" />
+            {users.length} {users.length === 1 ? 'pessoa' : 'pessoas'} online
           </span>
         </div>
       </div>

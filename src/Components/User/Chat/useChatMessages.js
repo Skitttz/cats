@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ROOM_MESSAGE_GET } from '../../../Api/index';
 import { CHAT_PAGE_SIZE } from './chatConfig';
-import { mergeChatMessages, toChatMessage } from './chatMessageUtils';
+import {
+  createPendingMessage,
+  mergeChatMessages,
+  toChatMessage,
+} from './chatMessageUtils';
 
 const useChatMessages = ({ roomId, request, onInitialLoad }) => {
   const [messagesState, setMessagesState] = useState([]);
@@ -19,6 +23,22 @@ const useChatMessages = ({ roomId, request, onInitialLoad }) => {
   const addMessage = useCallback((message) => {
     setMessagesState((currentMessages) =>
       mergeChatMessages(currentMessages, [toChatMessage(message)]),
+    );
+  }, []);
+
+  const addPendingMessage = useCallback((message) => {
+    setMessagesState((currentMessages) =>
+      mergeChatMessages(currentMessages, [createPendingMessage(message)]),
+    );
+  }, []);
+
+  const failPendingMessage = useCallback((clientId) => {
+    setMessagesState((currentMessages) =>
+      currentMessages.map((message) =>
+        message.clientId === clientId
+          ? { ...message, status: 'failed' }
+          : message,
+      ),
     );
   }, []);
 
@@ -102,6 +122,8 @@ const useChatMessages = ({ roomId, request, onInitialLoad }) => {
     loadingOlderState,
     loadOlderMessages,
     addMessage,
+    addPendingMessage,
+    failPendingMessage,
   };
 };
 

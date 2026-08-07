@@ -39,33 +39,65 @@ const UserChat = () => {
     loadingOlderState,
     loadOlderMessages,
     addMessage,
+    addPendingMessage,
+    failPendingMessage,
   } = useChatMessages({
     roomId: activeRoomState.postId,
     request,
     onInitialLoad: scrollToLastMessage,
   });
-  const { usersState, sendMessage } = useChatSocket({
+  const { usersState, connectionState, errorState, sendMessage } = useChatSocket({
     roomId: activeRoomState.postId,
-    userName,
     onMessage: (incomingMessage) => {
       addMessage(incomingMessage);
       scrollToLastMessage();
     },
   });
 
-  // O envio vai só pelo socket: o servidor persiste no WP e devolve a mensagem
-  // já com id do banco via broadcast. O input só limpa com ack de sucesso.
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
       const text = messageState.trim();
-      if (!text) return;
+      if (!text || connectionState !== 'connected') return;
 
-      sendMessage(text, () => setMessageState(''));
+      const clientId = globalThis.crypto?.randomUUID?.() ||
+        `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+      addPendingMessage({
+        clientId,
+        sender: userName,
+        message: text,
+        userId: data?.id,
+      });
+      setMessageState('');
+      scrollToLastMessage();
+
+      try {
+        await sendMessage(text, clientId);
+      } catch {
+        failPendingMessage(clientId);
+      }
     },
-    [messageState, sendMessage],
+    [
+      addPendingMessage,
+      connectionState,
+      data?.id,
+      failPendingMessage,
+      messageState,
+      scrollToLastMessage,
+      sendMessage,
+      userName,
+    ],
   );
+
+  const connectionLabel = {
+    connected: `${usersState.length} online`,
+    connecting: 'Conectando…',
+    joining: 'Entrando na conversa…',
+    disconnected: 'Reconectando…',
+    error: 'Sem conexão',
+  }[connectionState];
 
   return (
     <section className={`${styles.chatContainer} animeLeft`}>
@@ -80,8 +112,20 @@ const UserChat = () => {
       <Head title="Chat" />
       <div className={styles.mainMsgContainer}>
         <div className={styles.headerContact}>
-          <p className={styles.nameUserTarget}>{activeRoomState.title}</p>
+          <div>
+            <p className={styles.nameUserTarget}>{activeRoomState.title}</p>
+            <p className={styles.connectionStatus} data-state={connectionState}>
+              <span aria-hidden="true" />
+              {connectionLabel}
+            </p>
+          </div>
         </div>
+
+        {errorState && (
+          <p className={styles.chatError} role="status">
+            {errorState}
+          </p>
+        )}
 
         <UserMessages
           data={data}
@@ -96,6 +140,7 @@ const UserChat = () => {
           message={messageState}
           setMessage={setMessageState}
           handleSubmit={handleSubmit}
+          isConnected={connectionState === 'connected'}
         />
       </div>
     </section>
