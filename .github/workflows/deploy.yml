@@ -30,6 +30,9 @@ jobs:
       continue-on-error: true
 
     - name: Build Production
+      env:
+        VITE_BASE_API_URL: ${{ secrets.VITE_BASE_API_URL }}
+        VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
       run: npm run build
 
     - name: Upload Build Artifacts
