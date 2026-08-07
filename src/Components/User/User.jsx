@@ -8,7 +8,9 @@ import { useUser } from "../../UserContext";
 import NotFound404 from "../Helper/404/NotFound404";
 import Head from "../Helper/Head";
 import Loading from "../Helper/Loading";
-const UserChat = React.lazy(() => import("./Chat/UserChat"));
+const UserChat = React.lazy(() =>
+  import('./Chat/UserChat').then(({ UserChat: Chat }) => ({ default: Chat })),
+);
 
 const User = () => {
   const { data } = useUser();

@@ -8,16 +8,16 @@ const MemoizedEmojiPicker = memo(EmojiPicker);
 function MessageInput({ message, setMessage, handleSubmit }) {
   const inputTextmessage = useRef(null);
   const pickerRef = useRef(null);
-  const [showPicker, setShowPicker] = useState(false);
+  const [showPickerState, setShowPickerState] = useState(false);
 
   const handleClickOutside = (event) => {
     if (pickerRef.current && !pickerRef.current.contains(event.target)) {
-      setShowPicker(false);
+      setShowPickerState(false);
     }
   };
 
   const togglePicker = () => {
-    setShowPicker((val) => !val);
+    setShowPickerState((currentState) => !currentState);
   };
 
   const addEmojiToTextarea = (emojiObj) => {
@@ -45,10 +45,10 @@ function MessageInput({ message, setMessage, handleSubmit }) {
   }, []);
 
   useEffect(() => {
-    if (showPicker && pickerRef.current) {
+    if (showPickerState && pickerRef.current) {
       pickerRef.current.focus();
     }
-  }, [showPicker]);
+  }, [showPickerState]);
 
   return (
     <>
@@ -93,7 +93,7 @@ function MessageInput({ message, setMessage, handleSubmit }) {
           <span className={styles.charCount}>{message.length}/1000</span>
         )}
       </form>
-      {showPicker && (
+      {showPickerState && (
         <div className={styles.emojiPicker} ref={pickerRef}>
           <MemoizedEmojiPicker
             height={400}
@@ -107,4 +107,4 @@ function MessageInput({ message, setMessage, handleSubmit }) {
   );
 }
 
-export default MessageInput;
+export { MessageInput };
