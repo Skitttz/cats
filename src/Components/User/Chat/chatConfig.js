@@ -1,5 +1,4 @@
-const CHAT_SERVER_URL =
-  import.meta.env.VITE_APP_URL || 'http://localhost:3001';
+const CHAT_SERVER_URL = import.meta.env.VITE_APP_URL;
 
 const MAIN_CHAT_ROOM = Object.freeze({
   postId: 210,

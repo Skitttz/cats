@@ -1,5 +1,4 @@
-export const API_URL =
-  import.meta.env.VITE_BASE_API_URL || 'http://catsapi.test/json';
+export const API_URL = import.meta.env.VITE_BASE_API_URL;
 
 export * from './auth';
 export * from './user';
