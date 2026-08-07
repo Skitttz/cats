@@ -1,53 +1,28 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import styles from './UserChatList.module.css';
 
 const UserChatList = ({
   users = [],
-  onlineUsers = [],
-  featuredUsers = [],
+  currentUserId,
+  activeRoomPostId,
+  mainRoomPostId,
+  onSelectUser,
+  onSelectMainRoom,
   isLoading = false,
 }) => {
-  const [animationDelay, setAnimationDelay] = useState(0);
-  const url = window.location.href;
-
   const uniqueUsers = useMemo(() => {
     const seen = new Set();
-    return users.filter((user) => {
-      if (seen.has(user.name)) {
-        return false;
-      }
-      seen.add(user.name);
-      return true;
-    });
-  }, [users]);
-
-  const isUserOnline = (userName) => {
-    return onlineUsers.includes(userName);
-  };
-
-  const isUserFeatured = (userName) => {
-    return featuredUsers.includes(userName);
-  };
-
-  const getUserClasses = (userName) => {
-    let classes = styles.userNames;
-    if (isUserOnline(userName)) {
-      classes += ` ${styles.online}`;
-    }
-    if (isUserFeatured(userName)) {
-      classes += ` ${styles.featured}`;
-    }
-    return classes;
-  };
-
-  const createProfileUrl = (userName) => {
-    const baseUrl = url.slice(0, url.indexOf('conta'));
-    return `${baseUrl}perfil/${userName}`;
-  };
-
-  useEffect(() => {
-    setAnimationDelay(0);
-  }, [users]);
+    return users
+      .filter((user) => user && user.name && user.id !== currentUserId)
+      .filter((user) => {
+        const key = user.id || user.name;
+        if (seen.has(key)) {
+          return false;
+        }
+        seen.add(key);
+        return true;
+      });
+  }, [users, currentUserId]);
 
   return (
     <div
@@ -59,6 +34,21 @@ const UserChatList = ({
         <h2 className={styles.titleUserList}>🐱</h2>
       </div>
       <ul className={styles.listNames}>
+        <li
+          className={`${styles.userNames} ${
+            activeRoomPostId === mainRoomPostId ? styles.activeRoom : ''
+          }`}
+        >
+          <button
+            type="button"
+            className={`${styles.userLink} ${styles.roomButton}`}
+            onClick={onSelectMainRoom}
+            title="Voltar para a Sala Principal"
+          >
+            <span className={styles.userName}># Sala Principal</span>
+          </button>
+        </li>
+
         {uniqueUsers.length === 0 && !isLoading ? (
           <li className={styles.emptyMessage}>
             🐾 Nenhum gatinho por aqui ainda...
@@ -67,37 +57,22 @@ const UserChatList = ({
           uniqueUsers.map((user, index) => (
             <li
               key={user.id || `user-${index}`}
-              className={getUserClasses(user.name)}
+              className={styles.userNames}
               style={{
                 animationDelay: `${index * 0.1}s`,
               }}
             >
-              <a
-                href={createProfileUrl(user.name)}
-                className={styles.userLink}
-                title={`Ver perfil de ${user.name}`}
-                onClick={(e) => {
-                  if (!user.name) {
-                    e.preventDefault();
-                    console.warn('Nome de usuário inválido');
-                  }
-                }}
+              <button
+                type="button"
+                className={`${styles.userLink} ${styles.roomButton}`}
+                title={`Conversar com ${user.name}`}
+                onClick={() => onSelectUser(user)}
               >
                 <span className={styles.userName}>{user.name}</span>
-                {isUserOnline(user.name) && (
-                  <span className={styles.onlineIndicator} title="Online agora">
-                    🟢
-                  </span>
-                )}
-                {isUserFeatured(user.name) && (
-                  <span
-                    className={styles.featuredBadge}
-                    title="Usuário em destaque"
-                  >
-                    ⭐
-                  </span>
-                )}
-              </a>
+                <span className={styles.onlineIndicator} title="Online agora">
+                  🟢
+                </span>
+              </button>
             </li>
           ))
         )}
@@ -113,4 +88,4 @@ const UserChatList = ({
   );
 };
 
-export default UserChatList;
+export { UserChatList };

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './UserChat.module.css';
 
 function UserMessages({
@@ -50,4 +49,4 @@ function UserMessages({
   );
 }
 
-export default UserMessages;
+export { UserMessages };
