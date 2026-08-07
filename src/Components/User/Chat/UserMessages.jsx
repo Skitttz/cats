@@ -41,6 +41,15 @@ function UserMessages({
               <span className={`${styles.messageDate} ${dateClass}`}>
                 {msg.date}
               </span>
+              {isMyMessage && msg.status !== 'sent' && (
+                <span
+                  className={`${styles.deliveryStatus} ${
+                    msg.status === 'failed' ? styles.deliveryFailed : ''
+                  }`}
+                >
+                  {msg.status === 'failed' ? 'Não enviada' : 'Enviando…'}
+                </span>
+              )}
             </div>
           </div>
         );

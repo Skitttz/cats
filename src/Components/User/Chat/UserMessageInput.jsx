@@ -5,7 +5,7 @@ import styles from './UserChat.module.css';
 
 const MemoizedEmojiPicker = memo(EmojiPicker);
 
-function MessageInput({ message, setMessage, handleSubmit }) {
+function MessageInput({ message, setMessage, handleSubmit, isConnected }) {
   const inputTextmessage = useRef(null);
   const pickerRef = useRef(null);
   const [showPickerState, setShowPickerState] = useState(false);
@@ -75,9 +75,12 @@ function MessageInput({ message, setMessage, handleSubmit }) {
           ref={inputTextmessage}
           style={{ resize: 'none' }}
           className={styles.messageInput}
-          placeholder="Digite sua mensagem..."
+          placeholder={
+            isConnected ? 'Digite sua mensagem...' : 'Reconectando ao chat...'
+          }
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={!isConnected}
           maxLength={1000}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -86,7 +89,10 @@ function MessageInput({ message, setMessage, handleSubmit }) {
             }
           }}
         ></textarea>
-        <button className={styles.sendButton} disabled={!message.trim()}>
+        <button
+          className={styles.sendButton}
+          disabled={!isConnected || !message.trim()}
+        >
           Enviar
         </button>
         {message.length > 900 && (
