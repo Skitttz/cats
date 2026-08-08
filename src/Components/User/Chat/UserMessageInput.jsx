@@ -1,7 +1,6 @@
 import EmojiPicker from 'emoji-picker-react';
-import { ImagePlus, X } from 'lucide-react';
+import { ImagePlus, Smile, X } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
-import Emoji from '../../../Assets/emoji.svg';
 import styles from './UserChat.module.css';
 
 const MemoizedEmojiPicker = memo(EmojiPicker);
@@ -12,6 +11,7 @@ const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping }) {
   const inputTextmessage = useRef(null);
   const pickerRef = useRef(null);
+  const emojiButtonRef = useRef(null);
   const [showPickerState, setShowPickerState] = useState(false);
   const typingSentAtRef = useRef(0);
   const typingTimeoutRef = useRef(null);
@@ -93,6 +93,8 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping
   };
 
   const handleClickOutside = (event) => {
+    if (emojiButtonRef.current?.contains(event.target)) return;
+
     if (pickerRef.current && !pickerRef.current.contains(event.target)) {
       setShowPickerState(false);
     }
@@ -171,7 +173,7 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping
       <form className={styles.containerSendMessage} onSubmit={handleSend}>
         <button
           type="button"
-          className={styles.attachButton}
+          className={styles.iconButton}
           onClick={() => fileInputRef.current?.click()}
           disabled={!isConnected}
           aria-label="Anexar foto do gatinho"
@@ -187,20 +189,17 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping
           tabIndex={-1}
           aria-hidden="true"
         />
-        <Emoji
-          className={styles.btnEmoji}
-          style={{ cursor: 'pointer', width: '48px' }}
+        <button
+          ref={emojiButtonRef}
+          type="button"
+          className={`${styles.iconButton} ${styles.emojiToggle}`}
           onClick={togglePicker}
-          role="button"
-          aria-label="Abrir Lista de Emojis"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              togglePicker();
-            }
-          }}
-        />
+          disabled={!isConnected}
+          aria-label="Abrir lista de emojis"
+          aria-expanded={showPickerState}
+        >
+          <Smile size={22} />
+        </button>
         <label htmlFor="message-input" className="sr-only">
           Digite sua mensagem
         </label>

@@ -5,10 +5,10 @@
   width: 100%;
   max-height: 42rem;
   overflow: hidden;
-  border: 1px solid #e4e5ea;
+  border: 1px solid var(--color-border);
   border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 10px 30px rgba(42, 44, 71, 0.08);
+  background: var(--color-surface);
+  box-shadow: 0 10px 30px rgba(186, 96, 34, 0.08);
 }
 
 .containerTitulo {
@@ -17,7 +17,8 @@
   gap: 0.7rem;
   min-height: 5.5rem;
   padding: 0.85rem 1rem;
-  background: linear-gradient(135deg, #2a2c47, #40466e);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .headerIcon {
@@ -28,8 +29,8 @@
   width: 2.4rem;
   height: 2.4rem;
   border-radius: 0.75rem;
-  background: rgba(244, 118, 43, 0.18);
-  color: #ffb37f;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
 }
 
 .headerCopy {
@@ -39,7 +40,7 @@
 .headerCopy p {
   margin: 0.15rem 0 0;
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.66);
+  color: var(--color-text-muted);
   font-size: 0.68rem;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -47,7 +48,7 @@
 
 .titleUserList {
   margin: 0;
-  color: #fff;
+  color: var(--color-text);
   font-size: 1.08rem;
   font-weight: 750;
 }
@@ -61,7 +62,7 @@
   margin-left: auto;
   padding: 0.15rem 0.45rem;
   border-radius: 999px;
-  background: #f4762b;
+  background: var(--color-brand);
   color: #fff;
   font-size: 0.72rem;
   font-weight: 800;
@@ -79,7 +80,7 @@
   overflow-y: auto;
   list-style: none;
   scrollbar-width: thin;
-  scrollbar-color: rgba(244, 118, 43, 0.55) transparent;
+  scrollbar-color: rgba(250, 124, 39, 0.55) transparent;
 }
 
 .userNames {
@@ -97,7 +98,7 @@
   border: 1px solid transparent;
   border-radius: 0.7rem;
   background: transparent;
-  color: #36394e;
+  color: var(--color-text);
   transition: border-color 160ms ease, background 160ms ease,
     color 160ms ease;
 }
@@ -113,8 +114,8 @@
 }
 
 .groupIcon {
-  background: #e9ebff;
-  color: #4c58bb;
+  background: var(--color-accent);
+  color: #3f5122;
 }
 
 .directAvatar {
@@ -138,7 +139,7 @@
 }
 
 .userLink:focus-visible {
-  outline: 3px solid rgba(244, 118, 43, 0.22);
+  outline: 3px solid rgba(250, 124, 39, 0.22);
   outline-offset: 1px;
 }
 
@@ -152,7 +153,7 @@
 .activeRoom .roomButton {
   border-color: #f4d1bc;
   background: #fff0e7;
-  box-shadow: inset 3px 0 #f4762b;
+  box-shadow: inset 3px 0 var(--color-brand);
   color: #c95716;
 }
 
@@ -175,7 +176,7 @@
 .conversationPreview {
   margin-top: 0.15rem;
   overflow: hidden;
-  color: #777a89;
+  color: var(--color-text-muted);
   font-size: 0.72rem;
   font-weight: 500;
   text-overflow: ellipsis;
@@ -184,7 +185,7 @@
 
 .roomKind {
   margin-top: 0.12rem;
-  color: #777a89;
+  color: var(--color-text-muted);
   font-size: 0.69rem;
   font-weight: 500;
 }
@@ -198,7 +199,7 @@
   height: 1.35rem;
   padding: 0 0.35rem;
   border-radius: 999px;
-  background: #f4762b;
+  background: var(--color-brand);
   color: #fff;
   font-size: 0.68rem;
   font-weight: 800;
@@ -217,7 +218,7 @@
   justify-content: space-between;
   gap: 0.5rem;
   margin: 0.85rem 0.4rem 0.25rem;
-  color: #777a89;
+  color: var(--color-text-muted);
 }
 
 .sectionLabel:first-child {
@@ -240,8 +241,8 @@
   height: 1.25rem;
   padding: 0 0.32rem;
   border-radius: 999px;
-  background: #f0f1f5;
-  color: #686b7c;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
   font-size: 0.64rem;
   font-weight: 750;
 }
@@ -249,10 +250,10 @@
 .sectionEmpty {
   margin: 0 0.25rem;
   padding: 0.65rem 0.75rem;
-  border: 1px dashed #dfe0e6;
+  border: 1px dashed var(--color-border);
   border-radius: 0.65rem;
-  background: #fafafd;
-  color: #9294a1;
+  background: var(--color-bg-warm);
+  color: var(--color-text-muted);
   font-size: 0.75rem;
 }
 
@@ -261,7 +262,7 @@
   height: 0.55rem;
   overflow: hidden;
   border-radius: 50%;
-  background: #38c976;
+  background: var(--color-success);
   color: transparent;
   box-shadow: 0 0 0 3px rgba(56, 201, 118, 0.14);
 }
@@ -273,7 +274,7 @@
 
 .emptyMessage {
   padding: 1rem 0.5rem;
-  color: #777a89;
+  color: var(--color-text-muted);
   font-size: 0.82rem;
   line-height: 1.4;
   text-align: center;
@@ -281,8 +282,8 @@
 
 .listFooter {
   padding: 0.65rem 0.7rem;
-  border-top: 1px solid #ececf0;
-  background: #fafafd;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-warm);
 }
 
 .stats,
@@ -294,7 +295,7 @@
 
 .onlineUsers {
   gap: 0.4rem;
-  color: #686b7c;
+  color: var(--color-text-muted);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -303,7 +304,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: #38c976;
+  background: var(--color-success);
 }
 
 .loading {

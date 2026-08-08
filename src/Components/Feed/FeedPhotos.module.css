@@ -1,9 +1,21 @@
 .feed {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 1rem;
   justify-items: center;
+}
+
+@media (min-width: 40rem) {
+  .feed {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 56rem) {
+  .feed {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .noPostUser {
