@@ -5,6 +5,7 @@ import {
   createPendingMessage,
   mergeChatMessages,
   toChatMessage,
+  toggleReaction,
 } from './chatMessageUtils';
 
 const useChatMessages = ({ roomId, request, onInitialLoad }) => {
@@ -37,6 +38,29 @@ const useChatMessages = ({ roomId, request, onInitialLoad }) => {
       currentMessages.map((message) =>
         message.clientId === clientId
           ? { ...message, status: 'failed' }
+          : message,
+      ),
+    );
+  }, []);
+
+  const updateMessageReactions = useCallback((messageId, reactions) => {
+    setMessagesState((currentMessages) =>
+      currentMessages.map((message) =>
+        Number(message.id) === Number(messageId)
+          ? { ...message, reactions }
+          : message,
+      ),
+    );
+  }, []);
+
+  const toggleMessageReaction = useCallback((messageId, emoji, userId) => {
+    setMessagesState((currentMessages) =>
+      currentMessages.map((message) =>
+        Number(message.id) === Number(messageId)
+          ? {
+              ...message,
+              reactions: toggleReaction(message.reactions, emoji, userId),
+            }
           : message,
       ),
     );
@@ -124,6 +148,8 @@ const useChatMessages = ({ roomId, request, onInitialLoad }) => {
     addMessage,
     addPendingMessage,
     failPendingMessage,
+    updateMessageReactions,
+    toggleMessageReaction,
   };
 };
 

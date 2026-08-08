@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { NavLink } from 'react-router';
 import { PHOTOS_GET, USER_GET_INFO_NAME } from '../../Api/index';
@@ -42,7 +42,7 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
 
       return json;
     },
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
 
   if (photosError || userInfoError)

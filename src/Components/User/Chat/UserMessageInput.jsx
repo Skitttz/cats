@@ -1,14 +1,96 @@
 import EmojiPicker from 'emoji-picker-react';
+import { ImagePlus, X } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
 import Emoji from '../../../Assets/emoji.svg';
 import styles from './UserChat.module.css';
 
 const MemoizedEmojiPicker = memo(EmojiPicker);
 
-function MessageInput({ message, setMessage, handleSubmit, isConnected }) {
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping }) {
   const inputTextmessage = useRef(null);
   const pickerRef = useRef(null);
   const [showPickerState, setShowPickerState] = useState(false);
+  const typingSentAtRef = useRef(0);
+  const typingTimeoutRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const [attachmentState, setAttachmentState] = useState(null);
+  const [attachmentErrorState, setAttachmentErrorState] = useState('');
+  const attachmentRef = useRef(null);
+  attachmentRef.current = attachmentState;
+
+  const notifyTyping = () => {
+    if (!onTyping) return;
+
+    const now = Date.now();
+    if (now - typingSentAtRef.current >= 2000) {
+      typingSentAtRef.current = now;
+      onTyping(true);
+    }
+
+    clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      typingSentAtRef.current = 0;
+      onTyping(false);
+    }, 3000);
+  };
+
+  const stopTyping = () => {
+    clearTimeout(typingTimeoutRef.current);
+    if (onTyping && typingSentAtRef.current > 0) {
+      typingSentAtRef.current = 0;
+      onTyping(false);
+    }
+  };
+
+  const handleSend = (event) => {
+    stopTyping();
+
+    const attachment = attachmentState;
+    handleSubmit(
+      event,
+      attachment ? { file: attachment.file, preview: attachment.preview } : null,
+    );
+
+    if (attachment) {
+      // O preview local segue vivo na mensagem pendente; o UserChat revoga
+      // o objectURL quando a mensagem for confirmada.
+      attachmentRef.current = null;
+      setAttachmentState(null);
+    }
+  };
+
+  const handleImagePick = ({ target }) => {
+    const file = target.files?.[0];
+    target.value = '';
+
+    if (!file) return;
+
+    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+      setAttachmentErrorState(
+        'Formato não suportado. O gatinho só posa em JPEG, PNG ou WebP.',
+      );
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_BYTES) {
+      setAttachmentErrorState('A foto do gatinho não pode passar de 5 MB.');
+      return;
+    }
+
+    if (attachmentState?.preview) URL.revokeObjectURL(attachmentState.preview);
+    setAttachmentState({ file, preview: URL.createObjectURL(file) });
+    setAttachmentErrorState('');
+  };
+
+  const removeAttachment = () => {
+    if (attachmentState?.preview) URL.revokeObjectURL(attachmentState.preview);
+    attachmentRef.current = null;
+    setAttachmentState(null);
+    setAttachmentErrorState('');
+  };
 
   const handleClickOutside = (event) => {
     if (pickerRef.current && !pickerRef.current.contains(event.target)) {
@@ -50,9 +132,61 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected }) {
     }
   }, [showPickerState]);
 
+  useEffect(() => {
+    return () => {
+      clearTimeout(typingTimeoutRef.current);
+      if (attachmentRef.current?.preview) {
+        URL.revokeObjectURL(attachmentRef.current.preview);
+      }
+    };
+  }, []);
+
   return (
     <>
-      <form className={styles.containerSendMessage} onSubmit={handleSubmit}>
+      {attachmentState && (
+        <div className={styles.attachmentPreview}>
+          <img
+            className={styles.attachmentThumb}
+            src={attachmentState.preview}
+            alt="Prévia da foto do gatinho"
+          />
+          <span className={styles.attachmentHint}>
+            Foto pronta para miar! Escreva uma legenda ao lado, se quiser.
+          </span>
+          <button
+            type="button"
+            className={styles.attachmentRemove}
+            onClick={removeAttachment}
+            aria-label="Remover foto anexada"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+      {attachmentErrorState && (
+        <p className={styles.attachmentError} role="alert">
+          {attachmentErrorState}
+        </p>
+      )}
+      <form className={styles.containerSendMessage} onSubmit={handleSend}>
+        <button
+          type="button"
+          className={styles.attachButton}
+          onClick={() => fileInputRef.current?.click()}
+          disabled={!isConnected}
+          aria-label="Anexar foto do gatinho"
+        >
+          <ImagePlus size={22} />
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className={styles.fileInput}
+          onChange={handleImagePick}
+          tabIndex={-1}
+          aria-hidden="true"
+        />
         <Emoji
           className={styles.btnEmoji}
           style={{ cursor: 'pointer', width: '48px' }}
@@ -79,19 +213,26 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected }) {
             isConnected ? 'Digite sua mensagem...' : 'Reconectando ao chat...'
           }
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            setMessage(e.target.value);
+            if (e.target.value.trim()) {
+              notifyTyping();
+            } else {
+              stopTyping();
+            }
+          }}
           disabled={!isConnected}
           maxLength={1000}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
-              handleSubmit(e);
+              handleSend(e);
             }
           }}
         ></textarea>
         <button
           className={styles.sendButton}
-          disabled={!isConnected || !message.trim()}
+          disabled={!isConnected || (!message.trim() && !attachmentState)}
         >
           Enviar
         </button>

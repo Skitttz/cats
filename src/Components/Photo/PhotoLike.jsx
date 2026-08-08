@@ -57,8 +57,8 @@ const PhotoLike = ({ id, className = '' }) => {
       return json;
     },
     onMutate: async () => {
-      await queryClient.cancelQueries(['photoLikes', id]);
-      await queryClient.cancelQueries(['hasLike', id]);
+      await queryClient.cancelQueries({ queryKey: ['photoLikes', id] });
+      await queryClient.cancelQueries({ queryKey: ['hasLike', id] });
 
       const prevLikes = queryClient.getQueryData(['photoLikes', id]);
       const prevHasLike = queryClient.getQueryData(['hasLike', id]);
@@ -78,8 +78,8 @@ const PhotoLike = ({ id, className = '' }) => {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries(['photoLikes', id]);
-      queryClient.invalidateQueries(['hasLike', id]);
+      queryClient.invalidateQueries({ queryKey: ['photoLikes', id] });
+      queryClient.invalidateQueries({ queryKey: ['hasLike', id] });
     },
   });
 
@@ -88,7 +88,7 @@ const PhotoLike = ({ id, className = '' }) => {
       <button
         className={`${styles.likeBtn} ${hasLike ? styles.liked : ''}`}
         onClick={() => mutation.mutate()}
-        disabled={!isUserLoggedIn || mutation.isLoading}
+        disabled={!isUserLoggedIn || mutation.isPending}
         aria-label={hasLike ? 'Descurtir post' : 'Curtir post'}
         type="button"
       >

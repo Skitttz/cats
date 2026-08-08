@@ -13,6 +13,7 @@ import UserProfile from './Components/User/UserProfile';
 import NotFound404 from './Components/Helper/404/NotFound404';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChatNotificationsStorage } from './ChatNotificationsContext';
+import { PwaUpdatePrompt } from './Components/PwaUpdatePrompt';
 
 function App() {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -40,6 +41,7 @@ function App() {
                   <Route path="*" element={<NotFound404 />} />
                 </Routes>
               </main>
+              <PwaUpdatePrompt />
               <Footer />
             </ChatNotificationsStorage>
           </UserStorage>

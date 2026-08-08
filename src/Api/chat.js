@@ -37,4 +37,35 @@ function ROOM_MESSAGE_GET(id, { perPage = 50, beforeId } = {}) {
   };
 }
 
-export { DM_ROOM_POST, DM_ROOMS_GET, ROOM_MESSAGE_GET };
+function MESSAGE_REACTION_POST(messageId, emoji) {
+  return {
+    url: `${API_URL}/api/msg_reaction/${messageId}`,
+    options: {
+      method: 'POST',
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ emoji }),
+    },
+  };
+}
+
+function CHAT_IMAGE_POST(roomId, file) {
+  const body = new FormData();
+  body.append('img', file);
+
+  return {
+    url: `${API_URL}/api/chat_image/${roomId}`,
+    options: {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body,
+    },
+  };
+}
+
+export {
+  CHAT_IMAGE_POST,
+  DM_ROOM_POST,
+  DM_ROOMS_GET,
+  MESSAGE_REACTION_POST,
+  ROOM_MESSAGE_GET,
+};

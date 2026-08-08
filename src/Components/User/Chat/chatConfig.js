@@ -8,4 +8,14 @@ const MAIN_CHAT_ROOM = Object.freeze({
 
 const CHAT_PAGE_SIZE = 50;
 
-export { CHAT_PAGE_SIZE, CHAT_SERVER_URL, MAIN_CHAT_ROOM };
+// Reações rápidas do chat; precisa bater com a whitelist do WordPress.
+const QUICK_REACTIONS = Object.freeze([
+  { emoji: '❤️', label: 'coração' },
+  { emoji: '😂', label: 'risada' },
+  { emoji: '😮', label: 'surpresa' },
+  { emoji: '😢', label: 'tristeza' },
+  { emoji: '👍', label: 'joinha' },
+  { emoji: '🐱', label: 'gatinho' },
+]);
+
+export { CHAT_PAGE_SIZE, CHAT_SERVER_URL, MAIN_CHAT_ROOM, QUICK_REACTIONS };

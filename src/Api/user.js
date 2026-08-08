@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { getAuthHeaders } from '../Utils/auth';
 import { API_URL } from './index';
 
@@ -13,7 +14,7 @@ export function USER_GET(token) {
 
 export async function USER_GET_INFO_NAME() {
   try {
-    const userInfo = USER_GET(window.localStorage.getItem('token'));
+    const userInfo = USER_GET(Cookies.get('token'));
     const response = await fetch(userInfo.url, userInfo.options);
     if (!response.ok) {
       throw new Error('[Error User]');

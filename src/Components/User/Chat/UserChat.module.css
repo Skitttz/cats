@@ -53,6 +53,33 @@
   color: #71320d;
 }
 
+.notificationToggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #dce0ff;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.notificationToggle:hover:not(:disabled) {
+  border-color: #f3b33d;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffd9a8;
+}
+
+.notificationToggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .headerRoomInfo {
   min-width: 0;
 }
@@ -119,6 +146,54 @@
   text-align: center;
 }
 
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 1.5rem;
+  margin: 0;
+  padding: 0.15rem 1.25rem 0;
+  color: #8a8d99;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
+.typingDots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.typingDots span {
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 50%;
+  background: #f3b33d;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.typingDots span:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.typingDots span:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+@keyframes typingBounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+
+  30% {
+    transform: translateY(-0.2rem);
+    opacity: 1;
+  }
+}
+
 .containerMsg {
   display: flex;
   flex: 1;
@@ -149,10 +224,25 @@
   justify-content: flex-start;
 }
 
+.messageStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: min(75%, 38rem);
+}
+
+.myStack {
+  align-items: flex-end;
+}
+
+.otherStack {
+  align-items: flex-start;
+}
+
 .messageBubble {
   display: flex;
   flex-direction: column;
-  max-width: min(75%, 38rem);
+  max-width: 100%;
   padding: 0.7rem 0.95rem;
   border-radius: 1.15rem;
   overflow-wrap: anywhere;
@@ -186,6 +276,64 @@
   white-space: pre-wrap;
 }
 
+.messageImageLink {
+  display: block;
+  align-self: flex-start;
+  max-width: 100%;
+  border-radius: 0.75rem;
+  outline: none;
+}
+
+.messageImageLink:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85);
+}
+
+/* Espaço só quando a foto vem acompanhada de legenda. */
+.messageImageLink + .messageText {
+  margin-top: 0.45rem;
+}
+
+/* O esqueleto sai do DOM quando a imagem carrega, então ele mesmo segura o
+   espaço em fluxo: a imagem só ocupa altura depois de carregada. */
+.messageImageWrap {
+  display: block;
+}
+
+.messageImageSkeleton {
+  display: block;
+  width: min(14rem, 100%);
+  height: 9.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.06) 30%,
+      rgba(255, 255, 255, 0.22) 50%,
+      rgba(255, 255, 255, 0.06) 70%
+    )
+    #ffffff1a;
+  background-size: 200% 100%;
+  animation: chatImageShimmer 1.4s infinite linear;
+}
+
+.messageImage {
+  display: block;
+  max-width: 100%;
+  max-height: 18rem;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  transition: opacity 200ms ease;
+}
+
+@keyframes chatImageShimmer {
+  from {
+    background-position: 150% 0;
+  }
+
+  to {
+    background-position: -50% 0;
+  }
+}
+
 .messageDate {
   align-self: flex-end;
   margin-top: 0.3rem;
@@ -210,6 +358,110 @@
   font-weight: 700;
 }
 
+.reactionBar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.6rem;
+}
+
+.reactionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.reactionChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid #d8d8df;
+  border-radius: 999px;
+  background: #fff;
+  color: #4e5166;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.reactionChip:hover {
+  border-color: #f3b33d;
+}
+
+.reactionChipMine {
+  border-color: #f3b33d;
+  background: #fdf3dd;
+  color: #7a5410;
+  font-weight: 700;
+}
+
+.reactionPickerWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.reactionTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 160ms ease, background 160ms ease;
+}
+
+.messageRow:hover .reactionTrigger,
+.messageRow:focus-within .reactionTrigger,
+.reactionTrigger[aria-expanded='true'] {
+  opacity: 1;
+}
+
+.reactionTrigger:hover {
+  border-color: #d8d8df;
+  background: #fff;
+}
+
+.reactionPicker {
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  gap: 0.1rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid #e2e3e8;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 12px 35px rgba(42, 44, 71, 0.22);
+}
+
+.reactionOption {
+  padding: 0.15rem 0.3rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.reactionOption:hover,
+.reactionOption:focus-visible {
+  background: #f4f5f8;
+  transform: scale(1.15);
+}
+
 .loadOlder {
   align-self: center;
   margin-bottom: 0.8rem;
@@ -228,6 +480,61 @@
   opacity: 0.6;
 }
 
+.attachmentPreview {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 1rem;
+  border-top: 1px solid #e2e3e8;
+  background: #fbfbfc;
+}
+
+.attachmentThumb {
+  flex: 0 0 auto;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid #e2e3e8;
+  border-radius: 0.6rem;
+  object-fit: cover;
+}
+
+.attachmentHint {
+  flex: 1;
+  min-width: 0;
+  color: #75788a;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.attachmentRemove {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid #d8d8df;
+  border-radius: 50%;
+  background: #fff;
+  color: #75788a;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.attachmentRemove:hover {
+  border-color: #f4762b;
+  color: #f4762b;
+}
+
+.attachmentError {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #ffd2d2;
+  background: #fff2f2;
+  color: #9d2424;
+  font-size: 0.8rem;
+}
+
 .containerSendMessage {
   display: flex;
   align-items: center;
@@ -241,6 +548,36 @@
   flex: 0 0 auto;
   width: 2.6rem !important;
   padding: 0.35rem;
+}
+
+.attachButton {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0.35rem;
+  border: 1px solid #cfd1d8;
+  border-radius: 0.7rem;
+  background: #fff;
+  color: #75788a;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.attachButton:hover:not(:disabled) {
+  border-color: #f4762b;
+  color: #f4762b;
+}
+
+.attachButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.fileInput {
+  display: none;
 }
 
 .messageInput {
@@ -327,8 +664,12 @@
     padding: 0.85rem;
   }
 
-  .messageBubble {
+  .messageStack {
     max-width: 86%;
+  }
+
+  .reactionTrigger {
+    opacity: 0.55;
   }
 
   .btnEmoji,
@@ -350,5 +691,23 @@
 
   .sendButton {
     padding-inline: 0.8rem;
+  }
+
+  .attachmentPreview {
+    gap: 0.55rem;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .attachmentThumb {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .messageImageSkeleton {
+    height: 8rem;
+  }
+
+  .messageImage {
+    max-height: 14rem;
   }
 }
