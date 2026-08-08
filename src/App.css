@@ -1,6 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
+:root {
+  --color-brand: #fa7c27;
+  --color-brand-strong: #ba6022;
+  --color-brand-soft: #fde8db;
+  --color-accent: #b6d78c;
+  --color-indigo: #3b4de7;
+  --color-surface: #ffffff;
+  --color-bg: #f8f8f8;
+  --color-bg-warm: #fdf8f4;
+  --color-text: #333333;
+  --color-text-muted: #6f6a66;
+  --color-border: #ebe4de;
+  --color-danger: #ff4d4f;
+  --color-success: #38c976;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -84,7 +100,7 @@ input {
 }
 
 .container {
-  max-width: 50rem;
+  max-width: 64rem;
   padding: 0 1rem;
   margin: 0 auto;
 }
