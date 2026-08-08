@@ -1,5 +1,11 @@
 import { Bell, BellOff, UsersRound } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { CHAT_IMAGE_POST, MESSAGE_REACTION_POST } from '../../../Api/index';
 import { useChatNotifications } from '../../../ChatNotificationsContext';
 import useFetch from '../../../Hooks/useFetch';
@@ -24,6 +30,8 @@ const UserChat = () => {
     useChatNotifications();
   const [messageState, setMessageState] = useState('');
   const messagesContainerRef = useRef(null);
+  const pinnedToBottomRef = useRef(true);
+  const scrollPendingRef = useRef(false);
   const userName = data?.nome || 'Usuário';
 
   const {
@@ -42,16 +50,27 @@ const UserChat = () => {
       : 'Notificações silenciadas. Clique para reativar.',
   }[notificationPermission];
 
-  const scrollToLastMessage = useCallback(() => {
-    setTimeout(() => {
-      const messageRows = messagesContainerRef.current?.querySelectorAll(
-        `.${styles.messageRow}`,
-      );
-      const lastMessage = messageRows?.[messageRows.length - 1];
+  const scrollToBottom = useCallback(() => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
 
-      lastMessage?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }, 50);
+    container.scrollTop = container.scrollHeight;
+    pinnedToBottomRef.current = true;
   }, []);
+
+  const requestScrollToBottom = useCallback(() => {
+    scrollPendingRef.current = true;
+  }, []);
+
+  const handleMessagesScroll = useCallback((event) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+
+    pinnedToBottomRef.current = scrollHeight - scrollTop - clientHeight <= 4;
+  }, []);
+
+  const handleMessageImageLoad = useCallback(() => {
+    if (pinnedToBottomRef.current) scrollToBottom();
+  }, [scrollToBottom]);
 
   const {
     activeRoomState,
@@ -74,7 +93,7 @@ const UserChat = () => {
   } = useChatMessages({
     roomId: activeRoomState.postId,
     request,
-    onInitialLoad: scrollToLastMessage,
+    onInitialLoad: requestScrollToBottom,
   });
   const {
     usersState,
@@ -89,7 +108,7 @@ const UserChat = () => {
     currentUserId: data?.id,
     onMessage: (incomingMessage) => {
       addMessage(incomingMessage);
-      scrollToLastMessage();
+      requestScrollToBottom();
     },
     onReactionUpdate: ({ messageId, reactions }) => {
       updateMessageReactions(
@@ -98,6 +117,13 @@ const UserChat = () => {
       );
     },
   });
+
+  useLayoutEffect(() => {
+    if (!scrollPendingRef.current) return;
+
+    scrollPendingRef.current = false;
+    scrollToBottom();
+  }, [messagesState, scrollToBottom]);
 
   useEffect(() => {
     if (!latestDirectMessage) return;
@@ -142,7 +168,7 @@ const UserChat = () => {
         ...(attachment ? { type: 'image', imageUrl: attachment.preview } : {}),
       });
       setMessageState('');
-      scrollToLastMessage();
+      requestScrollToBottom();
 
       try {
         let attachmentPayload = null;
@@ -183,7 +209,7 @@ const UserChat = () => {
       messageState,
       registerDirectMessage,
       request,
-      scrollToLastMessage,
+      requestScrollToBottom,
       sendMessage,
       userName,
     ],
@@ -321,6 +347,8 @@ const UserChat = () => {
           loadingOlder={loadingOlderState}
           onLoadOlder={loadOlderMessages}
           onToggleReaction={handleToggleReaction}
+          onScroll={handleMessagesScroll}
+          onImageLoad={handleMessageImageLoad}
           roomType={activeRoomState.type}
         />
 

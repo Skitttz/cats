@@ -1,10 +1,14 @@
-import { useCallback, useState } from 'react';
-import styles from './UserChat.module.css';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { ChatImagePreview } from './ChatImagePreview';
+import styles from './UserChat.module.css';
 import { UserMessageReactions } from './UserMessageReactions';
 
-function ChatMessageImage({ src, alt }) {
+function ChatMessageImage({ src, alt, onLoaded }) {
   const [loadedState, setLoadedState] = useState(false);
+
+  useLayoutEffect(() => {
+    if (loadedState) onLoaded?.();
+  }, [loadedState, onLoaded]);
 
   return (
     <span className={styles.messageImageWrap}>
@@ -31,6 +35,8 @@ function UserMessages({
   loadingOlder,
   onLoadOlder,
   onToggleReaction,
+  onScroll,
+  onImageLoad,
   roomType,
 }) {
   const [pickerForState, setPickerForState] = useState(null);
@@ -39,7 +45,11 @@ function UserMessages({
 
   return (
     <>
-      <div className={styles.containerMsg} ref={messagesContainerRef}>
+      <div
+        className={styles.containerMsg}
+        ref={messagesContainerRef}
+        onScroll={onScroll}
+      >
         {hasMore && (
           <button
             type="button"
@@ -87,6 +97,7 @@ function UserMessages({
                       <ChatMessageImage
                         src={msg.imageUrl}
                         alt={`Foto do gatinho enviada por ${msg.sender}`}
+                        onLoaded={onImageLoad}
                       />
                     </button>
                   )}
