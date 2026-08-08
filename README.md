@@ -1,122 +1,177 @@
 <div align="center">
-  <img src="https://i.ibb.co/KyVmV01/cats.png" width="20%" />
-  <p align="center">
-  <strong>Uma plataforma social dedicada aos amantes de gatos e seus adoráveis felinos</strong>
-  </p>
+  <img src="./src/Assets/cats.svg" width="160" alt="Logo do Cats" />
+  <p><strong>Rede social para quem gosta de gatos e quer compartilhar seus felinos</strong></p>
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101" alt="Socket.io" />
-  <img src="https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress" />
+  <img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 19" />
+  <img src="https://img.shields.io/badge/Vite_6-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 6" />
+  <img src="https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA" />
+  <img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.io" />
   <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow" />
-  <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
 </div>
 
+## Sobre o projeto
 
-## 🐾 Sobre o Projeto
+O **Cats** é o frontend de uma rede social voltada a amantes de gatos. A aplicação começou como projeto de conclusão do curso React Completo, da Origamid, e evoluiu para uma experiência integrada a uma API WordPress headless e a um servidor de chat em tempo real.
 
-O **Cats** é uma rede social criada especificamente para entusiastas de gatos. A plataforma permite que usuários se conectem, compartilhem fotos dos seus felinos, troquem experiências e participem de conversas em tempo real através de um chat integrado.
+Além do feed de fotos, o frontend oferece conversas públicas e privadas, interações sociais, estatísticas, detecção de gatos no navegador e instalação como PWA.
 
-Este projeto foi inicialmente desenvolvido como trabalho de conclusão do curso "React Completo" da Origamid, mas evoluiu muito além do escopo original, incorporando funcionalidades avançadas como:
-
-- 🤖 **Detecção de gatos** em imagens usando TensorFlow
-- 💬 **Chat em tempo real** com WebSockets
-- ❤️ **Sistema de curtidas** e interações sociais
-- 📱 **Interface responsiva** e moderna
-
-## 🖼️ Demonstração
+## Demonstração
 
 https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c3b36
 
-> **Nota:** Foram feitos cortes no vídeo para torná-lo mais conciso.
+## Funcionalidades atuais
 
-## ✨ Funcionalidades
+### Conta e perfil
 
-### 🔐 Autenticação
-- Login e cadastro de usuários
-- Gerenciamento de sessão
-- Perfis personalizados
+- Cadastro, login e sessão autenticada com JWT
+- Rotas protegidas para a área da conta
+- Perfil público e gerenciamento das próprias publicações
 
-### 📸 Feed Social
-- Upload de fotos com detecção automática de gatos
-- Sistema de curtidas e comentários
-- Rolagem infinita (infinite scroll)
-- Visualização de estatísticas das postagens
+### Feed e publicações
 
-### 💬 Chat em Tempo Real
-- Mensagens instantâneas entre usuários
-- Lista de usuários online
-- Histórico de conversas
+- Feed responsivo com carregamento infinito
+- Publicação de imagens JPEG e PNG com pré-visualização
+- Detecção de gatos no navegador com COCO-SSD e TensorFlow.js
+- Comentários, curtidas, contagem de visualizações e exclusão pelo autor
+- Dashboard com resumo, ranking e gráfico de acessos das publicações
 
-## 🛠️ Tecnologias
+### Chat em tempo real
 
-### Frontend
-- **React.js** - Biblioteca para construção da interface
-- **JavaScript (ES6+)** - Linguagem principal
-- **CSS3** - Estilização e layouts responsivos
-- **Vite** - Build tool e servidor de desenvolvimento
+- Sala principal e conversas privadas
+- Presença de usuários, reconexão automática e indicador de digitação
+- Histórico paginado e contador de mensagens não lidas
+- Envio otimista de texto, emojis e imagens JPEG, PNG ou WebP de até 5 MB
+- Reações rápidas persistidas e sincronizadas em tempo real
+- Notificações do navegador para mensagens privadas quando a aba está oculta
 
-### Backend & APIs
-- **WordPress Headless** - CMS para gerenciamento de conteúdo
-- **Node.js** - Runtime JavaScript para o servidor
-- **Socket.io** - Comunicação em tempo real (WebSockets)
+### PWA
 
-### Machine Learning
-- **TensorFlow.js** - Framework de machine learning
-- **COCO-SSD** - Modelo de detecção de objetos
+- Manifesto e ícones para instalação no desktop ou celular
+- Cache da estrutura estática para abertura offline
+- Requisições autenticadas e do Socket.io sempre passam pela rede
+- Banner para o usuário aceitar uma nova versão do service worker
 
-### DevOps
-- **GitHub Actions** - CI/CD para automação de testes e deploy
-- **Docker** - Utilizado para deploy do frontend em container
+> As notificações atuais dependem da página aberta e do socket conectado. Receber mensagens com o navegador fechado exigiria Web Push, que não faz parte desta implementação.
 
-## ⚙️ CI/CD & Deploy
+## Próximos passos
 
-O projeto utiliza **GitHub Actions** para automação de processos de desenvolvimento:  
+- Implementar a recuperação e a redefinição de senha por e-mail. A interface inicial existe, mas o envio do e-mail e a integração completa ainda estão pendentes.
 
-- **Continuous Integration (CI):**
-  - Verificação de build
-  - Linting e análise de qualidade de código
-  - Validação de dependências  
+## Tecnologias
 
-- **Continuous Deployment (CD):**
-  - Deploy automatizado em container (via Docker)
-  - Preview de deploys em Pull Requests
-  - Notificações de status de deploy  
+- **React 19**
+- **Vite 6**
+- **Socket.io**
+- **TensorFlow.js e COCO-SSD**
+- **TanStack Query**
+- **Vite PWA**
 
-## 📁 Estrutura do Projeto
+## Pré-requisitos
 
+- Node.js 22 (mesma versão usada no build Docker)
+- npm
+- API WordPress do Cats em execução
+- Servidor Socket.io do Cats em execução para usar o chat
+
+## Configuração local
+
+1. Instale as dependências na raiz do projeto:
+
+   ```bash
+   npm ci
+   ```
+
+2. Crie o arquivo `.env`:
+
+   ```env
+   VITE_BASE_API_URL=http://localhost:8080/json
+   VITE_APP_URL=http://localhost:3001
+   ```
+
+   | Variável | Finalidade |
+   | --- | --- |
+   | `VITE_BASE_API_URL` | URL-base da API REST e dos endpoints JWT do WordPress |
+   | `VITE_APP_URL` | Origem do servidor Socket.io usado pelo chat |
+
+   As duas variáveis são obrigatórias, devem ser URLs válidas e, em produção, devem usar HTTPS. Ajuste portas e caminhos ao ambiente em que o backend estiver rodando.
+
+3. Inicie o servidor de desenvolvimento:
+
+   ```bash
+   npm run dev
+   ```
+
+O Vite escuta em todas as interfaces de rede porque o script usa `--host`. A URL exata é exibida no terminal.
+
+## Scripts
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` | Inicia o Vite em modo de desenvolvimento |
+| `npm run build` | Valida o ambiente e gera a versão de produção em `dist/` |
+| `npm run preview` | Serve localmente o conteúdo gerado pelo build |
+| `npm run lint` | Executa o ESLint em arquivos JavaScript e JSX |
+
+O service worker não é ativado por `npm run dev`. Para validar instalação, cache offline, atualização da PWA e notificações, use:
+
+```bash
+npm run build
+npm run preview
 ```
-cats/
+
+Notificações do navegador exigem um contexto seguro. `localhost` é aceito no desenvolvimento; outros hosts devem usar HTTPS.
+
+## Docker
+
+O `Dockerfile` faz o build com Node.js 22 e publica os arquivos estáticos com Nginx. Como as variáveis do Vite são incorporadas durante o build, prepare o `.env` antes de construir a imagem:
+
+```bash
+docker build -t cats-frontend .
+docker run --rm -p 8080:80 cats-frontend
+```
+
+Em um deploy com rotas acessadas diretamente, configure o proxy Nginx para redirecionar o fallback da SPA para `index.html`.
+
+## Estrutura
+
+```text
+.
+├── config/                  # Validação das variáveis de ambiente
+├── public/                  # Favicon e ícones da PWA
 ├── src/
-│ ├── Components/ # Componentes React reutilizáveis
-│ ├── Hooks/ # Hooks customizados
-│ ├── Api/ # APIs e serviços externos
-│ ├── Utils/ # Funções utilitárias
-│ └── Assets/ # Imagens, ícones e recursos estáticos
-└── package.json # Configurações e dependências
+│   ├── Api/                 # Contratos de acesso à API REST
+│   ├── Assets/              # Imagens e SVGs
+│   ├── Components/
+│   │   ├── Detector/        # Detecção de gatos com TensorFlow.js
+│   │   ├── Feed/            # Feed e modal de fotos
+│   │   ├── Forms/           # Campos e botões reutilizáveis
+│   │   ├── Helper/          # Loading, erros, metadados e rotas protegidas
+│   │   ├── Login/           # Autenticação e recuperação de senha
+│   │   ├── Photo/           # Foto, comentários e curtidas
+│   │   └── User/            # Conta, publicação, estatísticas e chat
+│   ├── Hooks/               # Hooks compartilhados
+│   ├── Utils/               # Autenticação, datas e navegação
+│   ├── App.jsx              # Providers e rotas principais
+│   ├── ChatNotificationsContext.jsx
+│   └── UserContext.jsx
+├── Dockerfile
+├── package.json
+└── vite.config.js
 ```
 
+Partes mais pesadas, como chat, gráficos e detector, são carregadas sob demanda. O service worker mantém os endpoints autenticados fora do cache e usa uma estratégia própria somente para imagens públicas enviadas no chat.
 
-## 🎯 Desafios Técnicos
+## Validação
 
-Durante o desenvolvimento, foram superados diversos desafios técnicos:
+Antes de enviar mudanças, execute:
 
-- **Arquitetura de Componentes:** Criação de uma estrutura modular e reutilizável
-- **Estado Global:** Gerenciamento eficiente do estado da aplicação
-- **Performance:** Implementação de infinite scroll otimizado
-- **Real-time:** Integração complexa entre WebSockets e React
-- **Object Detection Model:** Incorporação do TensorFlow para detecção de objetos
-- **Responsividade:** Interface adaptativa para diferentes dispositivos
+```bash
+npm run lint
+npm run build
+```
 
-## 🎨 Design
+## Design
 
-O projeto conta com um design system completo desenvolvido no Figma, incluindo:
-
-- **Paleta de cores** cuidadosamente escolhida
-- **Tipografia** moderna e legível
-- **Duas versões** da logomarca
-
-**🔗 [Acesse o Design System no Figma](https://www.figma.com/file/W3Ms5OmiEDYSquoKonZ55h/Cats?type=design&node-id=0%3A1&mode=design&t=A2WmgYHU4V3n9mRr-1)**
-
-
+[Acesse o Design System no Figma](https://www.figma.com/file/W3Ms5OmiEDYSquoKonZ55h/Cats?type=design&node-id=0%3A1&mode=design&t=A2WmgYHU4V3n9mRr-1).
