@@ -12,7 +12,7 @@ function PwaUpdatePrompt() {
   return (
     <div className={styles.prompt} role="status">
       <span className={styles.text}>
-        Tem uma versão nova do Cats prontinha.
+        Uma nova versão do Cats está disponível
       </span>
       <button
         type="button"
