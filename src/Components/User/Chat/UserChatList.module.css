@@ -153,7 +153,6 @@
 .activeRoom .roomButton {
   border-color: #f4d1bc;
   background: #fff0e7;
-  box-shadow: inset 3px 0 var(--color-brand);
   color: #c95716;
 }
 
@@ -233,7 +232,7 @@
   text-transform: uppercase;
 }
 
-.sectionLabel > span {
+.sectionLabel>span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
