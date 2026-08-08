@@ -1,5 +1,5 @@
 import EmojiPicker from 'emoji-picker-react';
-import { ImagePlus, Smile, X } from 'lucide-react';
+import { ImagePlus, SendHorizontal, Smile, X } from 'lucide-react';
 import { memo, useEffect, useRef, useState } from 'react';
 import styles from './UserChat.module.css';
 
@@ -20,6 +20,8 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping
   const [attachmentErrorState, setAttachmentErrorState] = useState('');
   const attachmentRef = useRef(null);
   attachmentRef.current = attachmentState;
+
+  const canSend = isConnected && Boolean(message.trim() || attachmentState);
 
   const notifyTyping = () => {
     if (!onTyping) return;
@@ -171,39 +173,11 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping
         </p>
       )}
       <form className={styles.containerSendMessage} onSubmit={handleSend}>
-        <button
-          type="button"
-          className={styles.iconButton}
-          onClick={() => fileInputRef.current?.click()}
-          disabled={!isConnected}
-          aria-label="Anexar foto do gatinho"
-        >
-          <ImagePlus size={22} />
-        </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          className={styles.fileInput}
-          onChange={handleImagePick}
-          tabIndex={-1}
-          aria-hidden="true"
-        />
-        <button
-          ref={emojiButtonRef}
-          type="button"
-          className={`${styles.iconButton} ${styles.emojiToggle}`}
-          onClick={togglePicker}
-          disabled={!isConnected}
-          aria-label="Abrir lista de emojis"
-          aria-expanded={showPickerState}
-        >
-          <Smile size={22} />
-        </button>
-        <label htmlFor="message-input" className="sr-only">
-          Digite sua mensagem
-        </label>
-        <textarea
+        <div className={styles.inputShell}>
+          <label htmlFor="message-input" className="sr-only">
+            Digite sua mensagem
+          </label>
+          <textarea
           id="message-input"
           ref={inputTextmessage}
           style={{ resize: 'none' }}
@@ -228,12 +202,45 @@ function MessageInput({ message, setMessage, handleSubmit, isConnected, onTyping
               handleSend(e);
             }
           }}
-        ></textarea>
+          ></textarea>
+          <button
+            ref={emojiButtonRef}
+            type="button"
+            className={`${styles.iconButton} ${styles.emojiToggle}`}
+            onClick={togglePicker}
+            disabled={!isConnected}
+            aria-label="Abrir lista de emojis"
+            aria-expanded={showPickerState}
+          >
+            <Smile size={20} />
+          </button>
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={() => fileInputRef.current?.click()}
+            disabled={!isConnected}
+            aria-label="Anexar foto do gatinho"
+          >
+            <ImagePlus size={20} />
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className={styles.fileInput}
+            onChange={handleImagePick}
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+        </div>
         <button
-          className={styles.sendButton}
-          disabled={!isConnected || (!message.trim() && !attachmentState)}
+          className={`${styles.sendButton} ${
+            canSend ? '' : styles.sendButtonHidden
+          }`}
+          disabled={!canSend}
+          aria-label="Enviar mensagem"
         >
-          Enviar
+          <SendHorizontal size={20} />
         </button>
         {message.length > 900 && (
           <span className={styles.charCount}>{message.length}/1000</span>
