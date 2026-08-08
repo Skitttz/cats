@@ -12,12 +12,6 @@
   }
 }
 
-@media (min-width: 56rem) {
-  .feed {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 .noPostUser {
   display: flex;
   flex-direction: column;
