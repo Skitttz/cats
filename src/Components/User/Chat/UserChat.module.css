@@ -280,20 +280,29 @@
   white-space: pre-wrap;
 }
 
-.messageImageLink {
+.messageImageButton {
   display: block;
   align-self: flex-start;
   max-width: 100%;
+  padding: 0;
+  border: 0;
   border-radius: 0.75rem;
+  background: transparent;
+  cursor: zoom-in;
   outline: none;
+  overflow: hidden;
 }
 
-.messageImageLink:focus-visible {
+.messageImageButton:focus-visible {
   box-shadow: 0 0 0 3px var(--color-brand);
 }
 
+.messageImageButton:hover .messageImage {
+  transform: scale(1.02);
+}
+
 /* Espaço só quando a foto vem acompanhada de legenda. */
-.messageImageLink+.messageText {
+.messageImageButton+.messageText {
   margin-top: 0.45rem;
 }
 
@@ -322,7 +331,7 @@
   max-height: 18rem;
   border-radius: 0.75rem;
   object-fit: cover;
-  transition: opacity 200ms ease;
+  transition: opacity 200ms ease, transform 180ms ease;
 }
 
 @keyframes chatImageShimmer {
