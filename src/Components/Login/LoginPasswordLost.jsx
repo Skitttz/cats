@@ -6,6 +6,8 @@ import useFetch from '../../Hooks/useFetch';
 import { PASSWORD_LOST } from '../../Api/index';
 import Error from '../Helper/Error';
 import Head from '../Helper/Head';
+import { MailCheck } from 'lucide-react';
+import styles from './LoginPasswordLost.module.css';
 
 const LoginPasswordLost = () => {
   const login = useForm();
@@ -17,7 +19,7 @@ const LoginPasswordLost = () => {
         login: login.value,
         url: window.location.href.replace('recuperar', 'redefinir'),
       });
-      const { json } = await request(url, options);
+      await request(url, options);
     }
   }
   return (
@@ -26,16 +28,18 @@ const LoginPasswordLost = () => {
       <h1 className="title" style={{ marginBottom: '2rem' }}>
         Recuperar a senha
       </h1>
-      {typeof data === 'string' ? (
-        <span
-          style={{
-            color: '#0BE628',
-            fontWeight: '600',
-            backgroundColor: 'rgba(12,40,111,0.8)',
-            borderRadius: '6px',
-            padding: '8px',
-          }}
-        >{`${data} 😺📧`}</span>
+      {data?.message ? (
+        <div className={styles.notification} role="status" aria-live="polite">
+          <MailCheck className={styles.icon} aria-hidden="true" />
+          <div>
+            <strong>Verifique o seu e-mail</strong>
+            {data.masked_email && (
+              <span className={styles.email}>{data.masked_email}</span>
+            )}
+            <p>{data.message}</p>
+            <small>O link expira e só pode ser utilizado uma vez.</small>
+          </div>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <Input
