@@ -1,0 +1,46 @@
+.prompt {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+  padding: 0.75rem 1rem;
+  border-radius: 0.8rem;
+  background: #2f324f;
+  color: #fff;
+  box-shadow: 0 12px 35px rgba(42, 44, 71, 0.28);
+}
+
+.text {
+  flex: 1;
+  font-size: 0.85rem;
+}
+
+.accept,
+.dismiss {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.75rem;
+  border: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.accept {
+  background: #f4762b;
+  color: #fff;
+  font-weight: 700;
+}
+
+.dismiss {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.dismiss:hover {
+  color: #fff;
+}

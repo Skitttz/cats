@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
 import { validateEnvironment } from './config/env.schema.js';
 
@@ -18,6 +19,59 @@ export default defineConfig(({ mode }) => {
         titleProp: true,
       },
       include: '**/*.svg',
+    }),
+    VitePWA({
+      registerType: 'prompt',
+      includeAssets: ['favicon.svg', 'icons/*.png'],
+      manifest: {
+        name: 'Cats - Rede social para gatos',
+        short_name: 'Cats',
+        description: 'Cats - Rede social para gatos.',
+        lang: 'pt-BR',
+        start_url: '/',
+        scope: '/',
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#f4762b',
+        icons: [
+          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/icons/icon-512-maskable.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}'],
+        // O chunk vendor beira 1,85 MB e o teto padrão do workbox é 2 MB — sem
+        // isso ele sairia do precache em silêncio ao crescer mais um pouco.
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/json\//, /^\/socket\.io\//],
+        runtimeCaching: [
+          {
+            // Nada autenticado pode encostar em cache.
+            urlPattern: ({ url }) =>
+              url.pathname.startsWith('/json/') ||
+              url.pathname.startsWith('/socket.io/'),
+            handler: 'NetworkOnly',
+          },
+          {
+            // Fotos do chat. A resposta é opaca (outra origem, sem CORS): serve
+            // para reexibição rápida, não para inspeção de status.
+            urlPattern: ({ url }) =>
+              url.pathname.startsWith('/wp-content/uploads/'),
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'cats-chat-images',
+              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
+      },
     }),
   ],
   define: {

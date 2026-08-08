@@ -20,7 +20,7 @@ const PhotoDelete = ({ id, queryKey, userId, handleCloseModalPhoto }) => {
       return response.json();
     },
     onMutate: async (photoId) => {
-      await queryClient.cancelQueries(queryKey);
+      await queryClient.cancelQueries({ queryKey });
       const previousData = queryClient.getQueryData(queryKey);
       queryClient.setQueryData(queryKey, (old) => {
         if (!old) return old;
