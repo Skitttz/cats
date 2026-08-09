@@ -11,6 +11,7 @@ import Head from '../Helper/Head';
 
 const LoginCreate = () => {
   const username = useForm('username');
+  const displayName = useForm('displayName');
   const password = useForm('password');
   const email = useForm('email');
 
@@ -19,9 +20,15 @@ const LoginCreate = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (username.validate && password.validate() && username.validate()) {
+    if (
+      username.validate() &&
+      displayName.validate() &&
+      email.validate() &&
+      password.validate()
+    ) {
       const { url, options } = USER_POST({
         username: username.value,
+        display_name: displayName.value,
         email: email.value,
         password: password.value,
       });
@@ -39,7 +46,20 @@ const LoginCreate = () => {
       <Head title="Crie sua Conta" />
       <h1 className="title">Cadastre-se</h1>
       <form onSubmit={handleSubmit}>
-        <Input label="Usuário" type="text" name="username" {...username} />
+        <Input
+          label="Login privado"
+          type="text"
+          name="username"
+          autoComplete="username"
+          {...username}
+        />
+        <Input
+          label="Nome de exibição"
+          type="text"
+          name="display_name"
+          autoComplete="nickname"
+          {...displayName}
+        />
         <Input label="Email" type="email" name="email" {...email} />
         <Input label="Senha" type="password" name="senha" {...password} />
         {password.value || password.value === '' ? (

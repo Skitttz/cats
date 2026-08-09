@@ -13,13 +13,14 @@ const Input = ({
   onBlur,
   placeholder,
   height,
+  autoComplete,
 }) => {
   const inputStyle = {
     height: height || 'auto', // Se a altura não for fornecida, use "auto"
   };
   return (
     <div className={styles.wrapper}>
-      <label htmlFor="" className={styles.label}>
+      <label htmlFor={name} className={styles.label}>
         {label}
       </label>
       <input
@@ -31,6 +32,7 @@ const Input = ({
         onChange={onChange}
         onBlur={onBlur}
         placeholder={placeholder ? placeholder : ''}
+        autoComplete={autoComplete}
         style={inputStyle}
       />
       {error && <Error error={error} />}

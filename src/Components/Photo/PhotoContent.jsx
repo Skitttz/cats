@@ -18,15 +18,19 @@ const PhotoContent = ({ data, single, handleCloseModalPhoto }) => {
       <div className={styles.details}>
         <div style={{ position: 'relative' }}>
           <p className={styles.author}>
-            {user.data && user.data.username === photo.author ? (
+            {user.data && Number(user.data.id) === Number(photo.author_id) ? (
               <PhotoDelete
                 id={photo.id}
                 queryKey={['photo', photo.id]}
                 userId={user.data.id}
                 handleCloseModalPhoto={handleCloseModalPhoto}
               />
+            ) : photo.author_public_id ? (
+              <Link to={`/perfil/${photo.author_public_id}`}>
+                {photo.author}
+              </Link>
             ) : (
-              <Link to={`/perfil/${photo.author}`}>@{photo.author}</Link>
+              <span>{photo.author}</span>
             )}
 
             <span className={styles.view}>{photo.acessos}</span>

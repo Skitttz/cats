@@ -1,0 +1,40 @@
+.container {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 12rem);
+  padding: 2rem 1rem;
+}
+
+.card {
+  width: min(100%, 34rem);
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-surface);
+  box-shadow: 0 1.25rem 3rem rgba(51, 51, 51, 0.08);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+}
+
+.eyebrow {
+  color: var(--color-brand-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.description {
+  margin: 1.5rem 0;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}

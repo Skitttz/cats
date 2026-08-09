@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { NavLink } from 'react-router';
-import { PHOTOS_GET, USER_GET_INFO_NAME } from '../../Api/index';
+import { PHOTOS_GET } from '../../Api/index';
 import AddPhotosSvg from '../../Assets/adicionar.svg';
 import useFetch from '../../Hooks/useFetch';
 import Button from '../Forms/Button';
@@ -10,20 +10,12 @@ import Loading from '../Helper/Loading';
 import { CurrentPathProfileUser } from '../Utils/CurrentRoute';
 import styles from './FeedPhotos.module.css';
 import FeedPhotosItem from './FeedPhotosItem';
+import { useUser } from '../../UserContext';
 
 const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
   const { request } = useFetch();
+  const { data: currentUser } = useUser();
   const pathnameProfile = CurrentPathProfileUser();
-
-  const {
-    data: userInfo,
-    error: userInfoError,
-    isLoading: userInfoLoading,
-  } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: async () => USER_GET_INFO_NAME(),
-    enabled: !!pathnameProfile,
-  });
 
   const {
     data: photos,
@@ -45,16 +37,15 @@ const FeedPhotos = ({ page, user, setModalPhoto, setInfinite }) => {
     placeholderData: keepPreviousData,
   });
 
-  if (photosError || userInfoError)
-    return <Error error={photosError?.message || userInfoError?.message} />;
-  if (photosLoading || userInfoLoading) return <Loading />;
+  if (photosError) return <Error error={photosError?.message} />;
+  if (photosLoading) return <Loading />;
 
   if ((!photos || photos.length === 0) && user !== 0) {
     const isOwner =
       (typeof user === 'string' &&
-        user === userInfo?.name &&
+        user === currentUser?.public_id &&
         pathnameProfile) ||
-      (typeof user === 'number' && user === userInfo?.id && pathnameProfile);
+      (typeof user === 'number' && user === currentUser?.id && pathnameProfile);
 
     if (isOwner) {
       return (
