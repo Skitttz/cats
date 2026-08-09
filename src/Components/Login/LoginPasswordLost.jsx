@@ -53,11 +53,9 @@ const LoginPasswordLost = () => {
             name="login"
             {...login}
           />
-          {loading ? (
-            <Button disabled>Enviar Email</Button>
-          ) : (
-            <Button>Enviar Email</Button>
-          )}
+          <Button key={`lost-btn-${String(loading)}`} disabled={loading}>
+            {loading ? 'Enviando...' : 'Enviar Email'}
+          </Button>
           <Error error={error} />
         </form>
       )}

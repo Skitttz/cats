@@ -1,13 +1,13 @@
 import React from 'react';
-import Input from '../Forms/Input';
-import Button from '../Forms/Button';
-import useForm from '../../Hooks/useForm';
 import useFetch from '../../Hooks/useFetch';
+import useForm from '../../Hooks/useForm';
+import Button from '../Forms/Button';
+import Input from '../Forms/Input';
 import PasswordStrong from './PasswordStrong';
 
+import { useNavigate } from 'react-router';
 import { PASSWORD_RESET } from '../../Api/index';
 import Error from '../Helper/Error';
-import { useNavigate } from 'react-router';
 import Head from '../Helper/Head';
 
 const LoginPasswordReset = () => {
@@ -51,11 +51,9 @@ const LoginPasswordReset = () => {
           {...password}
         />
         <PasswordStrong>{password.value}</PasswordStrong>
-        {loading ? (
-          <Button disable>Redefinindo...</Button>
-        ) : (
-          <Button>Redefinir</Button>
-        )}
+        <Button key={`reset-btn-${String(loading)}`} disabled={loading}>
+          {loading ? 'Redefinindo...' : 'Redefinir'}{' '}
+        </Button>
       </form>
       <Error error={error} />
     </div>
