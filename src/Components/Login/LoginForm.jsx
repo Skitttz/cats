@@ -1,14 +1,13 @@
-import React from 'react';
 import { Link } from 'react-router';
-import Input from '../Forms/Input';
-import Button from '../Forms/Button';
 import useForm from '../../Hooks/useForm';
 import { useUser } from '../../UserContext';
-import Error from '../Helper/Error';
-import styles from './LoginForm.module.css';
+import Button from '../Forms/Button';
 import stylesBtn from '../Forms/Button.module.css';
+import Input from '../Forms/Input';
+import Error from '../Helper/Error';
 import Head from '../Helper/Head';
 import { scrollToTop } from '../Utils/ScrollUtility';
+import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
   const username = useForm();
@@ -30,7 +29,7 @@ const LoginForm = () => {
       <h1 className="title">Login</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input
-          label="Login privado"
+          label="Login"
           type="text"
           name="username"
           autoComplete="username"

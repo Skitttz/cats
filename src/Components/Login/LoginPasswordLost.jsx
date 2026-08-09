@@ -1,12 +1,11 @@
-import React from 'react';
-import Input from '../Forms/Input';
-import Button from '../Forms/Button';
-import useForm from '../../Hooks/useForm';
-import useFetch from '../../Hooks/useFetch';
+import { MailCheck } from 'lucide-react';
 import { PASSWORD_LOST } from '../../Api/index';
+import useFetch from '../../Hooks/useFetch';
+import useForm from '../../Hooks/useForm';
+import Button from '../Forms/Button';
+import Input from '../Forms/Input';
 import Error from '../Helper/Error';
 import Head from '../Helper/Head';
-import { MailCheck } from 'lucide-react';
 import styles from './LoginPasswordLost.module.css';
 
 const LoginPasswordLost = () => {
@@ -49,7 +48,7 @@ const LoginPasswordLost = () => {
       ) : (
         <form onSubmit={handleSubmit}>
           <Input
-            label="Digite seu e-mail ou login privado"
+            label="Digite seu e-mail ou login"
             type="text"
             name="login"
             {...login}

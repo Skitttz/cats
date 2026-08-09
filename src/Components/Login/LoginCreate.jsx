@@ -1,13 +1,12 @@
-import React from 'react';
-import Input from '../Forms/Input';
-import Button from '../Forms/Button';
-import useForm from '../../Hooks/useForm';
-import PasswordStrong from './PasswordStrong';
 import { USER_POST } from '../../Api/index';
-import { useUser } from '../../UserContext';
 import useFetch from '../../Hooks/useFetch';
+import useForm from '../../Hooks/useForm';
+import { useUser } from '../../UserContext';
+import Button from '../Forms/Button';
+import Input from '../Forms/Input';
 import Error from '../Helper/Error';
 import Head from '../Helper/Head';
+import PasswordStrong from './PasswordStrong';
 
 const LoginCreate = () => {
   const username = useForm('username');
@@ -47,7 +46,7 @@ const LoginCreate = () => {
       <h1 className="title">Cadastre-se</h1>
       <form onSubmit={handleSubmit}>
         <Input
-          label="Login privado"
+          label="Login"
           type="text"
           name="username"
           autoComplete="username"

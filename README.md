@@ -26,7 +26,7 @@ https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c
 ### Conta e perfil
 
 - Cadastro, login e sessão autenticada com JWT
-- Login privado separado do nome de exibição público
+- Login separado do nome de exibição público
 - Onboarding obrigatório para completar contas antigas
 - Recuperação de senha por e-mail
 - Rotas protegidas para a área da conta
