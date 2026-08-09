@@ -17,8 +17,19 @@ export const UserStorage = ({ children }) => {
     const { url, options } = USER_GET(token);
     const response = await fetch(url, options);
     const json = await response.json();
+    if (!response.ok) {
+      throw new Error(json?.message || 'Não foi possível carregar sua conta.');
+    }
     setData(json);
     setLogin(true);
+    return json;
+  }
+
+  async function refreshUser() {
+    const token = Cookies.get('token');
+    if (!token) return null;
+
+    return getUser(token);
   }
 
   async function userLogin(username, password) {
@@ -33,8 +44,10 @@ export const UserStorage = ({ children }) => {
         );
       const { token } = await tokenRes.json();
       Cookies.set('token', token, { expires: 7, secure: true });
-      await getUser(token);
-      navigate('/conta');
+      const user = await getUser(token);
+      navigate(
+        user.onboarding_required ? '/conta/completar-perfil' : '/conta',
+      );
     } catch (err) {
       setError(err.message);
       setTimeout(() => {
@@ -89,7 +102,15 @@ export const UserStorage = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, data, error, loading, login }}
+      value={{
+        userLogin,
+        userLogout,
+        refreshUser,
+        data,
+        error,
+        loading,
+        login,
+      }}
     >
       {children}
     </UserContext.Provider>

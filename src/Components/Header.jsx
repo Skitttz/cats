@@ -52,7 +52,7 @@ const Header = () => {
                   {data.nome[0].toUpperCase() + data.nome.substring(1)}
                 </a>
               </p> */}
-              <UserHeaderNav />
+              {!data.onboarding_required && <UserHeaderNav />}
               <button
                 className={styles.sair}
                 onClick={() => setModalLogout(true)}

@@ -5,6 +5,10 @@ const types = {
     regex: /.{3,}/,
     message: 'Ops! Digite um pouco mais. 🐾 ',
   },
+  displayName: {
+    regex: /^.{2,50}$/,
+    message: 'Use um nome de exibição entre 2 e 50 caracteres. 🐾',
+  },
   email: {
     regex:
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,

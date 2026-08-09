@@ -9,9 +9,14 @@ import styles from "./Login.module.css";
 import NotFound404 from "../Helper/404/NotFound404";
 
 const Login = () => {
-  const { login } = useUser();
+  const { data, login } = useUser();
   if (login === true) {
-    return <Navigate to="/conta" />;
+    return (
+      <Navigate
+        to={data?.onboarding_required ? '/conta/completar-perfil' : '/conta'}
+        replace
+      />
+    );
   } else if (login === false) {
     return (
       <section className={styles.login}>

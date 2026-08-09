@@ -39,6 +39,26 @@ export function USER_POST(body) {
   };
 }
 
+export function USER_ONBOARDING_UPDATE(body) {
+  return {
+    url: API_URL + '/api/user/onboarding',
+    options: {
+      method: 'POST',
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function USER_PROFILE_GET(publicId) {
+  return {
+    url: `${API_URL}/api/profile/${encodeURIComponent(publicId)}`,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
 export function PASSWORD_LOST(body) {
   return {
     url: `${API_URL}/api/password/lost`,

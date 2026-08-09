@@ -14,6 +14,8 @@ import NotFound404 from './Components/Helper/404/NotFound404';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChatNotificationsStorage } from './ChatNotificationsContext';
 import { PwaUpdatePrompt } from './Components/PwaUpdatePrompt';
+import ProfileOnboarding from './Components/User/ProfileOnboarding';
+import OnboardingGuard from './Components/Helper/OnboardingGuard';
 
 function App() {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -25,21 +27,31 @@ function App() {
             <ChatNotificationsStorage>
               <Header />
               <main className="AppBody">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="login/*" element={<Login />} />
-                  <Route
-                    path="conta/*"
-                    element={
-                      <ProtectedRouter>
-                        <User />
-                      </ProtectedRouter>
-                    }
-                  />
-                  <Route path="photo/:id" element={<Photo />} />
-                  <Route path="perfil/:user" element={<UserProfile />} />
-                  <Route path="*" element={<NotFound404 />} />
-                </Routes>
+                <OnboardingGuard>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="login/*" element={<Login />} />
+                    <Route
+                      path="conta/completar-perfil"
+                      element={
+                        <ProtectedRouter allowOnboarding>
+                          <ProfileOnboarding />
+                        </ProtectedRouter>
+                      }
+                    />
+                    <Route
+                      path="conta/*"
+                      element={
+                        <ProtectedRouter>
+                          <User />
+                        </ProtectedRouter>
+                      }
+                    />
+                    <Route path="photo/:id" element={<Photo />} />
+                    <Route path="perfil/:publicId" element={<UserProfile />} />
+                    <Route path="*" element={<NotFound404 />} />
+                  </Routes>
+                </OnboardingGuard>
               </main>
               <PwaUpdatePrompt />
               <Footer />

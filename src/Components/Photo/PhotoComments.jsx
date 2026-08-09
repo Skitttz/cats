@@ -3,6 +3,7 @@ import { useUser } from "../../UserContext";
 import PhotoCommentsForm from "./PhotoCommentsForm";
 import styles from "./PhotoComments.module.css";
 import PhotoLike from "./PhotoLike";
+import { Link } from 'react-router';
 
 const PhotoComments = (props) => {
   const [comments, setComments] = React.useState(() => props.comments);
@@ -21,7 +22,16 @@ const PhotoComments = (props) => {
       >
         {comments.map((comment) => (
           <li key={comment.comment_ID}>
-            <b>{comment.comment_author}: </b>
+            <b>
+              {comment.author_public_id ? (
+                <Link to={`/perfil/${comment.author_public_id}`}>
+                  {comment.comment_author}
+                </Link>
+              ) : (
+                comment.comment_author
+              )}
+              :{' '}
+            </b>
             <span>{comment.comment_content}</span>
           </li>
         ))}

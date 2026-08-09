@@ -28,22 +28,28 @@ const LoginPasswordLost = () => {
       <h1 className="title" style={{ marginBottom: '2rem' }}>
         Recuperar a senha
       </h1>
-      {data?.message ? (
+      {data?.message && !error ? (
         <div className={styles.notification} role="status" aria-live="polite">
           <MailCheck className={styles.icon} aria-hidden="true" />
           <div>
-            <strong>Verifique o seu e-mail</strong>
+            <strong>
+              {data.masked_email
+                ? 'Verifique o seu e-mail'
+                : 'Solicitação recebida'}
+            </strong>
             {data.masked_email && (
               <span className={styles.email}>{data.masked_email}</span>
             )}
             <p>{data.message}</p>
-            <small>O link expira e só pode ser utilizado uma vez.</small>
+            {data.masked_email && (
+              <small>O link expira e só pode ser utilizado uma vez.</small>
+            )}
           </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <Input
-            label="Digite o Email ou o Nome de Usuário"
+            label="Digite seu e-mail ou login privado"
             type="text"
             name="login"
             {...login}

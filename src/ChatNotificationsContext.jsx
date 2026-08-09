@@ -49,7 +49,7 @@ const ChatNotificationsStorage = ({ children }) => {
   notifyDirectMessageRef.current = notifyDirectMessage;
 
   React.useEffect(() => {
-    if (!data?.id) {
+    if (!data?.id || data.onboarding_required) {
       setLatestDirectMessage(null);
       setUnreadByRoom({});
       return undefined;
@@ -84,7 +84,7 @@ const ChatNotificationsStorage = ({ children }) => {
     });
 
     return () => socket.disconnect();
-  }, [data?.id]);
+  }, [data?.id, data?.onboarding_required]);
 
   const markRoomRead = React.useCallback((roomId) => {
     setUnreadByRoom((rooms) => {

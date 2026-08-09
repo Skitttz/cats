@@ -26,8 +26,10 @@ https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c
 ### Conta e perfil
 
 - Cadastro, login e sessão autenticada com JWT
+- Login privado separado do nome de exibição público
+- Onboarding obrigatório para completar contas antigas
+- Recuperação de senha por e-mail
 - Rotas protegidas para a área da conta
-- Perfil público e gerenciamento das próprias publicações
 
 ### Feed e publicações
 
@@ -54,10 +56,6 @@ https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c
 - Banner para o usuário aceitar uma nova versão do service worker
 
 > As notificações atuais dependem da página aberta e do socket conectado. Receber mensagens com o navegador fechado exigiria Web Push, que não faz parte desta implementação.
-
-## Próximos passos
-
-- Implementar a recuperação e a redefinição de senha por e-mail. A interface inicial existe, mas o envio do e-mail e a integração completa ainda estão pendentes.
 
 ## Tecnologias
 
@@ -90,10 +88,10 @@ https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c
    VITE_APP_URL=http://localhost:3001
    ```
 
-   | Variável | Finalidade |
-   | --- | --- |
+   | Variável            | Finalidade                                            |
+   | ------------------- | ----------------------------------------------------- |
    | `VITE_BASE_API_URL` | URL-base da API REST e dos endpoints JWT do WordPress |
-   | `VITE_APP_URL` | Origem do servidor Socket.io usado pelo chat |
+   | `VITE_APP_URL`      | Origem do servidor Socket.io usado pelo chat          |
 
    As duas variáveis são obrigatórias, devem ser URLs válidas e, em produção, devem usar HTTPS. Ajuste portas e caminhos ao ambiente em que o backend estiver rodando.
 
@@ -107,12 +105,12 @@ O Vite escuta em todas as interfaces de rede porque o script usa `--host`. A URL
 
 ## Scripts
 
-| Comando | Descrição |
-| --- | --- |
-| `npm run dev` | Inicia o Vite em modo de desenvolvimento |
-| `npm run build` | Valida o ambiente e gera a versão de produção em `dist/` |
-| `npm run preview` | Serve localmente o conteúdo gerado pelo build |
-| `npm run lint` | Executa o ESLint em arquivos JavaScript e JSX |
+| Comando           | Descrição                                                |
+| ----------------- | -------------------------------------------------------- |
+| `npm run dev`     | Inicia o Vite em modo de desenvolvimento                 |
+| `npm run build`   | Valida o ambiente e gera a versão de produção em `dist/` |
+| `npm run preview` | Serve localmente o conteúdo gerado pelo build            |
+| `npm run lint`    | Executa o ESLint em arquivos JavaScript e JSX            |
 
 O service worker não é ativado por `npm run dev`. Para validar instalação, cache offline, atualização da PWA e notificações, use:
 

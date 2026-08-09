@@ -57,7 +57,7 @@ export function PHOTOS_GET({ page, total, user }) {
   total = total === undefined ? 0 : total;
   user = user === undefined ? 0 : user;
   return {
-    url: `${API_URL}/api/photo/?_total=${total}&_page=${page}&_user=${user}`,
+    url: `${API_URL}/api/photo/?_total=${total}&_page=${page}&_user=${encodeURIComponent(user)}`,
     options: {
       method: 'GET',
     },
