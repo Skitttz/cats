@@ -27,6 +27,14 @@ const PhotoDelete = ({ id, queryKey, userId, handleCloseModalPhoto }) => {
         if (Array.isArray(old)) {
           return old.filter((photo) => photo.id !== photoId);
         }
+        if (Array.isArray(old.pages)) {
+          return {
+            ...old,
+            pages: old.pages.map((page) =>
+              page.filter((photo) => photo.id !== photoId),
+            ),
+          };
+        }
         return old;
       });
       return { previousData };
