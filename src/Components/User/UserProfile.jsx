@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import Feed from '../Feed/Feed';
+import { UserProfileFeed } from '../Feed/UserProfileFeed';
 import Head from '../Helper/Head';
 import Error from '../Helper/Error';
 import Loading from '../Helper/Loading';
@@ -31,7 +31,7 @@ const UserProfile = () => {
     <section className="container mainSection">
       <Head title={data.display_name} />
       <h1 className="title">{data.display_name}</h1>
-      <Feed user={data.public_id} />
+      <UserProfileFeed user={data.public_id} />
     </section>
   );
 };
