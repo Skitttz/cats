@@ -1,3 +1,4 @@
+import { ChatImage } from './ChatImage';
 import { X } from 'lucide-react';
 import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -80,7 +81,7 @@ function ChatImagePreview({ image, onClose }) {
         >
           <X size={22} aria-hidden="true" />
         </button>
-        <img
+        <ChatImage
           className={styles.image}
           src={image.src}
           alt={`Foto do gatinho enviada por ${image.sender}`}

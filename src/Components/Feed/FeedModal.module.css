@@ -6,6 +6,12 @@
   top: 0px;
   left: 0px;
   display: flex;
+  max-width: none;
+  max-height: none;
+  border: 0;
+  margin: 0;
+  color: inherit;
+  overflow: auto;
   z-index: 1000;
   /* calc para que o lado direito que tem scroll fique do mesmo tamanho do lado esquerdo */
   padding: 2rem calc(4rem + 15px) 2rem 4rem;
@@ -22,4 +28,20 @@
     padding: 1.5rem calc(1.5rem + 15px) 1.5rem 1.5rem;
     padding-top: 0;
   }
+}.modal::backdrop { background: rgba(0, 0, 0, 0.4); }
+.closeButton {
+  position: fixed;
+  top: 0.4rem;
+  right: 0.75rem;
+  border: 0;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: white;
+  color: #222;
+  font-size: 2rem;
+  cursor: pointer;
 }
+.closeButton:focus-visible { outline: 3px solid #f4762b; }
+
+.modal:not([open]) { display: none; }

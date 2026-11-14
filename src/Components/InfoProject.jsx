@@ -1,4 +1,4 @@
-import { Brush, GithubIcon, LinkedinIcon } from 'lucide-react';
+import { Brush, Code, UserRound } from 'lucide-react';
 import React from 'react';
 import Logo from '../Assets/cats.svg';
 import styles from './InfoProject.module.css';
@@ -43,7 +43,7 @@ const InfoProjectModal = ({ setInfoModal }) => {
               </h5>
               <div className={styles.containerContact}>
                 <a href="https://github.com/Skitttz/Cats" target="__blank">
-                  <GithubIcon /> Repositório
+                  <Code aria-hidden="true" /> Repositório
                 </a>
                 <a
                   href="https://www.figma.com/file/W3Ms5OmiEDYSquoKonZ55h/Cats?type=design&node-id=0%3A1&mode=design&t=A2WmgYHU4V3n9mRr-1"
@@ -55,7 +55,7 @@ const InfoProjectModal = ({ setInfoModal }) => {
                   href="https://www.linkedin.com/in/carlos-vinicius-dev/"
                   target="__blank"
                 >
-                  <LinkedinIcon /> Contato
+                  <UserRound aria-hidden="true" /> Contato
                 </a>
               </div>
             </div>

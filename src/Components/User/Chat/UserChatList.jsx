@@ -54,11 +54,8 @@ const UserChatList = ({
     () => new Set(uniqueUsers.map((user) => String(user.id))),
     [uniqueUsers],
   );
-  const conversationUnread = (conversation) =>
-    Math.max(
-      conversation.unread || 0,
-      unreadByRoom[conversation.postId] || 0,
-    );
+  // The notification provider owns unread counts; room metadata never counts events.
+  const conversationUnread = (conversation) => unreadByRoom[conversation.postId] || 0;
   const unreadCount = conversations.reduce(
     (total, conversation) => total + conversationUnread(conversation),
     0,

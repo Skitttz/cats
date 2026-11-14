@@ -31,8 +31,8 @@ const LoginCreate = () => {
         email: email.value,
         password: password.value,
       });
-      const { response } = await request(url, options);
-      if (response.ok) {
+      const { ok } = await request(url, options);
+      if (ok) {
         userLogin(username.value, password.value);
       }
     } else {

@@ -12,9 +12,9 @@ function DM_ROOM_POST(userId) {
   };
 }
 
-function DM_ROOMS_GET() {
+function DM_ROOMS_GET({ page = 1, perPage = 50 } = {}) {
   return {
-    url: `${API_URL}/api/dm_rooms`,
+    url: `${API_URL}/api/dm_rooms?page=${page}&per_page=${perPage}`,
     options: {
       method: 'GET',
       headers: getAuthHeaders(),

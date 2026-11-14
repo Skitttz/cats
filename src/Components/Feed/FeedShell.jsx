@@ -2,7 +2,6 @@ import React from 'react';
 import Error from '../Helper/Error';
 import Loading from '../Helper/Loading';
 import Button from '../Forms/Button';
-import { disableScroll } from '../Utils/ScrollUtility';
 import FeedModal from './FeedModal';
 import FeedPhotosItem from './FeedPhotosItem';
 import styles from './FeedShell.module.css';
@@ -23,7 +22,6 @@ function FeedShell({
   const isEmpty = photos.length === 0;
   const isEmptyWithError = error && isEmpty;
 
-  disableScroll(!!modalPhoto);
 
   React.useEffect(() => {
     const sentinel = sentinelRef.current;

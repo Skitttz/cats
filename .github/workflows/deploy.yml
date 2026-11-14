@@ -25,6 +25,14 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
+    - name: Test and lint
+      run: |
+        npm test
+        npm run lint
+
+    - name: Audit production dependencies
+      run: npm audit --omit=dev --audit-level=moderate
+
     - name: Build Production
       env:
         VITE_BASE_API_URL: ${{ secrets.VITE_BASE_API_URL }}

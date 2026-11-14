@@ -10,13 +10,13 @@ import PhotoContent from './PhotoContent';
 
 const Photo = () => {
   const { id } = useParams();
-  const { request } = useFetch();
+  const { requestOrThrow: request } = useFetch();
 
   const { data, error, isLoading, isError } = useQuery({
-    queryKey: ['photo', id],
-    queryFn: async () => {
+    queryKey: ['photo', Number(id)],
+    queryFn: async ({ signal }) => {
       const { url, options } = PHOTO_GET_USER(id);
-      const { json } = await request(url, options);
+      const { json } = await request(url, { ...options, signal });
       return json;
     },
     enabled: !!id,

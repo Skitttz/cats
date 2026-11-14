@@ -8,15 +8,15 @@ function getPhotosPerPage() {
 }
 
 function useFeedPhotos(user = 0) {
-  const { request } = useFetch();
+  const { requestOrThrow: request } = useFetch();
   const [total] = React.useState(getPhotosPerPage);
 
   const query = useInfiniteQuery({
     queryKey: ['photos', user, total],
     initialPageParam: 1,
-    queryFn: async ({ pageParam }) => {
+    queryFn: async ({ pageParam, signal }) => {
       const { url, options } = PHOTOS_GET({ page: pageParam, total, user });
-      const { response, json } = await request(url, options);
+      const { response, json } = await request(url, { ...options, signal });
 
       if (!response?.ok) {
         throw new Error(json?.message || 'Não foi possível carregar as fotos.');

@@ -71,7 +71,7 @@
   height: 48px;
 }
 
-.contentContainer h4 {
+.contentContainer h2 {
   font-size: 1.25rem;
   color: #333;
   margin: 0;
@@ -172,4 +172,7 @@
     transform: translateY(0);
     opacity: 1;
   }
-}
+}.modal { border: 0; max-width: none; max-height: none; margin: 0; color: inherit; }
+.modal::backdrop { background: rgba(0, 0, 0, 0.5); }
+
+.modal:not([open]) { display: none; }

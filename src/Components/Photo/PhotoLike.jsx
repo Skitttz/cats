@@ -4,11 +4,13 @@ import React from 'react';
 import { HAS_LIKE_GET, LIKE_POST, PHOTO_LIKE_GET } from '../../Api/index';
 import { useUser } from '../../UserContext';
 import useFetch from '../../Hooks/useFetch';
+import { hasLikeKey } from '../../Utils/queryCache';
 import styles from './PhotoLike.module.css';
 
 const PhotoLike = ({ id, className = '' }) => {
-  const { login } = useUser();
-  const { request } = useFetch();
+  const { login, data: user } = useUser();
+  const personalLikeKey = hasLikeKey(user?.id, id);
+  const { requestOrThrow: request } = useFetch();
   const queryClient = useQueryClient();
 
   const isUserLoggedIn = Boolean(login);
@@ -20,10 +22,10 @@ const PhotoLike = ({ id, className = '' }) => {
     isLoading: totalLoading,
   } = useQuery({
     queryKey: ['photoLikes', id],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       const { json } = await request(
         PHOTO_LIKE_GET(id).url,
-        PHOTO_LIKE_GET(id).options,
+        { ...PHOTO_LIKE_GET(id).options, signal },
       );
       return json?.total_likes ?? 0;
     },
@@ -36,15 +38,15 @@ const PhotoLike = ({ id, className = '' }) => {
     error: likeError,
     isLoading: likeLoading,
   } = useQuery({
-    queryKey: ['hasLike', id],
-    queryFn: async () => {
+    queryKey: personalLikeKey,
+    queryFn: async ({ signal }) => {
       const { json } = await request(
         HAS_LIKE_GET(id).url,
-        HAS_LIKE_GET(id).options,
+        { ...HAS_LIKE_GET(id).options, signal },
       );
       return json?.liked ?? false;
     },
-    enabled: !!id && isUserLoggedIn,
+    enabled: !!id && isUserLoggedIn && !!user?.id,
   });
 
   // Mutation: alternar like
@@ -58,28 +60,27 @@ const PhotoLike = ({ id, className = '' }) => {
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['photoLikes', id] });
-      await queryClient.cancelQueries({ queryKey: ['hasLike', id] });
+      await queryClient.cancelQueries({ queryKey: personalLikeKey });
 
       const prevLikes = queryClient.getQueryData(['photoLikes', id]);
-      const prevHasLike = queryClient.getQueryData(['hasLike', id]);
+      const prevHasLike = queryClient.getQueryData(personalLikeKey);
 
-      queryClient.setQueryData(['hasLike', id], !prevHasLike);
+      queryClient.setQueryData(personalLikeKey, !prevHasLike);
       queryClient.setQueryData(
         ['photoLikes', id],
-        (old) => (prevHasLike ? old - 1 : old + 1),
+        (old = 0) => Math.max(0, prevHasLike ? old - 1 : old + 1),
       );
 
       return { prevLikes, prevHasLike };
     },
     onError: (_, __, context) => {
-      if (context?.prevLikes !== undefined) {
-        queryClient.setQueryData(['photoLikes', id], context.prevLikes);
-        queryClient.setQueryData(['hasLike', id], context.prevHasLike);
-      }
+      if (!context) return;
+      queryClient.setQueryData(['photoLikes', id], context.prevLikes);
+      queryClient.setQueryData(personalLikeKey, context.prevHasLike);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['photoLikes', id] });
-      queryClient.invalidateQueries({ queryKey: ['hasLike', id] });
+      queryClient.invalidateQueries({ queryKey: personalLikeKey });
     },
   });
 

@@ -8,10 +8,12 @@ const FeedPhotosItem = ({ photo, setModalPhoto }) => {
   }
 
   return (
-    <li className={styles.photo} onClick={handleClick}>
+    <li className={styles.photo}>
+      <button type="button" className={styles.openPhoto} onClick={handleClick} aria-label={`Abrir foto: ${photo.title}`}>
       <Image src={photo.src} alt={photo.title} />
 
       <span className={styles.view}>{photo.acessos}</span>
+      </button>
     </li>
   );
 };

@@ -1,3 +1,4 @@
+import { ChatImage } from './ChatImage';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { ChatImagePreview } from './ChatImagePreview';
 import styles from './UserChat.module.css';
@@ -15,7 +16,7 @@ function ChatMessageImage({ src, alt, onLoaded }) {
       {!loadedState && (
         <span className={styles.messageImageSkeleton} aria-hidden="true" />
       )}
-      <img
+      <ChatImage
         className={styles.messageImage}
         src={src}
         alt={alt}
