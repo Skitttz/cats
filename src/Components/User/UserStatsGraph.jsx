@@ -2,26 +2,26 @@ import React from 'react';
 import { VictoryLabel, VictoryPie } from 'victory';
 import styles from './UserStatsGraph.module.css';
 
+const colorPalette = [
+  '#6366f1',
+  '#8b5cf6',
+  '#06b6d4',
+  '#10b981',
+  '#f59e0b',
+  '#ef4444',
+  '#ec4899',
+  '#84cc16',
+  '#f97316',
+  '#6b7280',
+];
+
+function getColor(index) {
+  return colorPalette[index % colorPalette.length];
+}
+
 const UserStatsGraph = ({ data }) => {
   const [graph, setGraph] = React.useState([]);
   const [total, setTotal] = React.useState(0);
-
-  const colorPalette = [
-    '#6366f1',
-    '#8b5cf6',
-    '#06b6d4',
-    '#10b981',
-    '#f59e0b',
-    '#ef4444',
-    '#ec4899',
-    '#84cc16',
-    '#f97316',
-    '#6b7280',
-  ];
-
-  function getColor(index) {
-    return colorPalette[index % colorPalette.length];
-  }
 
   React.useEffect(() => {
     const graphData = data.map((item, index) => {

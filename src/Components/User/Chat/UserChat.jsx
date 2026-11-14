@@ -126,26 +126,12 @@ const UserChat = () => {
   }, [messagesState, scrollToBottom]);
 
   useEffect(() => {
-    if (!latestDirectMessage) return;
-
-    registerDirectMessage(latestDirectMessage);
-    if (
-      Number(activeRoomState.postId) === Number(latestDirectMessage.room_id)
-    ) {
-      markRoomRead(activeRoomState.postId);
-    }
-  }, [
-    activeRoomState.postId,
-    latestDirectMessage,
-    markRoomRead,
-    registerDirectMessage,
-  ]);
+    if (latestDirectMessage) registerDirectMessage(latestDirectMessage);
+  }, [latestDirectMessage, registerDirectMessage]);
 
   useEffect(() => {
-    if (activeRoomState.type === 'direct') {
-      markRoomRead(activeRoomState.postId);
-    }
-  }, [activeRoomState.postId, activeRoomState.type, markRoomRead]);
+    if (activeRoomState.type === 'direct') markRoomRead(activeRoomState.postId);
+  }, [activeRoomState.postId, activeRoomState.type, latestDirectMessage, markRoomRead]);
 
   const handleSubmit = useCallback(
     async (event, attachment = null) => {

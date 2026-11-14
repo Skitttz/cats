@@ -20,9 +20,9 @@ const UserPhotoPost = () => {
   const idade = useForm('age');
   const [img, setImg] = React.useState({ preview: null, raw: null });
   const [imgError, setImgError] = React.useState('');
-  const [catDetectionError, setCatDetectionError] = React.useState(false);
   const { data, error, loading, request } = useFetch();
-  const [isCatDetected, setIsCatDetected] = React.useState(false);
+  const [detectionStatus, setDetectionStatus] = React.useState('idle');
+  const isCatDetected = detectionStatus === 'detected';
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -58,11 +58,11 @@ const UserPhotoPost = () => {
 
   const handleImgChange = ({ target }) => {
     const file = target.files[0];
+    target.value = "";
     if (!file) {
       setImg({ preview: null, raw: null });
       setImgError('');
-      setIsCatDetected(false);
-      setCatDetectionError(false);
+      setDetectionStatus('idle');
       return;
     }
 
@@ -70,12 +70,10 @@ const UserPhotoPost = () => {
       if (img.preview) URL.revokeObjectURL(img.preview);
       setImg({ preview: URL.createObjectURL(file), raw: file });
       setImgError('');
-      setIsCatDetected(false);
-      setCatDetectionError(false);
+      setDetectionStatus('idle');
     } else {
       setImg({ preview: null, raw: null });
-      setIsCatDetected(false);
-      setCatDetectionError(false);
+      setDetectionStatus('idle');
     }
   };
 
@@ -109,13 +107,9 @@ const UserPhotoPost = () => {
     }
   };
 
-  const handleCatDetection = React.useCallback(
-    (catDetected) => {
-      setIsCatDetected(catDetected);
-      setCatDetectionError(!catDetected && !imgError);
-    },
-    [imgError],
-  );
+  const handleCatDetection = React.useCallback((status) => {
+    setDetectionStatus(status);
+  }, []);
 
   return (
     <section className={`${styles.photoPost} animeLeft`}>
@@ -163,7 +157,6 @@ const UserPhotoPost = () => {
           />
           <React.Suspense fallback={<div>Carregando detector de gatos...</div>}>
             <CatsIA
-              key={img.raw?.name || 'no-image'}
               img={img.raw}
               onCatDetection={handleCatDetection}
             />

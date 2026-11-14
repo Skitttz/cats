@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
 import React from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { isPrivateQuery } from './Utils/queryCache';
 import { useNavigate } from 'react-router';
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
 
@@ -12,6 +14,7 @@ export const UserStorage = ({ children }) => {
   const [error, setError] = React.useState(null);
   const [isInitialized, setIsInitialized] = React.useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   async function getUser(token) {
     const { url, options } = USER_GET(token);
@@ -59,12 +62,14 @@ export const UserStorage = ({ children }) => {
   }
 
   const userLogout = React.useCallback(() => {
+    queryClient.cancelQueries({ predicate: isPrivateQuery });
+    queryClient.removeQueries({ predicate: isPrivateQuery });
     setData(null);
     setError(null);
     setLoading(false);
     setLogin(false);
     Cookies.remove('token');
-  }, []);
+  }, [queryClient]);
 
   React.useEffect(() => {
     async function autoLogin() {

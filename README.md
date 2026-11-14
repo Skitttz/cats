@@ -5,7 +5,7 @@
 
 <div align="center">
   <img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 19" />
-  <img src="https://img.shields.io/badge/Vite_6-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 6" />
+  <img src="https://img.shields.io/badge/Vite_8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8" />
   <img src="https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA" />
   <img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.io" />
   <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow" />
@@ -60,7 +60,7 @@ https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c
 ## Tecnologias
 
 - **React 19**
-- **Vite 6**
+- **Vite 8**
 - **Socket.io**
 - **TensorFlow.js e COCO-SSD**
 - **TanStack Query**
@@ -68,7 +68,7 @@ https://github.com/Skitttz/Cats/assets/94083688/bcd0c656-1773-4e9c-9add-68d0176c
 
 ## Pré-requisitos
 
-- Node.js 22 (mesma versão usada no build Docker)
+- Node.js 22.12 ou superior (a CI usa Node.js 22)
 - npm
 - API WordPress do Cats em execução
 - Servidor Socket.io do Cats em execução para usar o chat
@@ -123,9 +123,12 @@ Notificações do navegador exigem um contexto seguro. `localhost` é aceito no 
 
 ## Docker
 
-O `Dockerfile` faz o build com Node.js 22 e publica os arquivos estáticos com Nginx. Como as variáveis do Vite são incorporadas durante o build, prepare o `.env` antes de construir a imagem:
+O build é feito antes da imagem Docker (na CI ou localmente). O `Dockerfile`
+copia `dist/` e publica os arquivos estáticos com Nginx. Como as variáveis do
+Vite são incorporadas durante o build, prepare o `.env` e gere `dist/` primeiro:
 
 ```bash
+npm run build
 docker build -t cats-frontend .
 docker run --rm -p 8080:80 cats-frontend
 ```
@@ -159,16 +162,42 @@ Em um deploy com rotas acessadas diretamente, configure o proxy Nginx para redir
 └── vite.config.js
 ```
 
-Partes mais pesadas, como chat, gráficos e detector, são carregadas sob demanda. O service worker mantém os endpoints autenticados fora do cache e usa uma estratégia própria somente para imagens públicas enviadas no chat.
+Partes mais pesadas, como chat, gráficos e detector, são carregadas sob demanda.
+O service worker mantém os endpoints autenticados fora do cache. A mídia privada
+do chat usa Bearer e URLs de blob com limpeza ao sair; não é persistida no cache
+da PWA. A ativação da nova versão remove o antigo cache `cats-chat-images`.
 
 ## Validação
 
 Antes de enviar mudanças, execute:
 
 ```bash
+npm test
 npm run lint
 npm run build
 ```
+
+Os testes Node cobrem contratos HTTP, cache por conta, exclusão, mídia privada,
+detector e scroll de diálogos. Não substituem testes completos com WordPress.
+
+## Dependências e segurança
+
+A atualização inclui React 19.3, Vite 8, plugin React 6, PWA 2, Victory 38,
+Emoji Picker 5, Lucide 1 e tipos React 19. O lint usa configuração flat; ESLint
+permanece em 9.39 por compatibilidade com o peer declarado de `eslint-plugin-react`.
+O build usa Rolldown/Oxc conforme Vite 8.
+
+O override de `glob` em `workbox-build` usa a versão corrigida 14.0.6 ou superior;
+a API síncrona usada pelo Workbox e a geração do precache foram verificadas.
+Não use `npm audit fix --force` para trocar essas versões automaticamente.
+
+Na auditoria desta atualização, os 14 alertas iniciais caíram para quatro baixos,
+todos na cadeia de build `vite-plugin-pwa → workbox-build → plugin-node-resolve
+→ deepmerge`. Eles representam uma única causa, [GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4),
+sem versão corrigida publicada de `deepmerge` na consulta. Não há alertas nas
+dependências de produção (`npm audit --omit=dev`); os alertas de build continuam
+visíveis em `npm audit`. O consumidor inspecionado mescla defaults internos,
+não dados recebidos da API. Reavalie quando os mantenedores publicarem correção.
 
 ## Design
 

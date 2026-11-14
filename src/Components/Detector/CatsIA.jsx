@@ -1,83 +1,73 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Loading from '../Helper/Loading';
+import { createCatDetector } from './catDetector';
 import styles from './CatsIA.module.css';
 
+async function loadModel() {
+  await Promise.all([
+    import('@tensorflow/tfjs-backend-cpu'),
+    import('@tensorflow/tfjs-backend-webgl'),
+  ]);
+  const tf = await import('@tensorflow/tfjs-core');
+  await tf.ready();
+  const cocoSsd = await import('@tensorflow-models/coco-ssd');
+  return cocoSsd.load();
+}
+
 const CatsIA = ({ img, onCatDetection }) => {
-  const [loading, setLoading] = useState(false);
-  const [isCat, setIsCat] = useState(false);
-  const [error, setError] = useState(false);
+  const [status, setStatus] = useState('analyzing');
+  const detectorRef = useRef(null);
+  const callbackRef = useRef(onCatDetection);
+  callbackRef.current = onCatDetection;
+
+  useEffect(() => {
+    const detector = createCatDetector({
+      loadModel,
+      createImage: () => new Image(),
+      createObjectURL: (file) => URL.createObjectURL(file),
+      revokeObjectURL: (url) => URL.revokeObjectURL(url),
+    });
+    detectorRef.current = detector;
+    return () => { detector.dispose(); };
+  }, []);
 
   useEffect(() => {
     if (!img) return;
-
-    const detectCat = async () => {
-      setLoading(true);
-      setError(false);
-
-      try {
-        await import('@tensorflow/tfjs-backend-cpu');
-        await import('@tensorflow/tfjs-backend-webgl');
-
-        const tf = await import('@tensorflow/tfjs-core');
-
-        await tf.ready();
-
-        // Importa o modelo
-        const cocoSsd = await import('@tensorflow-models/coco-ssd');
-        const model = await cocoSsd.load();
-
-        const imageElement = new Image();
-        imageElement.crossOrigin = 'anonymous';
-
-        const imageLoadPromise = new Promise((resolve, reject) => {
-          imageElement.onload = resolve;
-          imageElement.onerror = reject;
-          imageElement.src = URL.createObjectURL(img);
-        });
-
-        await imageLoadPromise;
-
-        const predictions = await model.detect(imageElement, 10);
-        const catDetected = predictions.some((p) => p.class === 'cat');
-
-        setIsCat(catDetected);
-        onCatDetection(catDetected);
-
-        URL.revokeObjectURL(imageElement.src);
-      } catch (err) {
-        setError(true);
-        onCatDetection(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    detectCat();
-  }, [img, onCatDetection]);
-
-  if (error) {
-    return (
-      <div className={`${styles.containerMsg} ${styles.notCat} animeDown`}>
-        ⚠️ Detector temporariamente indisponível. Você pode prosseguir com a
-        foto.
-      </div>
+    let cancelled = false;
+    setStatus('analyzing');
+    callbackRef.current('analyzing');
+    const detector = detectorRef.current;
+    detector.detect(img).then(
+      (isCat) => {
+        if (cancelled) return;
+        const result = isCat ? 'detected' : 'missing';
+        setStatus(result);
+        callbackRef.current(result);
+      },
+      () => {
+        if (cancelled) return;
+        setStatus('unavailable');
+        callbackRef.current('unavailable');
+      },
     );
-  }
+    return () => { cancelled = true; };
+  }, [img]);
 
-  return loading ? (
-    <div style={{ marginTop: '1rem', fontWeight: 600 }}>
-      <p>Analisando se sua foto tem um gatin...🐱🐾</p>
+  if (status === 'analyzing') return (
+    <div style={{ marginTop: '1rem', fontWeight: 600 }} role="status">
+      <p>Analisando se sua foto tem um gatinho… 🐱🐾</p>
       <Loading />
     </div>
-  ) : (
-    <div
-      className={`${styles.containerMsg} ${
-        isCat ? styles.isCat : styles.notCat
-      } animeDown`}
-    >
-      {isCat
-        ? `Excelente escolha! Sua foto pode ser postada vá em frente 😸🎨🖼️`
-        : `Oops! Apenas fotos de gatos são permitidas aqui 🐱🐾🛑. Era uma foto de gato? Para reportar o problema, entre em contato com o suporte`}
+  );
+
+  const messages = {
+    detected: 'Excelente escolha! Sua foto pode ser postada 😸🎨🖼️',
+    missing: 'Oops! Apenas fotos de gatos são permitidas aqui 🐱🐾. Escolha outra foto ou contate o suporte.',
+    unavailable: '⚠️ Detector temporariamente indisponível. Tente selecionar a foto novamente para publicar.',
+  };
+  return (
+    <div className={`${styles.containerMsg} ${status === 'detected' ? styles.isCat : styles.notCat} animeDown`} role="status">
+      {messages[status]}
     </div>
   );
 };

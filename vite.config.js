@@ -45,6 +45,7 @@ export default defineConfig(({ mode }) => {
         ],
       },
       workbox: {
+        importScripts: ['/clear-chat-cache.js'],
         globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}'],
         // O chunk vendor beira 1,85 MB e o teto padrão do workbox é 2 MB — sem
         // isso ele sairia do precache em silêncio ao crescer mais um pouco.
@@ -59,17 +60,6 @@ export default defineConfig(({ mode }) => {
               url.pathname.startsWith('/socket.io/'),
             handler: 'NetworkOnly',
           },
-          {
-            // Fotos do chat. A resposta é opaca (outra origem, sem CORS): serve
-            // para reexibição rápida, não para inspeção de status.
-            urlPattern: ({ url }) =>
-              url.pathname.startsWith('/wp-content/uploads/'),
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'cats-chat-images',
-              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
-            },
-          },
         ],
       },
     }),
@@ -79,18 +69,11 @@ export default defineConfig(({ mode }) => {
   },
   build: {
     outDir: 'dist',
-    commonjsOptions: {
-      include: [/long/, /node_modules/],
-      transformMixedEsModules: true,
-    },
-    transformMixedEsModules: true,
     cssMinify: true,
     chunkSizeWarningLimit: 500,
     sourcemap: false,
-    minify: 'esbuild',
-    rollupOptions: {
-      cache: false,
-      maxParallelFileOps: 2,
+    minify: 'oxc',
+    rolldownOptions: {
       output: {
         sourcemap: false,
         manualChunks(id) {
@@ -133,13 +116,6 @@ export default defineConfig(({ mode }) => {
       'victory',
     ],
     entries: ['./src/main.jsx', './src/App.jsx'],
-    esbuildOptions: {
-      target: 'esnext',
-      supported: { 'top-level-await': true },
-    },
-    build: {
-      target: 'esnext',
-    },
   },
   };
 });

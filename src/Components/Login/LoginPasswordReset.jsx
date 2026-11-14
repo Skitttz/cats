@@ -25,8 +25,8 @@ const LoginPasswordReset = () => {
         key,
         password: password.value,
       });
-      const { response } = await request(url, options);
-      if (response.ok) {
+      const { ok } = await request(url, options);
+      if (ok) {
         navigate('/login');
       }
     }

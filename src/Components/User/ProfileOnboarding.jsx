@@ -27,9 +27,9 @@ const ProfileOnboarding = () => {
     const { url, options } = USER_ONBOARDING_UPDATE({
       display_name: displayName.value,
     });
-    const { response } = await request(url, options);
+    const { ok } = await request(url, options);
 
-    if (response?.ok) {
+    if (ok) {
       await refreshUser();
       navigate('/conta', { replace: true });
     }

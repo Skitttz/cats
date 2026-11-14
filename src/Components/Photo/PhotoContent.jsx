@@ -21,8 +21,6 @@ const PhotoContent = ({ data, single, handleCloseModalPhoto }) => {
             {user.data && Number(user.data.id) === Number(photo.author_id) ? (
               <PhotoDelete
                 id={photo.id}
-                queryKey={['photo', photo.id]}
-                userId={user.data.id}
                 handleCloseModalPhoto={handleCloseModalPhoto}
               />
             ) : photo.author_public_id ? (

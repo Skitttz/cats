@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DM_ROOM_POST, DM_ROOMS_GET } from '../../../Api/index';
 import { MAIN_CHAT_ROOM } from './chatConfig';
 
@@ -7,7 +7,6 @@ const toDirectRoom = (room) => ({
   title: room.user.name,
   type: 'direct',
   userId: Number(room.user.id),
-  unread: 0,
   lastMessage: room.last_message
     ? {
         message: room.last_message.msg,
@@ -20,8 +19,6 @@ const toDirectRoom = (room) => ({
 const useChatRoom = ({ currentUserId, request }) => {
   const [activeRoomState, setActiveRoomState] = useState(MAIN_CHAT_ROOM);
   const [directRoomsState, setDirectRoomsState] = useState([]);
-  const activeRoomRef = useRef(activeRoomState);
-  activeRoomRef.current = activeRoomState;
 
   useEffect(() => {
     if (!currentUserId) return;
@@ -29,33 +26,28 @@ const useChatRoom = ({ currentUserId, request }) => {
     let cancelled = false;
 
     const loadDirectRooms = async () => {
-      const { url, options } = DM_ROOMS_GET();
-      const { json, response } = await request(url, options);
-
-      if (!cancelled && response?.ok && Array.isArray(json)) {
-        const loadedRooms = json.map(toDirectRoom);
-        setDirectRoomsState((currentRooms) => [
-          ...loadedRooms.map((room) => {
-            const currentRoom = currentRooms.find(
-              (candidate) => candidate.postId === room.postId,
-            );
-
-            return currentRoom
-              ? {
-                  ...room,
-                  unread: currentRoom.unread,
-                  lastMessage: currentRoom.lastMessage || room.lastMessage,
-                }
-              : room;
-          }),
-          ...currentRooms.filter(
-            (room) =>
-              !loadedRooms.some(
-                (loadedRoom) => loadedRoom.postId === room.postId,
-              ),
-          ),
-        ]);
+      const loadedRooms = [];
+      for (let page = 1; !cancelled; page += 1) {
+        const { url, options } = DM_ROOMS_GET({ page, perPage: 50 });
+        const { json, ok, response } = await request(url, options);
+        if (cancelled || !ok || !Array.isArray(json)) return;
+        const nextRooms = json.map(toDirectRoom).filter(
+          (room) => !loadedRooms.some((loaded) => loaded.postId === room.postId),
+        );
+        // Old deployments may ignore pagination and return the same array.
+        if (page > 1 && nextRooms.length === 0) break;
+        loadedRooms.push(...nextRooms);
+        const totalPages = Number(response.headers.get('X-WP-TotalPages'));
+        if (totalPages > 0 ? page >= totalPages : json.length < 50) break;
       }
+      if (cancelled) return;
+      setDirectRoomsState((currentRooms) => [
+        ...loadedRooms.map((room) => {
+          const currentRoom = currentRooms.find((candidate) => candidate.postId === room.postId);
+          return currentRoom ? { ...room, lastMessage: currentRoom.lastMessage || room.lastMessage } : room;
+        }),
+        ...currentRooms.filter((room) => !loadedRooms.some((loaded) => loaded.postId === room.postId)),
+      ]);
     };
 
     loadDirectRooms();
@@ -78,7 +70,6 @@ const useChatRoom = ({ currentUserId, request }) => {
           title: user.name,
           type: 'direct',
           userId: Number(user.id),
-          unread: 0,
           lastMessage: null,
         };
 
@@ -92,7 +83,6 @@ const useChatRoom = ({ currentUserId, request }) => {
               ...existingRoom,
               title: directRoom.title,
               userId: directRoom.userId,
-              unread: 0,
             },
             ...rooms.filter((room) => room.postId !== directRoom.postId),
           ];
@@ -107,15 +97,7 @@ const useChatRoom = ({ currentUserId, request }) => {
   );
 
   const openConversation = useCallback((conversation) => {
-    const openedConversation = { ...conversation, unread: 0 };
-    setActiveRoomState(openedConversation);
-    setDirectRoomsState((rooms) =>
-      rooms.map((room) =>
-        room.postId === conversation.postId
-          ? { ...room, unread: 0 }
-          : room,
-      ),
-    );
+    setActiveRoomState(conversation);
   }, []);
 
   const registerDirectMessage = useCallback(
@@ -133,8 +115,6 @@ const useChatRoom = ({ currentUserId, request }) => {
         (Number(message.user_id) !== Number(currentUserId)
           ? { id: message.user_id, name: message.sender }
           : null);
-      const isActive = activeRoomRef.current.postId === roomId;
-      const isOwnMessage = Number(message.user_id) === Number(currentUserId);
 
       setDirectRoomsState((rooms) => {
         const existingRoom = rooms.find((room) => room.postId === roomId);
@@ -146,8 +126,6 @@ const useChatRoom = ({ currentUserId, request }) => {
           title: contact?.name || existingRoom.title,
           type: 'direct',
           userId: Number(contact?.id || existingRoom.userId),
-          unread:
-            isActive || isOwnMessage ? 0 : (existingRoom?.unread || 0) + 1,
           lastMessage: {
             message: message.msg,
             sender: message.sender,
